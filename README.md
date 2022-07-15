@@ -8,6 +8,6 @@
 
 ----------------
 
-[Git/Github](https://github.com/HanKyeon/TIL-Today-I-Learned.git/Start_Camp/Git&Github.md)
+[Git/Github](https://github.com/HanKyeon/TIL-Today-I-Learned/blob/master/Start_Camp/Git%26Github.md)
 
-[Markdown](https://github.com/HanKyeon/TIL-Today-I-Learned.git/Start_Camp/MarkDown.md)
+[Markdown](https://github.com/HanKyeon/TIL-Today-I-Learned/blob/master/Start_Camp/MarkDown.md)
