@@ -40,7 +40,7 @@ def dfs(x, y) :
         dfs(x, y - 1) # 왼쪽
         dfs(x + 1, y) # 아래쪽
         dfs(x, y + 1) # 오른쪽
-        return True #재귀 돌리고 True 반환해라.
+        return True #재귀 돌려서 방문처리 하고 True 반환해라.
 
     return False # 재귀 함수의 리턴은 False 이다.
 # 갯수 초기화
