@@ -1,0 +1,8 @@
+a, b = int(input().split())
+
+print(a+b)
+print(a-b)
+print(a*b)
+print(a//b)
+print(a%b)
+print(round(a/b, 2))
