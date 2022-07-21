@@ -96,7 +96,6 @@ for i in x :
 '''
 
 n = int(input())
-
 arr = set(map(int, input().split()))
 
 m = int(input())
