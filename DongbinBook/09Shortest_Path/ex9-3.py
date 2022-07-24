@@ -29,13 +29,13 @@ for k in range(1, n + 1) :
 # 수행된 결과 출력
 for a in range(1, n + 1) :
     for b in range(1, n + 1) :
-
+        # 갈 수 없으면 갈수 없다고
         if g[a][b] == INF :
             print("INFINITY", end=" ")
-        
+        # 갈 수 있으면 최솟값 출력
         else :
             print(g[a][b], end=" ")
-    print()
+    print() # \n
 
 
 
