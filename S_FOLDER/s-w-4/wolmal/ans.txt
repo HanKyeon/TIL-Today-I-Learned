@@ -1,0 +1,102 @@
+def total(scores):
+    return (sum(scores)) # sum을 이용한 리스트의 합
+
+def average(scores):
+    return (sum(scores) / len(scores)) # 리스트의 합 / 리스트의 길이
+
+def get_user_id(data):
+    return data["id"] # 파라미터에서 "id"를 키로 가지는 값 반환
+
+def check_duplicate_id(target_username, username_list):
+    # username_list를 순회하며 target_username과 같은지 확인 및 반환
+    for x  in username_list :
+        if target_username == x :
+            return True
+    return False
+
+def check_password_length(password):
+    # 입력 받은 파라미터의 길이를 판단하여 True False 반환
+    if len(password) >= 8 and len(password) <= 32 :
+        return True
+        
+    return False
+
+def caesar(word, n):
+    # 빈 문자열
+    c = ''
+    # 파라미터 문자열을 순회하는 반복문
+    for x in range(len(word)) :
+        d = None
+        # word[x]를 아스키코드화 해서 대문자 확인
+        if 65 <= ord(word[x]) + n <= 90 :
+            d = chr(ord(word[x]) + n)
+        elif ord(word[x]) + n > 90 : # 최대 대문자 Z를 넘어섰다면 26을 빼서 초기화
+            d = chr(ord(word[x]) + n - 26)
+        # 동일한 방식으로 소문자도 진행
+        # word[x]를 아스키코드화 해서 대문자 확인
+        if 97 <= ord(word[x]) + n <= 122 :
+            d = chr(ord(word[x]) + n)
+        elif ord(word[x]) + n > 122 : # 최대 대문자 Z를 넘어섰다면 26을 빼서 초기화
+            d = chr(ord(word[x]) + n - 26)
+
+        # 변환한 문자를 문자열 c에 더해준다
+        c += d
+
+    return c
+
+def dec_to_bin(n):
+    if n == 1 :
+        return str(1)
+    return dec_to_bin(n // 2) + str(n%2)
+
+def inventory_filter(item_type, inventory):
+    # 원하는 데이터를 담을 a
+    a = []
+    # inventory만큼 순회한다
+    for x in range(len(inventory)) :
+        b = inventory[x]["type"] # id가 type인 밸류
+        if b == item_type : # 가 파라미터와 같다면
+            a.append(inventory[x]) # 해당 인덱스 데이터를 a에 더해라
+    return a # 원하는 정보가 담긴 a 반환
+
+def is_position_safe(N, M, position):
+    # 이동을 인덱스에 맞춰서 뽑아낸다
+    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    mov = moves[M]
+    # y축 이동 x축 이동
+    y = mov[0]
+    x = mov[1]
+    # y축 이동해서 벗어나면 False
+    if N <= position[0] + y or position[0] + y < 0 :
+        return False
+    # x축 이동해서 벗어나면 False
+    if N <= position[1] + x or position[1] + x < 0 :
+        return False
+
+    return True
+
+def get_final_position(N, mat, moves):
+    #캐릭터 위치 테이블 및 캐릭터 좌표
+    x = 0
+    y = 0
+    # 캐릭터 현재 위치 받아오기. x는 행 y는 열
+    for i in range(N) :
+        for j in range(N) :
+            if mat[i][j] == 1 :
+                x, y = i, j
+    # 이동 상 하 좌 우
+    move = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    # 이동을 훑는다
+    for m in moves :
+        # x축 이동 가능하면 이동
+        if 0 <= x + move[m][0] <= N - 1 :
+            x = x + move[m][0]
+        # y축 이동 가능하면 이동
+        if 0 <= y + move[m][1] <= N - 1 :
+            y = y + move[m][1]
+        # 아니면 None 반환
+        else :
+            return None
+    # x, y를 리스트 형식으로 반환
+    return [x, y]
