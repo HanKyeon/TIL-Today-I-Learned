@@ -24,7 +24,7 @@ while True :
         print('0')
         break
     else : 
-        if a[0] > n :
+        if a[0] > n : # 순서 중요하다. 예외적인 경우를 먼저 처리해주자..
             print(n * (a[0] - n) - 1)
             break
         if a[i] < n < a[i+1] :
