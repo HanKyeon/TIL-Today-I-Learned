@@ -24,6 +24,7 @@ le = n
 d = []
 # list(range(sta, end)) : 시간초과
 # dt[sta:end] : 메모리 초과 dt에서.
+'''
 while end < n + 1 :
     if sum(dt[sta:end]) < n :
         end += 1
@@ -34,11 +35,16 @@ while end < n + 1 :
         end += 1
     elif sum(dt[sta:end]) > n :
         sta += 1
+'''
 
 # for로 만들어보기
 
 # x+1부터 x+i까지의 합은 (i/2) * (2*x+i+1) == N == ix + (i/2) * (i+1)
 # 위 식을 만족하는 가장 작은 i값을 찾고, x+1부터 x+i까지의 리스트 반환.
+
+for i in range(2, 101) :
+    if (n-(i/2) * (i+1)) % 1 == 0 :
+        d.append(((n-(i/2) * (i+1)) / i) + 1)
 
 
 if d != [] and le <= 100 :
