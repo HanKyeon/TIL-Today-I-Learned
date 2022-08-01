@@ -51,7 +51,7 @@ x = 0
 for i in range(l, 101) :
     if (2*n - i**2 + i) % (2*i) == 0 :
         le = i
-        x = int((2*n - i**2 + i) // (2*i))
+        x = int((2*n - i**2 + i) // (2*i)) # 이거 몫이 나와야 한다.
         break
 d = list(range(x, x+le))
 d = map(str, d)
@@ -59,6 +59,6 @@ d = map(str, d)
 if x < 1 or le > 100 or d == False :
     print('-1')
 else :
-    print(' '.join(d))
+    print(' '.join(d)) # 출력이 배열인지 문자열인지 확인 잘 하자.
 
 
