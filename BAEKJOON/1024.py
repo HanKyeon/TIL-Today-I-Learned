@@ -21,7 +21,7 @@ len()이 기존 것보다 짧을 때 갱심
 
 #sta, end = 0, 0
 # le = n
-#d = []
+# d = []
 # list(range(sta, end)) : 시간초과
 # dt[sta:end] : 메모리 초과 dt에서.
 '''
