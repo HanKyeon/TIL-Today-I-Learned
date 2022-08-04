@@ -3,7 +3,6 @@
 
 머리를 썼으면 좀 쉬고 나서 하자
 '''
-from calendar import c
 from collections import deque
 import sys
 # 입력
@@ -14,15 +13,16 @@ for i in range(n) :
 # x, y 이동
 dx = [-1, 1, 0, 0]
 dy = [0, 0, 1, -1]
-
+# 담을 변수
 apt = []
-'''
+# bfs
 def bfs(g, a, b) :
+    # 첫 방문지 방문 기록 및 덱 추가 카운트 추가
     q = deque()
     q.append((a, b))
     g[a][b] = 0
     c = 1
-
+    # bfs 실행
     while q :
         x, y = q.popleft()
         for i in range(4) :
@@ -33,7 +33,6 @@ def bfs(g, a, b) :
                 c += 1
             else : 
                 continue
-
     return c
 
 for i in range(n) :
@@ -45,7 +44,7 @@ for i in range(n) :
 print(len(apt))
 apt.sort()
 for i in range(len(apt)) :
-    print(apt[i])'''
+    print(apt[i])
 
 c=0
 
