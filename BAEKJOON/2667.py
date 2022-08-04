@@ -1,6 +1,9 @@
 '''
 단지 번호 붙이기
+
+머리를 썼으면 좀 쉬고 나서 하자
 '''
+from calendar import c
 from collections import deque
 import sys
 # 입력
@@ -12,6 +15,89 @@ for i in range(n) :
 dx = [-1, 1, 0, 0]
 dy = [0, 0, 1, -1]
 
+apt = []
+'''
+def bfs(g, a, b) :
+    q = deque()
+    q.append((a, b))
+    g[a][b] = 0
+    c = 1
+
+    while q :
+        x, y = q.popleft()
+        for i in range(4) :
+            nx, ny = x + dx[i], y + dy[i]
+            if 0 <= nx < n and 0 <= ny < n and g[nx][ny] == 1:
+                g[nx][ny] = 0
+                q.append((nx, ny))
+                c += 1
+            else : 
+                continue
+
+    return c
+
+for i in range(n) :
+    for j in range(n) :
+        if g[i][j] == 1 :
+            apt.append(bfs(g, i, j))
+
+
+print(len(apt))
+apt.sort()
+for i in range(len(apt)) :
+    print(apt[i])'''
+
+c=0
+
+def dfs(a, b) :
+    global c
+    if 0 <= a < n and 0 <= b < n and g[a][b] == 1 :
+        g[a][b] = 0
+        c += 1
+        for i in range(4) :
+            nx, ny = a + dx[i], b + dy[i]
+            dfs(nx, ny)
+        return True
+    else :
+        return False
+
+for i in range(n) :
+    for j in range(n) :
+        if g[i][j] == 1 :
+            dfs(i, j)
+            apt.append(c)
+            c = 0
+
+print(len(apt))
+apt.sort()
+for i in range(len(apt)) :
+    print(apt[i])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 q = deque()
 apt = [0]
 c = 1
@@ -33,7 +119,7 @@ for a in range(n) :
 
 print(g)
 
-
+'''
 
 
 
