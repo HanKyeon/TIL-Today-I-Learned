@@ -28,4 +28,6 @@ B로 시작하는 체스판
 
 WBWBWBWB
 BWBWBWBW
+
+ㅁ
 '''
