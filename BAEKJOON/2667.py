@@ -33,14 +33,13 @@ def bfs(g, a, b) :
                 c += 1
             else : 
                 continue
-    return c
-
+    return c # 인덴트 주의. while이 한 번 끝나야 bfs가 한 번 끝나는 것이다.
+# 탐색
 for i in range(n) :
     for j in range(n) :
         if g[i][j] == 1 :
             apt.append(bfs(g, i, j))
-
-
+# 출력
 print(len(apt))
 apt.sort()
 for i in range(len(apt)) :
