@@ -144,7 +144,27 @@
  - flexbox를 사용하지 않고 인라인 요소를 수직정렬 하기 위해서는 line-height 속성을 사용한다.
  - 레이아웃을 지정하지 않으면 normal flow를 따른다.
 
+%% 깨구락지로 알게 된 사실 :
 
+### 속성 값은 아래처럼.
+ - space-around
+ - space-between
+ - space-evenly
+ - flex-start
+ - flex-end
+ - center
+
+ - row-reverse / row
+ - column-reverse . column
+
+### 속성은 아래처럼
+ - justify-content : 메인 액시즈 정렬
+ - align-items : 수직 액시즈 아이템 정렬
+ - align-content : 컨텐츠를 수직으로 조절한다. 컨텐츠가 2줄 이상 일 때 의미가 생긴다.
+ - flex-wrap : wrap을 하면 나가고 nowrap하면 고정.
+ - flex-flow ; flex-direction과 flex-wrap의 단축
+ - order : 순서를 지정해준다. -1도 가능
+ - align-self : 그 자신만 적용.
 
 
 
