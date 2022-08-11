@@ -23,6 +23,7 @@ for testcase in range(1, 11) :
         s = lad(g, 0, st, st + 3)
         if s :
             print(f"#{testcase} {st}")
+            break
 
 
 
