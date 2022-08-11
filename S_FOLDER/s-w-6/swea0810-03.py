@@ -1,23 +1,6 @@
 '''
 회전~~ 회오리~~~ 슈우우웃~
 '''
-# index(max(li)) 최댓값 인덱스
-def fm(li) :
-    m = 0
-    for i in range(1, len(li)) :
-        if li[m] > li[i] :
-            m = i
-    return m
-# index(min(li)) 최솟값 인덱스
-def fM(li) :
-    M = 0
-    for i in range(1, len(li)) :
-        if li[M] < li[i] :
-            M = i
-    return M
-# 하 상 우 좌
-dx = [1, -1, 0, 0]
-dy = [0, 0, 1, -1]
 
 # 재귀. 인자로는 x,y 좌표, 들어가는 상자 길이, startnumber.
 def circle(x, y, l, stan) :
