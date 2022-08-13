@@ -32,3 +32,4 @@ def winner(a, b):
 n = int(input())
 for i in range(n) :
     print(winner(list(map(int, input().split())), list(map(int, input().split()))))
+    
