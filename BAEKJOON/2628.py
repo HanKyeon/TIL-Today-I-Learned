@@ -9,6 +9,7 @@
 출력
 최대 넓이 출력
 '''
+
 def chais(li) :
     ls = [0] * (len(li)-1)
     for i in range(len(li)-1) :
