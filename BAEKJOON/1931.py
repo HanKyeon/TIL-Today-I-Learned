@@ -18,28 +18,28 @@ staT endT * n
 출력
 최대 사용 할 수 있는 회의 최대 갯수
 
+끝나는 시간으로 생각하면 됨.
+끝나는 시간 확인 후
 '''
-def cc(endtime, c):
-    if endtime == 2**31:
-        return c
-    c+=1
-    nsi = min(tt[tt[endtime]:])
-    #tt.index(nsi)
-    return cc(nsi, c)
-
+# 입력
 n = int(input())
-visited = [0] * n
-sts, ets = [0] * n, [0] * n
-tms = {}
-for _ in range(n):
-    st, et = map(int, input().split())
-    tms[st] = min(tms[st], et)
+tms = [list(map(int ,input().split())) for _ in range(n)]
+# 끝나는 시간 순으로 배열
+tms.sort(key=lambda tms : (tms[1], tms[0])) # 끝나는 시간이 우선, 차선의 기준이 시작시간
+visited = [0] * n # 회의 실행 여부
+et = tms[0][1] # 끝나는 시간이 가장 빠른 시간 기록
+visited[0] = 1 # 정렬했으니 첫 회의 무조건 실행
+for i in range(1, n): # 끝나는 시간 순으로 정렬했으므로
+    if tms[i][0] >= et and visited[i] == 0: # 시작시간이 끝나는 시간 이후인 지점을 만날 시
+        visited[i] = 1 # 회의 실행
+        et = tms[i][1] # 이후 해당 회의 종료 시간을 endtime에 기록
+print(sum(visited)) # 회의 진행 횟수 출력
 
-
-
-
-
-
-
-
-
+# 간단한 수법
+et = 0
+c = 0
+for i in tms:
+    if et <= i[0]:
+        c+=1
+        et=i[1]
+print(c)
