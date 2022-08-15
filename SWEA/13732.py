@@ -19,7 +19,12 @@ for testcase in range(1, int(input())+1):
     for i in range(n):
         if ng[i] != []:
             nng.append(ng[i])
-
+    nngl = [i for i, v in enumerate(ng) if v != []] # 비어있지 않은 리스트가 연속인가? 판별을 위함.
+    if nngl != 1: # ng에서 연속 배치되지 않은 경우 판별
+        for i in range(1, len(nngl)):
+            if nngl[i] != nngl[i-1]+1:
+                flag = False
+                break
     lnng = len(nng)
 
     for i in range(lnng):
@@ -44,3 +49,14 @@ for testcase in range(1, int(input())+1):
     else:
         print(f"#{testcase} no") # 아;;; 여기에 # 붙이는거 까먹음
 
+'''
+잠만 생각 못해준 부분이 있음
+1
+3
+##.
+...
+##.
+
+에 대해서 판별을 잘못 할 듯 싶음.
+
+'''

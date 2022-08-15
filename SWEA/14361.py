@@ -15,13 +15,11 @@ for testcase in range(1, int(input())+1) :
     nl = [0]*10
     for i in listn:
         nl[i] += 1
-    print(nl)
     print(f"#{testcase}", end=' ')
     ci, c = 2, 0
     while intn*ci <= 10**sum(nl): # n의 배수가 n의 자릿수 이내라면
         newnum = intn*ci # 그 숫자를
         nnl = [0]*10
-        print(nnl)
         for i in list(map(int, str(newnum))): # 리스트로 만들어서 훑으면서
             nnl[i] += 1 # nnl에 숫자들을 정리해준다.
         if nnl == nl: # 그게 만약 nl과 같다면
