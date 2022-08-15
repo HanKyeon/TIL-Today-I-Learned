@@ -58,5 +58,5 @@ for testcase in range(1, int(input())+1):
 ##.
 
 에 대해서 판별을 잘못 할 듯 싶음.
-
+해결 완료
 '''
