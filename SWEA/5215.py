@@ -31,8 +31,8 @@ for testcase in range(1, int(input())+1) :
         for j in range(n):
             if i & (1<<j) :
                 bubun.append(scca[j])
-            if sum([sco[1] for sco in bubun]) <= l:
-                maxsc = max(maxsc, sum(sco[0] for sco in bubun))
+        if sum([sco[1] for sco in bubun]) <= l:
+            maxsc = max(maxsc, sum(sco[0] for sco in bubun))
     print(f"#{testcase} {maxsc}")
 
     
