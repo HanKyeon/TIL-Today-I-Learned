@@ -1,0 +1,106 @@
+
+0816 화
+
+회문 : 함수 호출 최소화 가능하면 최소화 해라
+```
+def hm(gr, num):
+    for gs in gr:
+        for i in range(len(gs)-num+1):
+            ss = gs[i:i+num]
+            if ss == ss[::-1]:
+                return ''.join(ss)
+
+for testcase in range(1, int(input())+1):
+    n, m = map(int, input().split())
+    g = [list(input()) for _ in range(n)]
+    s = list(map(list, zip(*g)))
+    ans = hm(g, m)
+    if ans == None:
+        if hm(s, m):
+            ans = hm(s, m)
+    print(f"#{testcase} {ans}")
+```
+
+문자열 비교 : 그냥 슬라이싱 했는데 슬라이싱 안하면 어떻게 할지 하하
+```
+'''
+str2 안에 str1과 일치하는 것이 있는지 확인
+'''
+
+for testcase in range(1, int(input())+1):
+    str1, str2 = list(input()), list(input())
+    ln1, ln2 = len(str1), len(str2)
+    c = 0
+    for i in range(ln2-ln1+1):
+        ss = str2[i:i+ln1]
+        if ss == str1:
+            c += 1
+    print(f"#{testcase} {c}")
+```
+
+글자수 : max를 함수로 땜빵하려고 하나 만들었다.
+```
+def maxv(li):
+    c = -10e9
+    for i in li:
+        if c < i:
+            c = i
+    return c
+
+for testcase in range(1, int(input())+1):
+    s1, s2 = list(set(list(input()))), list(input())
+    s1l = len(s1)
+    c1 = [0]*s1l
+    for i in s2:
+        for j in range(s1l):
+            if i == s1[j]:
+                c1[j] += 1
+    print(f"#{testcase} {maxv(c1)}")
+```
+
+가장 빠른 문자열 타이핑 : 곂치는 문자가 있다면 발견했을 때 끝나는 위치를 기억하고 그 뒤부터 재 확인 하도록 했다.
+```
+for testcase in range(1, int(input())+1):
+    s1, s2 = input().split()
+    sl1, sl2, c, pl = len(s1), len(s2), 0, 0
+    for i in range(sl1-sl2+1):
+        if pl <= i:
+            if s1[i:i+sl2] == s2:
+                c += 1
+                pl = i+sl2
+    print(f"#{testcase} {sl1 - sl2 * c + c}")
+```
+
+붙은 문자열로 주어졌을 때, 2차원 리스트로 변환 안해주고 순회해도 됨.
+g = [input() for _ in range(100)]
+s = [''.join(x) for x in zip(*g)]
+이런 식으로 전치된 문자 만드는 것이 더 이득
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
