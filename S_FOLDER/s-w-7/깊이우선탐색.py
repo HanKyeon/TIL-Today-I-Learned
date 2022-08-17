@@ -13,9 +13,10 @@ def dfs2(num):
         if v[n] == 0:
             print(n, end=' ')
             v[n] = 1
-        for i in reversed(g[n]):
-            if v[i] == 0:
-                st.append(i)
+            for i in reversed(g[n]):
+                if v[i] == 0:
+                    st.append(i)
+        else : continue
 
 for testcase in  range(1, int(input())+1):
     n, l = map(int, input().split())
