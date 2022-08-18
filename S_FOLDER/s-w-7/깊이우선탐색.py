@@ -1,22 +1,21 @@
 
-def dfs(num):
+def dfs(num): # 재귀
     print(num, end=' ')
     v[num] = 1
     for i in g[num]:
         if v[i] == 0:
             dfs(i)
 
-def dfs2(num):
+def dfs2(num): # 스택 이용
     st = [num]
     while st:
         n = st.pop()
         if v[n] == 0:
             print(n, end=' ')
             v[n] = 1
-            for i in reversed(g[n]):
-                if v[i] == 0:
-                    st.append(i)
-        else : continue
+        for i in reversed(g[n]):
+            if v[i] == 0:
+                st.append(i)
 
 for testcase in  range(1, int(input())+1):
     n, l = map(int, input().split())
@@ -28,7 +27,7 @@ for testcase in  range(1, int(input())+1):
         g[en].append(st)
     g = list(map(sorted, g))
     print(f"#{testcase}", end=' ')
-    dfs2(1)
+    dfs2(1) # dfs(1) 해도 됨
     print()
 
 
