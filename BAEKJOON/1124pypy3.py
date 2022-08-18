@@ -23,8 +23,7 @@ A이상 B이하 언더프라임 갯수 출력
 
 # 입력
 a, b = map(int, input().split())
-
-dp = [1] * (b//2+1) # 적어도 2개 이상의 소수곱이어야 하므로 50000까지의 소수만 구하면 됨
+dp = [1] * (b//2+1) # 적어도 2개 이상의 소수곱이어야 하므로 b//2까지의 소수만 구하면 됨
 dp[0], dp[1] = 0, 0 # 0과 1 초기화
 for i in range(2, len(dp)): # 에라토스테네스의 체로 소수 구하기
     if dp[i] == 1:
@@ -32,11 +31,8 @@ for i in range(2, len(dp)): # 에라토스테네스의 체로 소수 구하기
         while i*j <= len(dp)-1:
             dp[i*j] = 0
             j += 1
-pns = [] # 소수 리스트
-for i in range(len(dp)):
-    if dp[i] :
-        pns.append(i)
-dp += [0] * (b//2+1) # 10000까지의 데이터를 받기 위해 늘려줌.
+pns = [i for i, v in enumerate(dp) if v == 1] # 소수 리스트
+dp += [0] * (b//2+1) # b까지의 데이터를 받기 위해 늘려줌.
 # b까지 작업한다. k // i보다 1번 더 곱해진 것이므로
 for i in range(b+1): # b까지 작업
     for k in pns: # 5만 이하 소수 순회
