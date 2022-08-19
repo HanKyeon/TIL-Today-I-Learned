@@ -58,12 +58,6 @@ else :
     print(min(dpEnd))
 
 
-
-
-
-
-
-
 '''
 def jump() :
     pass
