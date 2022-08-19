@@ -23,12 +23,17 @@ R개 줄 각각 C개 문자
 출력
 #T 정지가능YES 정지 불가능 NO
 '''
+
+import sys
+sys.stdin = open("input.txt", "r")
+
 dh = [-1, 1, 0, 0]
 dw = [0, 0, -1, 1]
 def 함수(g, mem, h, w, d):
-    global n, m
+    global n, m, f
     global sets
-
+    if f != None:
+        return f
     if h < 0:
         h = n-1
     elif h >= n:
@@ -39,8 +44,10 @@ def 함수(g, mem, h, w, d):
         w = 0
 
     if g[h][w] == '@':
+        f = True
         return True
     if (mem, h, w, d) in sets:
+        f = False
         return False
     sets.add((mem, h, w, d))
     nh, nw = h+dh[d], w + dw[d]
@@ -100,6 +107,7 @@ for testcase in range(1, int(input())+1):
     h, w, mem, d = 0, 0, 0, 3
     sets = set()
     alp = []
+    f = None
     for i in g:
         if '@' in i:
             alp.append(True)
@@ -116,6 +124,6 @@ for testcase in range(1, int(input())+1):
 
 
 
-
+3 28 29 30 45 52 54 59 62 69
 
 
