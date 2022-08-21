@@ -40,9 +40,53 @@
 
 21. 문제에서 문자 혹은 방정식으로 제시되는 것은 명확하게 적고 나서 풀자!
 
+22. 부분집합 관련하여 itertools가 가장 빠르다.사용법은 아래와 같다. 접어뒀으니 펼쳐봐라.
+    콤비네이션
+    from itertools import combinations
+    arr = []
+    result = []
+    for i in range(len(arr)+1):
+        reslt = result + list(combinations(arr, i))
+    이러면 result에 결과가 담긴다. 뒤의 i가 부분집합의 길이를 의미한다.
 
+    단순 반복문
+    arr = [1, 2, 3]
+    subsets = [[]]
+    for num in arr:
+    size = len(subsets)
+    for y in range(size):
+        subsets.append(subsets[y]+[num])
+    print(subsets)
 
+    재귀
+    import copy
+    result = []
+    def recur(subset, i, arr):	      
+    if i == len(arr): # 재귀함수의 탈출조건
+        result.append(copy.copy(subset)) # 결과에 들어가는 모든 원소에 해당하는 부분집합의 레퍼런스가 
+        return # subset으로 같기 때문에 subset을 카피하여 넣어줘야 한다.
+                # 이렇게 하지 않으면 result에 들어가는 모든 부분집합이 공집합으로 나온다.
+    else:
+        subset.append(arr[i])
+        i += 1
+        recur(subset, i, arr) 	     # i번째 원소가 '있을' 때의 경우에서 분화
+        subset.pop()					
+        recur(subset, i, arr)	     # i번째 원소가 '없을' 때의 경우에서 분화
+    recur([], 0, arr)
+    print(result)
 
+    비트연산
+    arr = [1,2,3] 
+    result = []
+    for i in range(1<<len(arr)): 
+    subset = []
+    for j in range(len(arr)): 
+        if i & (1<<j): 
+        subset.append(arr[j]) 
+    result.append(subset)
+    print(result)
+
+23. 악질 테케를 떠올리는 사상이 부족하다. 너가 출제자라면 생각하고 진짜 악질 테케를 내보자.
 
 
 
