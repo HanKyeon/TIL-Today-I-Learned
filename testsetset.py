@@ -9,3 +9,4 @@ print(a)
 heappop(a)
 heappop(a)
 print(a)
+
