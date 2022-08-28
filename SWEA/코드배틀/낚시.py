@@ -16,25 +16,97 @@
 출력은 "#t"를 찍고 한 칸 띄운 다음 정답을 출력한다. (t는 테스트 케이스의 번호를 의미하며 1부터 시작한다.)
 정답은 각 낚시꾼들의 이동거리의 합이 최소가 될 때의 그 값이다.
 '''
-def bfsjjak():pass
+from collections import deque
+from itertools import permutations
+
+dl = [1, -1] # 우측 우선인데 오타
+dr = [-1, 1] # 좌 우선인데 오타
+
+def gl(ginfo): # 게이트 정보. 시작 위치, 사람 수.
+    global g, n
+    sta, hum = ginfo[0], ginfo[1] # 시작점, 사람 수
+    q = deque() # 큐
+    q.append((sta, 1)) # 시작지점, 그까지 거리 추가
+    ds = {}
+    while hum > 0: # 사람 수가 다 떨어지기 전까지
+        i, di = q.popleft() # bfs
+        if ds.get(di, 0) == 2:
+            continue
+        if 0 <= i < n and g[i] == 0: # 범위내이고 그래프 갱신 안되어있으면
+            print(hum)
+            print(g)
+            ds.get(di, 0)
+            ds[di] = ds.get(di, 0) + 1
+            g[i] = di # 갱신하고
+            hum -= 1 # 사람 하나 빼준다.
+        for x in range(2): # 좌우 훑는데
+            ni = i + dl[x] # dl로 우측 우선 확인
+            if 0 <= ni < n: # 범위 내이면
+                q.append((ni, di+1)) # 큐에 추가
+
+def gr(ginfo): # 게이트 정보. 시작 위치, 사람 수.
+    global g, n
+    sta, hum = ginfo[0], ginfo[1] # 시작점, 사람 수
+    q = deque() # 큐
+    q.append((sta, 1)) # 시작지점, 그까지 거리 추가
+    ds = {}
+    while hum > 0: # 사람 수가 다 떨어지기 전까지
+        i, di = q.popleft() # bfs
+        if ds.get(di, 0) == 2:
+            continue
+        if 0 <= i < n and g[i] == 0: # 범위내이고 그래프 갱신 안되어있으면
+            print(hum)
+            print(g)
+            ds.get(di, 0)
+            ds[di] = ds.get(di, 0) + 1
+            g[i] = di # 갱신하고
+            hum -= 1 # 사람 하나 빼준다.
+        for x in range(2): # 좌우 훑는데
+            ni = i + dr[x] # dl로 우측 우선 확인
+            if 0 <= ni < n: # 범위 내이면
+                q.append((ni, di+1)) # 큐에 추가
 
 for testcase in range(1, int(input())+1):
     n = int(input())
-    g = [0] * n
     gate = []
-    ans = 0
-    for _ in range(3):
+    ans = int(10e9)
+    for _ in range(3): # 게이트 정보
         wi, fi = map(int, input().split())
-        gate.append([wi, fi])
-        gate.sort()
-    g3, g2, g1 = gate.pop(), gate.pop(), gate.pop()
-    a1, a2, a3, a4 = g1[0], g2[0] - g1[0], g3[0] - g2[0], n-1-g3[0]
-    g1[0] - g1[1]//2, g2[1]//2, g3[1]//2
+        gate.append([wi-1, fi])
+
+    for i in permutations(gate, 3): # 게이트 순서 순열
+        g = [0] * n
+        for j in i: # 게이트 순서대로 돌면서
+            gl(j)
+            if sum(g) >= ans:
+                break
+        ans = min(ans, sum(g))
+        g = [0] * n
+        for j in i:
+            gr(j)
+            if sum(g) >= ans:
+                break
+        ans = min(ans, sum(g))
+    print(f"#{testcase} {ans}")
 
 
 
 
 
+'''
+5
+10
+4 5
+6 2
+10 2
+
+18
+
+
+19 16 12
+39
+47
+'''
 
 
 
