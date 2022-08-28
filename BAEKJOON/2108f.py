@@ -23,14 +23,12 @@ input = sys.stdin.readline
 
 n = int(input().rstrip())
 nl = [int(input().rstrip()) for _ in range(n)]
-print(nl)
 nl.sort()
 num = Counter(nl).most_common(2)
-
 # ss = round(sum(nl)/n)
 ss = sum(nl) // n if sum(nl)/n < sum(nl)//n + 0.5 else sum(nl)//n +1
 ja = nl[n//2]
-cb = num[1][0] if len(num) > 1 else num[0][0]
+cb = num[1][0] if len(num) > 1 and num[0][1]==num[1][1] else num[0][0]
 bw = max(nl)-min(nl)
 
 print(ss)

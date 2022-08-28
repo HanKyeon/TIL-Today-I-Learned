@@ -16,8 +16,29 @@
 출력
 상덕이가 훔칠 수 있는 보석 가격의 합의 최댓값
 '''
-n, k = map(int, input().split())
-for i in range(n):
+from heapq import heappush
+import sys
+input = sys.stdin.readline
+
+
+n, k = map(int, input().split()) # 보석의 총 갯수. 상덕이 가방 겟수
+# bos, bag = [list(map(int, input().rstrip().split())) for _ in range(n)], [int(input().rstrip()) for _ in range(k)]
+bos = []
+
+for i in range(n): # 보석의 무게, 가치
     we, va = map(int, input().split())
-for i in range(k):
-    mg = int(input())
+    heappush(bos, (-va, we))
+# for i in range(k): # 가방이 담을 수 있는 무게
+#     mg = int(input())
+bag = sorted([int(input().rstrip()) for _ in range(k)])
+
+while bos and bag:
+    
+
+
+
+
+
+
+
+

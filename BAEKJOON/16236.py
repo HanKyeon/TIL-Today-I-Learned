@@ -53,7 +53,11 @@ def bfs(h, w): # 좌표, 현재까지 이동 거리(시간초)
             nh, nw = h + dh[i], w + dw[i]
             if 0<=nh<n and 0<=nw<n and 0 < g[nh][nw] < sz: # 0 아니도 상어보다 작으면
                 v[nh][nw] = 1
-                caneat.append((c+1, nh, nw))
+                # caneat.append((c+1, nh, nw))
+                if not caneat:
+                    caneat.append((c+1, nh, nw))
+                elif caneat[-1][0] >= c+1:
+                    caneat.append((c+1, nh, nw))
             elif 0<=nh<n and 0<=nw<n and v[nh][nw] == 0 and (g[nh][nw] == 0 or g[nh][nw] == sz): # 범위내, 0이고 크기가 같은 물고기면
                 v[nh][nw] = 1 # 방문한다!
                 q.append((nh, nw, c+1)) # 추가한다!
