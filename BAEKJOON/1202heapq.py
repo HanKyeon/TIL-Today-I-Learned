@@ -16,29 +16,42 @@
 출력
 상덕이가 훔칠 수 있는 보석 가격의 합의 최댓값
 '''
-from heapq import heappush
+
+from heapq import heappop, heappush
 import sys
 input = sys.stdin.readline
 
 
 n, k = map(int, input().split()) # 보석의 총 갯수. 상덕이 가방 겟수
 # bos, bag = [list(map(int, input().rstrip().split())) for _ in range(n)], [int(input().rstrip()) for _ in range(k)]
-bos = []
+bos = [] # 놀랍게도 bosuc 보석 한글로.
 
 for i in range(n): # 보석의 무게, 가치
-    we, va = map(int, input().split())
-    heappush(bos, (-va, we))
+    we, va = map(int, input().rstrip().split())
+    heappush(bos, (we, va))
 # for i in range(k): # 가방이 담을 수 있는 무게
 #     mg = int(input())
 bag = sorted([int(input().rstrip()) for _ in range(k)])
-
-while bos and bag:
+ans = 0
+avbos = [] # available bosuc
+for i in bag:
+    while bos and bos[0][0] <= i:
+        we, val = heappop(bos) # 가방 무게보다 가벼운 보석들 전부 pop해서
+        heappush(avbos, -val) # avail bos에 가치 순으로 넣어주기.
     
+    if avbos: # 이후 최대 가치를 넣어준다.
+        ans -= heappop(avbos)
+    # 이후 다음 회전 때, 정렬된 bag를 순회하므로 다음 회전에도 available bosuc에 들어간 보석들은 담을 수 있다.
+print(ans)
 
 
-
-
-
-
-
-
+'''
+시간초과
+while bos and bag:
+    vw = heappop(bos)
+    for i in range(len(bag)):
+        if bag[i] >= vw[1]:
+            bag.pop(i)
+            ans -= vw[0]
+            break
+'''
