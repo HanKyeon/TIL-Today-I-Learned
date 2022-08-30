@@ -300,7 +300,7 @@ app폴더/templates/앱폴더 동일명칭폴더 -> 샌드위치 구조.
 
 이후 views에서 return하는 html을 위치 지정해준다. `앱이름/index.html` 이런 식으로
 
-
+truncatechars : 장고 필터. 문자열이 지정된 인수보다 길면 자른다.
 
 
 
