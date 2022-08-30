@@ -16,25 +16,25 @@
 from collections import deque
 import sys
 input = sys.stdin.readline
-
+# 사방이동
 dh = [1, -1, 0, 0]
 dw = [0, 0, 1, -1]
 
-def bfs1time(v, c): # bfs 한번만 하는 거다. 깊이를 정해서 큐에 넣고, 깊이가 정해져있다면 방문처리를 특수하게 바꿔도 될 듯 하다.
+def bfs1time(v, c): # bfs
     global n, m
     q = deque()
-    q.append((0, 0))
+    q.append((0, 0)) # 시작점은 원점
     while q:
-        h, w = q.popleft()
+        h, w = q.popleft() # h,w
         for i in range(4):
-            nh, nw = h + dh[i], w + dw[i]
-            if 0<=nh<n and 0<=nw<m and v[nh][nw] == 0 and g[nh][nw] == '0': # 0이면 탐색
+            nh, nw = h + dh[i], w + dw[i] # 이동
+            if 0<=nh<n and 0<=nw<m and v[nh][nw] == 0 and g[nh][nw] == '0': # 범위 내 0이면 방문처리, 큐 추가, 탐색
                 v[nh][nw] = 1
                 q.append((nh, nw))
             elif 0<=nh<n and 0<=nw<m and v[nh][nw] == 0 and g[nh][nw] == '1': # 1이면 방문처리/0처리하고 큐에 넣지는 않는다.
                 v[nh][nw] = 1
                 g[nh][nw] = '0'
-                c += 1
+                c += 1 # 치즈가 몇개나 녹는지?
     return c
 
 n, m = map(int, input().split())
