@@ -15,4 +15,4 @@ nCm 출력
 from math import factorial
 
 n, m = map(int, input().split())
-print(int(factorial(n)/factorial(n-m)/factorial(m)))
+print(int(factorial(n)//(factorial(n-m)*factorial(m))))
