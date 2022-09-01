@@ -44,7 +44,7 @@ TEMPLATES에서 DIRS에 추가해도 된다. `BASE_DIR / '폴더명'`을 써도 
  - `path(url, include('어플이름.urls')` 이런식으로 앱에 맞게 보내줄 수 있다.
  - `path(url(index/ 등), views.index(view에 지정해주는 함수. 리턴값으로 request, html, context를 보낸다.))` 이렇게 처리 했는데 Variable routing을 하면 `path('hello/<str:name>', views.뷰)` 이런식으로 가능하고 아무것도 안적고 <name> 하면 str으로 처리된다.
 
- - 각 함수의 urls.py에 `app-name = "앱이름"`을 추가하고, 각 path의 인자값 끝에 `name="이름"` 설정해주면, html 파일에서 `<a>앵커 태그</a>`에 `href="{% url 'articles:greeting' %}` url + tab을 이용하고 앱이름:path이름 을 통해 앞 이름이 같은 연결들을 모두 연결 가능하다.
+ - 각 함수의 urls.py에 `app_name = "앱이름"`을 추가하고, 각 path의 인자값 끝에 `name="이름"` 설정해주면, html 파일에서 `<a>앵커 태그</a>`에 `href="{% url 'articles:greeting' %}` url + tab을 이용하고 앱이름:path이름 을 통해 앞 이름이 같은 연결들을 모두 연결 가능하다.
 
 
 8. 같은 이름의 url들? html파일들?을 비교하는 법
