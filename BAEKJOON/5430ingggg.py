@@ -21,9 +21,46 @@ for _ in range(int(input())):
     mr = input().rstrip() # 명령
     n = int(input()) # 배열의 길이
     nl = [0] * n
-    s = input().rstrip()[1:-1]
-    
-    
+    s = list(input().rstrip(']\n')[1:].split(','))
+    if s == ['']:
+        print('error')
+        continue
+    else:
+        s = list(map(int, s))
+    d = 0
+    fla = True
+    for i in mr:
+        if i == 'R':
+            d = (d+1)%2
+            continue
+        elif i == 'D':
+            if s:
+                s.pop(-d)
+            elif not s:
+                fla = False
+                break
+    if fla:
+        if d == 1:
+            print(list(reversed(s)))
+        else:
+            print(s)
+    else:
+        print('error')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
