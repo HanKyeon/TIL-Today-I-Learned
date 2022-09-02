@@ -1,0 +1,48 @@
+tmdb 등에서 이미지 url 따오기. 이미지 태그.
+
+어무해 공식 문서에 드래그 버튼 등이 있다.
+
+달력 버튼 역시 찾아서 할 수 있다.
+
+
+제목
+Amaranth
+Angkor
+Dela Gothic
+Black Han Sans
+Metal Mania
+
+Henny Penny
+
+본문
+Annie Use Your Telescope
+Coming Soon
+Atma
+Zen Kaku Gothic
+
+
+배민체
+Jua
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
