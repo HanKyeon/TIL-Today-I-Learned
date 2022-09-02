@@ -48,6 +48,7 @@ for i in range(1, n+1):
 if len(parts) >= 3:
     print(-1)
 else:
+    pass
 
 
 
