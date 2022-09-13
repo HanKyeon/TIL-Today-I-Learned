@@ -15,7 +15,6 @@ import sys
 input = sys.stdin.readline
 sys.setrecursionlimit(10**8)
 
-# 정답은 정답이나 최적 정답이 아닌듯? 메모리 초과.
 def dfs(nidx, sta, num):
     global n, li
     if nidx == sta:
