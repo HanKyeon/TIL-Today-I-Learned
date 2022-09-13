@@ -122,6 +122,99 @@ else:
 print(ans)
 
 '''
+from collections import deque
+import sys
+input = sys.stdin.readline
+# 사방이동
+dh = [-1, 1, 0, 0]
+dw = [0, 0, -1, 1]
+
+n, m, k = map(int, input().rstrip().split())
+g = [list(map(int, input().rstrip().split())) for _ in range(n)]
+sws = [[] for _ in range(m)] # 상어 방향 우선 순위
+shadi = list(map(int, input().rstrip().split()))
+for i in range(m):
+    for j in range(4):
+        d1, d2, d3, d4 = map(int, input().rstrip().split())
+        sws[i].append([d1-1, d2-1, d3-1, d4-1]) # 방향은 1,2,3,4가 아닌 0,1,2,3으로 관리됨.
+# 큐에는 방구들만 넣고 상어 위치, 방향 관리는 sha로 관리.
+# shadi 는 초기 상어의 방향. 이것도 sha에 넣어서 관리 할 것.
+sha = [[] for _ in range(m)] # 상어 본체의 위치. 상어를 1~n번이 아니라 0~n-1번으로 관리 할 예정
+alive = set(range(m)) # 생존한 상어 여부 확인 할 것.
+q = deque() # 체취 관리 할 것.
+for i in range(n):
+    for j in range(n):
+        if g[i][j] == 0:
+            g[i][j] = [-1, 0] # 그래프를 3차원으로 관리 할 예정. 몇번 상어의 체취가 몇초인지.
+            continue
+        a = g[i][j]-1 # 상어 번호는 1~n이 아니라 0~n-1로 관리됨.
+        sha[a] = [i, j, shadi[a]-1]
+        q.append((i, j, a, k)) # i, j에 a 상어의 체취가 k초간 지속된다.
+        g[i][j] = [a, k] # a상어의 체취가 k초이다.
+q.append((1,1)) # 체취 한 사이클을 알려주기 위한 값. 큐를 정지 시키는 용도.
+
+def second(): # 1초 지나게 하기.
+    global q, k
+    for i in alive: # 산 상어만 훑는다.
+        h, w, drt = sha[i] # 상어 현재 위치, 방향, 상어 i 정보.
+        ndi = -1 # 새 방향. 0123이면 에러 날까봐 -1로 조정
+        for j in sws[i][drt]: # i번째 상어의 drt방향 우선순위를 돌면서
+            nh, nw = h + dh[j], w + dw[j]
+            if 0<=nh<n and 0<=nw<n and g[nh][nw][1] == 0: # 그래프에서 체취가 0초 남은 상태라면
+                ndi = j # 새 방향
+                sha[i] = [nh, nw, ndi] # 상어 이동
+                break
+        if ndi < 0: # 체취가 없는 방향이 없다면
+            for j in sws[i][drt]: # i번째 상어의 drt방향 우선순위
+                nh, nw = h + dh[j], w + dw[j] # 돌면서
+                if 0<=nh<n and 0<=nw<n and g[nh][nw][0] == i: # 자기 체취인 방향으로 정하고
+                    ndi = j # 새 방향
+                    sha[i] = [nh, nw, ndi] # 이동하고 끝
+                    break
+    
+    for i in range(len(sha)): # 상어 자리가 겹치면 죽일거다.
+        if i not in alive: # 죽은 애면 패스
+            continue
+        for j in range(i+1, len(sha)): # 무조건 i가 작으므로 i가 더 세다. range니까
+            if j not in alive: # 죽은 애면 패스
+                continue
+            ih, iw, idr = sha[i] # 산 친구의 ih, iw
+            jh, jw, jdr = sha[j] # 산 친구의 ih, iw
+            if ih == jh and iw == jw and j in alive: # 같은 위치라면 죽임 처리
+                sha[j] = [-1, -1, -1]
+                alive.remove(j)
+
+    while q: # 체취 처리. 이 부분에서 아마 지나온 
+        a = q.popleft()
+        if len(a) == 2: # 상어 차레라면
+            break
+        h, w, sn, cnt = a
+        if cnt-1 > 0: # 체취가 남아있을거면
+            g[h][w] = [sn, cnt-1] # 그래프에 상어 체취 몇초 남았는지 갱신
+            q.append((h, w, sn, cnt-1)) # 큐에 체취 추가
+        elif cnt-1 == 0: # 체취가 끝났으면
+            g[h][w] = [-1, 0] # 그래프 초기화.
+    
+    for i in alive: # 산 상어 위치의 체취 추가
+        shh, shw, _ = sha[i] # 새 위치
+        g[shh][shw] = [i, k] # 그래프에 체취 추가.
+        q.append((shh, shw, i, k)) # 새 체취 추가
+
+    q.append((1, 1)) # 체취 훑으면 상어 차례라고 알려줌.
+
+# 1001초 실행
+for i in range(1, 1002):
+    second()
+    if len(alive) == 1:
+        break
+if i == 1001: # 1001초면 불가능
+    ans = -1
+else: # 1000초까지 정답 갱신
+    ans = i
+print(ans)
+'''
+
+'''
 # 주석이 이쁜 코드
 # BOJ 19237
 from collections import defaultdict
