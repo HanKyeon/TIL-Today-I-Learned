@@ -122,10 +122,88 @@ else:
 print(ans)
 
 
+'''
+# 굉장히 빠른 코드!
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+R, C = map(int, input().split())
+Map = [[] for _ in range(R)]
+swans = []
+q = deque()                               #백조1 -> 백조2를 bfs탐색
+melt = []                                 #다음 날 얼음을 녹이기 위한 물의 가장자리
+for r in range(R):
+    data = input().rstrip()
+    for c in range(C):
+        x = data[c]
+        if x == 'X':
+            Map[r].append(1)                #얼음은 1, 물(, 백조)은0
+        else:
+            Map[r].append(0)
+            melt.append((r, c))
+            if x == "L":
+                swans.append((r, c))
+
+moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+start, target = swans
+
+q.append(start)
+Map[start[0]][start[1]] = 2
+
+day = 0
+while True:
+
+    ######탐색
+    n_q = deque()                   #얼음에 막혀서, 다음 날에 bfs를 시작할 위치 저장
+    while q:
+        cx, cy = q.popleft()
+        if target == (cx, cy):
+            break
+
+        flag = False                #n_q에 중복해서 넣지 않기 위한 flag
+        for dx, dy in moves:
+            nx = cx + dx
+            ny = cy + dy
+            if not (0 <= nx < R and 0 <= ny < C):
+                continue
+
+            tile = Map[nx][ny]
+
+            if tile == 0:
+                Map[nx][ny] = 2             #백조가 갈수 있는 것으로 확인 된 곳 -> 2 (방문 처리)
+                q.append((nx, ny))
+            if tile == 1 and not flag:
+                n_q.append((cx, cy))        #다음 날 여기서부터 다시 탐색
+                flag = True
+    q = n_q
+    if Map[target[0]][target[1]] == 2:
+        break
+
+
+    ######얼음 녹이기
+    n_melt = []
+    while melt:
+        cx, cy = melt.pop()
+        for dx, dy in moves:
+            nx = cx + dx
+            ny = cy + dy
+            if not (0 <= nx < R and 0 <= ny < C):
+                continue
+            if Map[nx][ny] == 1:
+                Map[nx][ny] = 0
+                n_melt.append((nx, ny))
+    melt = n_melt
+
+    day += 1
+
+print(day)
+'''
 
 
 
 '''
+# 시간초과
 from collections import deque
 import sys
 input=sys.stdin.readline
