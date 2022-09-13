@@ -1,3 +1,14 @@
+
+
+print(int(10e22))
+
+
+
+
+'''
+import heapq
+
+
 res = []
 for t in range(int(input())):
     N = int(input())
@@ -29,3 +40,4 @@ for t in range(int(input())):
 
 for i in range(len(res)):
     print("#{}\n{}".format(i+1,res[i]))
+'''
