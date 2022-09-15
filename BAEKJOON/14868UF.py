@@ -13,6 +13,184 @@ a,b가 문명지역이라면 사방에 문명 전파. bfs해서 전파. 인접�
 세계 크기 n, 발상지 수 k
 k줄에 문명 발상지에 해당하는 정사각형의 위치 x,y를 나타내는 두 자연수 x와 y 제시.
 '''
+
+
+from collections import deque
+import sys
+input = sys.stdin.readline
+
+def find(h, w):
+    global parent, civs
+    a = g[h][w]
+    if parent.get((h, w), 0) != a:
+        g[h][w] = find(civs[a][0], civs[a][1])
+    return g[h][w]
+
+def union(h1, w1, h2, w2):
+    global civs
+    a, b = find(h1, w1), find(h2, w2)
+    if a == b:
+        return
+    if a == 0:
+        g[h1][w1] = b
+        return
+    if b == 0:
+        g[h2][w2] = a
+        return
+    if a in alive and not b in alive:
+        g[h2][w2] = a
+        return
+    elif b in alive and not a in alive:
+        g[h1][w1] = b
+        return
+    if 0 < a < b:
+        g[h2][w2] = a
+        civs[b] = civs[a]
+        if b in alive:
+            alive.remove(b)
+        if civs[b] in parent:
+            parent[(civs[b][0], civs[b][1])] = a
+        return
+    elif 0 < b < a:
+        g[h1][w1] = b
+        civs[a] = civs[b]
+        if a in alive:
+            alive.remove(a)
+        if civs[a] in parent:
+            parent[(civs[a][0], civs[a][1])] = b
+        return
+
+dh = [-1, 1, 0, 0]
+dw = [0, 0, -1, 1]
+
+n, k = map(int, input().rstrip().split())
+g = [[0] * n for _ in range(n)]
+parent = {}
+alive = set()
+civs = [0]
+q = deque()
+
+for i in range(1, k+1):
+    a, b = map(int, input().rstrip().split())
+    a, b = a-1, b-1
+    parent[(a, b)] = i
+    g[a][b] = i
+    alive.add(i)
+    civs.append((a, b))
+    q.append((a, b))
+
+def bfs1t():
+    global q, n
+    nq = deque()
+    while q:
+        h, w = q.popleft()
+        root = find(h, w)
+        for i in range(4):
+            nh, nw = h + dh[i], w + dw[i]
+            if 0<=nh<n and 0<=nw<n and find(nh, nw)!=root:
+                union(h, w, nh, nw)
+                nq.append((nh, nw))
+                # print(parent)
+                # print(0)
+                # for i in g:
+                #     print(*i)
+                if len(alive) == 1:
+                    return
+    while nq:
+        h, w = nq.popleft()
+        q.append((h, w))
+        root = find(h, w)
+        for i in range(4):
+            nh, nw = h + dh[i], w + dw[i]
+            if 0<=nh<n and 0<=nw<n and g[nh][nw] != 0:
+                nth = find(nh, nw)
+                if nth != root:
+                    union(h, w, nh, nw)
+                    if len(alive) == 1:
+                        return
+
+# print(parent)
+# print(0)
+# for i in g:
+#     print(*i)
+
+x = 0
+c = 0
+for i in range(1, k+1):
+    h, w = civs[i][0], civs[i][1]
+    for j in range(4):
+        nh, nw = h+dh[j], w+dw[j]
+        if (nh, nw) in parent:
+            union(h, w, nh, nw)
+
+print(parent)
+print(civs, alive)
+print(0)
+for i in g:
+    print(*i)
+print('=======')
+
+while len(alive) != 1:
+    c+=1
+    bfs1t()
+    print(parent)
+    print(civs, alive, parent)
+    print(c)
+    for i in g:
+        print(*i)
+    print('=======')
+    print(civs, alive, parent)
+print(c)
+
+
+
+
+'''
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+
+'''
+
+
+
+
+
+
+'''
+5 4
+1 1
+2 1
+2 5
+5 2
+
+
+10 3
+1 1
+1 3
+1 8
+
+2 2
+1 1
+1 2
+
+4 2
+1 1
+4 4
+
+20 4
+2 2
+15 16
+19 11
+7 9
+'''
+
+'''
 from sys import stdin
 from collections import deque
 
@@ -157,35 +335,7 @@ while len(origin_set) != 1:
 
 # 4 .출력.
 print(result)
-
-
-
-
-
 '''
-5 4
-1 1
-2 1
-2 5
-5 2
-
-
-10 3
-1 1
-1 3
-1 8
-
-2 2
-1 1
-1 2
-
-4 2
-1 1
-4 4
-
-->3일인데 1일 나옴.
-'''
-
 
 '''
 # 시간 초과
