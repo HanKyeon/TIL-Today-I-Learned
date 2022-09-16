@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Hello</h1>
+  <div>content</div>
+  <h1>으아아ㅏ아앙악</h1>
+  <a href="{% url 'articles:greeting' %}", style="font-size:40px;">Greeting</a><br>
+  <a href="{% url 'articles:dinner' %}", style="font-size:40px;">저녁 먹고 갈래?</a><br>
+  <a href="{% url 'articles:throw' %}", style="font-size:40px;">던져!</a><br>
+  <a href="{% url 'articles:fake-google' %}", style="font-size:40px;">짭구글 바로 가기</a><br>
+  <a href="{% url 'pages:index' %}", style="font-size: 40px;">페이지 인덱스</a>
+{% endblock content %}

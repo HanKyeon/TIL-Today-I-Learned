@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+    <p style='font-size:50px', class='p-5 text-lightgrey'>DETAIL</p>
+    <br>
+    <p style='font-size:50px', class='p-5 text-lightgrey'>{{article.pk}}번째 글</p>
+  </div>
+  <hr>
+  <div>
+    <p class='px-5 py-1 text-lightgrey font-weight-bold'>글 제목 : {{article.title}}</p>
+    <br>
+    <p class='px-5 py-1 text-lightgrey font-weight-bold'>글 내용 : {{article.content}}</p>
+    <br>
+    <p class='px-5 py-1 text-lightgrey font-weight-bold'>작성 시각 : {{article.create_at}}</p>
+    <br>
+    <p class='px-5 py-1 text-lightgrey font-weight-bold'>수정 시각 : {{article.update_at}}</p>
+    <br>
+  </div>
+  <hr>
+  <div>
+    <a href="{% url 'articles:edit' article.pk %}">EDIT</a>
+    <br>
+    <form action="{% url 'articles:delete' article.pk %}">
+      <input type="submit", value='삭제'>
+    </form>
+    <br>
+    <a href="{% url 'articles:index' %}">[back]</a>
+    <br>
+  </div>
+{% endblock content %}
