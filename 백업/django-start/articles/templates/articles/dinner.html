@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>고기 반찬~ 고기 반찬~</h2>
+  <div>
+    <h3>오늘의 메뉴는 뭘까이용?</h3>
+    <h4>두굳구둑둑두굳구둑둑둑두구둑</h4>
+    <h1>{{pick}}, 글자수는 {{pick|length}}</h1>
+    <p>{{foods|join:", "}}</p>
+
+    <h3>메뉴판</h3>
+    <ul>
+      {% for food in foods %}
+        <li>{{food}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <a href="{% url 'articles:index' %}", style="font-size: 40px;">인덱스로 ㅇㅣ동</a>
+  {% endblock content %}
