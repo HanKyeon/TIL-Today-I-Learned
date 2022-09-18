@@ -20,6 +20,7 @@ n개의 수.
 출력
 k의 사촌 수 출력
 '''
+'''
 from collections import deque
 import sys
 input = sys.stdin.readline
@@ -68,14 +69,14 @@ while True:
         ans = 0
     print(nod)
     print(ans)
-
+'''
 '''
 3 5
 1 3 5 7
 3 5
 1 3 5 6
 '''
-'''
+
 from sys import stdin
 
 while True:
@@ -101,14 +102,15 @@ while True:
 
     c = 0
     grandparent = group[group[idx]]  # 할아버지 노드
-    # print(f'grandparent: {group[group[idx]]}') # 1
-    # print(f'parent: {group[idx]}') # 3
+    print(f'grandparent: {group[group[idx]]}') # 1
+    print(f'parent: {group[idx]}') # 3
     for i in range(1, n+1):
         if group[i] != group[idx] and group[group[i]] == grandparent:
             c += 1
-
+    print(group)
+    print(nodes)
     print(c)
-'''
+
 
 '''
 import sys
