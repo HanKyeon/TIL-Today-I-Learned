@@ -82,7 +82,7 @@ for _ in range(q):
 
 
 '''
-# 메모리 절약
+# 메모리 절약하기
 import sys
 input = sys.stdin.readline
 print = sys.stdout.write
