@@ -58,6 +58,7 @@ print(ans)
 
 
 '''
+# 빠른 코드
 import sys
 input = sys.stdin.readline
 sys.setrecursionlimit(10**6)
