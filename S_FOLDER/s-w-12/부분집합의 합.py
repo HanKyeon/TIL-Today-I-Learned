@@ -6,8 +6,6 @@
 테케T
 부분집합 원소의 수 n과 부분집합의 합 k가 여백 두고 제시.
 '''
-from math import factorial
-
 
 def hap(li, idx):
     global n, k, nl
