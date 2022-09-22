@@ -22,17 +22,8 @@ union을 하게 된다면 여태 간선 가중치 합 넣어주기.
 '''
 # 메모리 해결 해보자!
 from heapq import heappop, heappush
-from math import factorial
 import sys
 input = sys.stdin.readline
-
-def nCr(x, y):
-    if x==y:
-        return 1
-    if x > y:
-        return factorial(x)//(factorial(y) * factorial(x-y))
-    else:
-        return factorial(y)//(factorial(x) * factorial(y-x))
 
 def find(x):
     if parent[x] != x:
@@ -40,50 +31,83 @@ def find(x):
     return parent[x]
 
 def union(x, y):
-    global saval, pc
+    global ans
     x, y = find(x), find(y)
     if x == y:
         return
-    lx, ly = len(grp[x]), len(grp[y])
-    if lx < ly:
-        parent[x] = y
-        for i in grp[x]:
-            grp[y].add(i)
-        grp[x] = set()
-        saval -= (nCr(len(grp[y]), 2) - pc)*sval
-        pc += nCr(lx, ly)
-    else:
+    if x < y:
         parent[y] = x
-        for i in grp[y]:
-            grp[x].add(i)
-        grp[y] = set()
-        saval -= (nCr(len(grp[x]), 2) - pc)*sval
-        pc += nCr(lx, ly)
-
+        ans += nodc[x]*nodc[y] * (egsum-sval)
+        nodc[x] += nodc[y]
+    else:
+        parent[x] = y
+        ans += nodc[x]*nodc[y] * (egsum-sval)
+        nodc[y] += nodc[x]
 
 n, m = map(int, input().rstrip().split())
 parent = [i for i in range(n+1)]
-grp = [{i} for i in range(n+1)]
-cnt = [[-1]*(n+1) for _ in range(n+1)]
+nodc = [1] * (n+1)
 heap = []
 egsum = 0
 for _ in range(m):
     x, y, w = map(int, input().rstrip().split())
     egsum += w
     heappush(heap, (-w, x, y))
-sval, saval = 0, (n**2-n)//2 * egsum
-pc = 0
+sval = 0
 ans = 0
 while heap:
     val, x, y = heappop(heap)
     union(x, y)
     sval -= val
-print(saval, pc)
+print(ans%(10**9))
 
 
 
 
-# 45
+'''
+import sys
+input = sys.stdin.readline
+
+def nCr(x):
+    return (x-1)*x // 2
+
+def find(x):
+    if head[x] == x: return head[x]
+    head[x] = find(head[x])
+    return head[x]
+
+
+def union(a, b):
+    global S
+    a = find(a)
+    b = find(b)
+    if a == b: return
+    S -= nCr(counter[a])
+    S -= nCr(counter[b])
+
+    if a < b:
+        head[b] = a
+        counter[a] += counter[b]
+        S += nCr(counter[a])
+    else:
+        head[a] = b
+        counter[b] += counter[a]
+        S += nCr(counter[b])
+N, M = map(int, input().split())
+info = [list(map(int, input().split())) for _ in range(M)]
+info.sort(key = lambda x: x[2], reverse = True)
+head = [x for x in range(N+1)]
+S = 0
+res = 0
+counter = [1]*(N+1)
+for a, b, v in info:
+    union(a, b)
+    res += S*v
+if res >= 10**9:
+    print(res%10**9)
+else:
+    print(res)
+'''
 
 
 
