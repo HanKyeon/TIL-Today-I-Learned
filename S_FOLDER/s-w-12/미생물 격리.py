@@ -40,15 +40,14 @@ def bfs1t(): # bfs 1번 하는 함수
     while heap:
         num, h, w, di = heappop(heap)
         nh, nw = h+dh[di], w+dw[di]
-
         if 0<=nh<n and 0<=nw<n:
-            if nh==0 or nw==0 or nh==n-1 or nw==n-1: # 끝이라면 반갈죽 이후 방향전환
+            if nh==0 or nw==0 or nh==n-1 or nw==n-1:
                 num //= 2
                 if di%2:
                     di -=1
                 else:
                     di += 1
-            if dtn.get((nh, nw), 0): # 힙으로 미생물 수가 적은 순서대로 꺼내므로 덮어도 된다.
+            if dtn.get((nh, nw), 0):
                 dtn[(nh, nw)][0] += num
                 dtn[(nh, nw)][3] = di
             else:
