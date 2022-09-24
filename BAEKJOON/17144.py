@@ -42,8 +42,6 @@ def sec1():
     while q:
         h, w = q.popleft()
         cnt = 0
-        if g[h][w]<5:
-            continue
         for i in range(4):
             nh, nw = h+moves[0][i][0], w+moves[0][i][1]
             if 0<=nh<n and 0<=nw<m and g[nh][nw] != -1:
@@ -51,14 +49,13 @@ def sec1():
                 if gs.get((nh, nw), 0):
                     gs[(nh, nw)] += g[h][w]//5
                 else:
-                    gs[(nh, nw)] = g[h][w]//5
+                    gs[(nh, nw)] = g[nh][nw] + g[h][w]//5
         g[h][w] -= g[h][w]//5 * cnt
         if g[h][w]>4:
             if gs.get((h, w), 0):
                 gs[(h, w)] += g[h][w]
             else:
                 gs[(h, w)] = g[h][w]
-            g[h][w] = 0
     for i in gs.keys():
         h, w = i
         g[h][w] += gs[i]
@@ -86,7 +83,6 @@ def dfs0(h, w, mdep, di): # 현재 좌표, 위쪽인지 아래쪽인지, 최대 
         g[h][w] = 0
         return
 
-
 def dfs1(h, w, mdep, di): # 현재 좌표, 위쪽인지 아래쪽인지, 최대 h 범위
     global ans
     nh, nw = h+moves[1][di][0], w+moves[1][di][1]
@@ -112,10 +108,13 @@ for i in range(n):
     for j in range(m):
         if g[i][j] == 0:
             continue
-        if g[i][j] == -1:
+        elif g[i][j] == -1:
             cln.append((i, j))
             continue
-        q.append((i, j))
+        elif g[i][j] > 4:
+            q.append((i, j))
+        else:
+            continue
 cln.sort()
 for _ in range(t):
     sec1()
