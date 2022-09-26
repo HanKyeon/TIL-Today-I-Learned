@@ -27,11 +27,9 @@ T초가 지난 후 구사과 방에 남아있는 미세먼지의 양을 출력�
 from collections import deque
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**8)
 
 # 0은 위쪽, 1은 아래쪽
 moves = [[(-1,0), (0,1), (1,0), (0,-1)], [(1,0), (0,1), (-1,0), (0,-1)]]
-
 n, m, t = map(int, input().rstrip().split())
 g = [list(map(int, input().rstrip().split())) for _ in range(n)]
 ans = sum(map(sum, g))+2
@@ -49,20 +47,12 @@ def sec1():
                 if gs.get((nh, nw), 0):
                     gs[(nh, nw)] += g[h][w]//5
                 else:
-                    gs[(nh, nw)] = g[nh][nw] + g[h][w]//5
-        g[h][w] -= g[h][w]//5 * cnt
-        if g[h][w]>4:
-            if gs.get((h, w), 0):
-                gs[(h, w)] += g[h][w]
-            else:
-                gs[(h, w)] = g[h][w]
+                    gs[(nh, nw)] = g[h][w]//5
+        g[h][w] -= (g[h][w]//5) * cnt
     for i in gs.keys():
         h, w = i
         g[h][w] += gs[i]
-        if g[h][w] > 4:
-            q.append((h, w))
     return
-
 # 공청기 한바꾸. di로 위 아래 판단. dfs 형태로 할 것. 땡겨오는 방식.
 def dfs0(h, w, mdep, di): # 현재 좌표, 위쪽인지 아래쪽인지, 최대 h 범위
     global ans
@@ -82,7 +72,6 @@ def dfs0(h, w, mdep, di): # 현재 좌표, 위쪽인지 아래쪽인지, 최대 
     elif g[nh][nw] == -1:
         g[h][w] = 0
         return
-
 def dfs1(h, w, mdep, di): # 현재 좌표, 위쪽인지 아래쪽인지, 최대 h 범위
     global ans
     nh, nw = h+moves[1][di][0], w+moves[1][di][1]
@@ -101,8 +90,14 @@ def dfs1(h, w, mdep, di): # 현재 좌표, 위쪽인지 아래쪽인지, 최대 
     elif g[nh][nw] == -1:
         g[h][w] = 0
         return
+def find():
+    a = deque()
+    for i in range(n):
+        for j in range(m):
+            if g[i][j] > 4:
+                a.append((i, j))
+    return a
 
-q = deque()
 cln = []
 for i in range(n):
     for j in range(m):
@@ -110,31 +105,95 @@ for i in range(n):
             continue
         elif g[i][j] == -1:
             cln.append((i, j))
-            continue
-        elif g[i][j] > 4:
-            q.append((i, j))
-        else:
-            continue
-cln.sort()
+            break
+    if len(cln)==2:
+        break
+
 for _ in range(t):
+    q = find()
     sec1()
-    for i in g:
-        print(i)
-    print('===')
     v = {}
     dfs0(cln[0][0], cln[0][1], cln[0][0], 0)
     v = {}
     dfs1(cln[1][0], cln[1][1], cln[1][0], 0)
-    for i in g:
-        print(i)
-    print('=============')
-
-# ans = sum(map(sum, g))+2
 print(ans)
 
 
 
+'''
+빠른 코드
 
+from sys import stdin
+
+r, c, t = map(int, input().split())
+graph = []
+for _ in range(r):
+    graph.append(list(map(int, stdin.readline().rstrip().split())))
+for i in range(r):
+    if graph[i][0] == -1:
+        top = i
+        bottom = i+1
+        break
+
+def diffuse():
+    dx, dy = (-1, 1, 0, 0), (0, 0, -1, 1)
+    diffused = [[0]*c for _ in range(r)]
+    for x in range(r):
+        for y in range(c):
+            if graph[x][y] == 0 or graph[x][y] == -1:
+                continue
+            dust = graph[x][y]//5
+            for i in range(4):
+                nx = x + dx[i]
+                ny = y + dy[i]
+                if 0<= nx < r and 0 <= ny < c and graph[nx][ny] != -1:
+                    diffused[nx][ny] += dust
+                    diffused[x][y] -= dust
+    for i in range(r):
+        for j in range(c):
+            graph[i][j] += diffused[i][j]
+
+
+def circulate_up():
+    dx, dy = (0, -1, 0, 1), (1, 0, -1, 0)
+    x, y, d = top, 1, 0
+    prev = 0
+    while True:
+        nx, ny = x + dx[d], y + dy[d]
+        if x == top and y == 0:
+            break
+        if not 0 <= nx < r or not 0 <= ny < c:
+            d += 1
+            continue
+        graph[x][y], prev = prev, graph[x][y]
+        x, y = nx, ny
+
+def circulate_down():
+    dx, dy = (0, 1, 0, -1), (1, 0, -1, 0)
+    x, y, d = bottom, 1, 0
+    prev = 0
+    while True:
+        nx, ny = x + dx[d], y + dy[d]
+        if x == bottom and y == 0:
+            break
+        if not 0 <= nx < r or not  0 <= ny < c:
+            d += 1
+            continue
+        graph[x][y], prev = prev, graph[x][y]
+        x, y = nx, ny
+
+while t!=0:
+    diffuse()
+    circulate_up()
+    circulate_down()
+    t-=1
+sum = 0
+for i in range(r):
+    for j in range(c):
+        if graph[i][j] != -1:
+            sum += graph[i][j]
+print(sum)
+'''
 
 
 
