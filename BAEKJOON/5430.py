@@ -61,6 +61,26 @@ for _ in range(int(input())):
         print('error')
 
 '''
+# 1등
+import sys
+t = int(sys.stdin.readline())
+for _ in range(t):
+    command = sys.stdin.readline().rstrip()
+    n = int(sys.stdin.readline())
+    nums = sys.stdin.readline().rstrip()[1:-1].split(",")
+    command = command.replace("RR","")
+    command = [*map(len,command.split('R'))]
+    flip = (len(command)+1)%2
+    front = sum(command[0::2])
+    try: back = sum(command[1::2])
+    except: back = 0
+    if front+back>n: print("error"); continue
+    nums = nums[front:(n-back)]
+    if flip: nums.reverse()
+    print(f"[{','.join(nums)}]")
+'''
+
+'''
 # 매우 빠른 식.
 from collections import deque
 import sys
