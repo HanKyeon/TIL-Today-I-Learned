@@ -33,7 +33,7 @@ zsw = {1:1, 2:2, 3:3, 4:4, 5:5, 6:6}
 def zg(di):
     if di == 0:
         zsw[1], zsw[2], zsw[5], zsw[6] = zsw[5], zsw[1], zsw[6], zsw[2]
-    if di == 1: # correct
+    if di == 1:
         zsw[1], zsw[3], zsw[4], zsw[6] = zsw[4], zsw[1], zsw[6], zsw[3]
     if di == 2:
         zsw[1], zsw[2], zsw[5], zsw[6] = zsw[2], zsw[6], zsw[1], zsw[5]
@@ -68,8 +68,8 @@ while k:
     # print(di)
     nh, nw = h+dh[di], w+dw[di]
     if 0<=nh<n and 0<=nw<m:
-        h, w = nh, nw
         zg(di)
+        h, w = nh, nw
         # print(di, '안쪽')
         if zsw[6] > g[h][w]:
             di = (di+1)%4
@@ -79,8 +79,8 @@ while k:
         di = (di+2)%4
         nh, nw = h+dh[di], w+dw[di]
         zg(di)
-        # print(di, '벗어남')
         h, w = nh, nw
+        # print(di, '벗어남')
         if zsw[6] > g[h][w]:
             di = (di+1)%4
         elif zsw[6] < g[h][w]:
