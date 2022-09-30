@@ -23,6 +23,7 @@ n, m , k 제시.
 출력
 획득 점수의 합 출력
 '''
+from collections import deque
 import sys
 input = sys.stdin.readline
 
@@ -42,13 +43,20 @@ def zg(di):
 
 def dfs(h, w):
     global n, m, cnt
-    for i in range(4):
-        nh, nw = h+dh[i], w+dw[i]
-        if 0<=nh<n and 0<=nw<m and g[nh][nw] == g[h][w] and not v[nh][nw]:
-            cnt+=1
-            v[nh][nw] = 1
-            dfs(nh, nw)
-    v[h][w] = cnt
+    q = deque([(h, w)])
+    nq = [(h, w)]
+    while q:
+        h, w = q.popleft()
+        for i in range(4):
+            nh, nw = h+dh[i], w+dw[i]
+            if 0<=nh<n and 0<=nw<m and g[nh][nw] == g[h][w] and not v[nh][nw]:
+                cnt+=1
+                v[nh][nw] = 1
+                q.append((nh, nw))
+                nq.append((nh, nw))
+    while nq:
+        h, w = nq.pop()
+        v[h][w] = cnt
 
 n, m, k = map(int, input().rstrip().split())
 g = [list(map(int, input().rstrip().split())) for _ in range(n)]
@@ -93,10 +101,6 @@ print(ans)
 
 
 
-
-'''
-1231211
-'''
 
 
 
