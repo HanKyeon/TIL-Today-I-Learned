@@ -106,10 +106,10 @@ import sys
 input = sys.stdin.readline
 
 def fox():
-    dst = [int(10e9) for _ in range(n+1)]
+    dst = [int(10e9)]*(n+1)
     dst[1] = 0
     heap = []
-    heappush(heap, (dst[1], 1))
+    heappush(heap, (0, 1))
     while heap:
         cost, nod = heappop(heap)
         if dst[nod] < cost:
@@ -118,32 +118,31 @@ def fox():
             costco = cost + co
             if costco < dst[nnod]:
                 dst[nnod] = costco
-                heappush(heap, (dst[nnod], nnod))
+                heappush(heap, (costco, nnod))
     return dst
 
 def wolf():
-    # dst[0] 빠르게 도착 / dst[1] 느리게 도착
-    dst = [[int(10e9)] * (n+1) for _ in range(2)]
+    dst = [[int(10e9)]*2 for _ in range(n+1)]
     dst[1][1] = 0
-    heap = []
-    heappush(heap, (dst[1][1], 1, False))
+    heap = [(0, 1, 0)]
     while heap:
         cost, nod, fla = heappop(heap)
-        if fla and dst[0][nod] < cost:
+        if fla and dst[nod][0] < cost:
             continue
-        elif not fla and dst[1][nod] < cost:
+        elif not fla and dst[nod][1] < cost:
             continue
         for co, nnod in g[nod]:
             if fla:
                 costco = cost + (co * 2)
-                if costco < dst[1][nnod]:
-                    dst[1][nnod] = costco
-                    heappush(heap, (dst[1][nnod], nnod, False))
+                if costco < dst[nnod][fla]:
+                    dst[nnod][fla] = costco
+                    heappush(heap, (costco, nnod, fla-1))
             else:
                 costco = cost + (co // 2)
-                if costco < dst[0][nnod]:
-                    dst[0][nnod] = costco
-                    heappush(heap, (dst[0][nnod], nnod, True))
+                if costco < dst[nnod][fla]:
+                    dst[nnod][fla] = costco
+                    heappush(heap, (costco, nnod, fla+1))
+    dst = map(min, dst)
     return dst
 
 n, m = map(int, input().split())
@@ -153,11 +152,9 @@ for _ in range(m):
     g[a].append((c*2, b))
     g[b].append((c*2, a))
 
-f = fox()
-w = wolf()
 ans = 0
-for i in range(1, n+1):
-    if f[i] < min(w[0][i], w[1][i]):
+for f, w in zip(fox(), wolf()):
+    if f < w:
         ans += 1
 print(ans)
 
