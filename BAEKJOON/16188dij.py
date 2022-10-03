@@ -20,6 +20,7 @@ m개 줄 a, b, c 제시. a와 b 사이에 c 오솔길
 출력
 달빛 여우가 달빛 늑대보다 먼저 도착 할 수 있는 나무 그루터기 갯수 출력
 '''
+'''
 from heapq import heappop, heappush
 import sys
 input = sys.stdin.readline
@@ -50,11 +51,11 @@ def wolf1():
             continue
         for co, nnod in g[nod]:
             if fla:
-                co /= 2
+                costco = cost + co//2
             else:
-                co *= 2
-            if dst[nnod][fla] > cost+co:
-                dst[nnod][fla] = cost+co
+                costco = cost + co*2
+            if dst[nnod][(fla+1)%2] > costco:
+                dst[nnod][(fla+1)%2] = costco
                 heappush(heap, (cost+co, nnod, (fla+1)%2))
     dst = list(map(min, dst))
     return dst
@@ -70,12 +71,161 @@ def wolf0():
             continue
         for co, nnod in g[nod]:
             if fla:
-                co /= 2
+                costco = cost + co//2
             else:
-                co *= 2
-            if dst[nnod][fla] > cost+co:
-                dst[nnod][fla] = cost+co
+                costco = cost + co*2
+            if dst[nnod][(fla+1)%2] > costco:
+                dst[nnod][(fla+1)%2] = costco
                 heappush(heap, (cost+co, nnod, (fla+1)%2))
+    dst = list(map(min, dst))
+    return dst
+
+n, m = map(int, input().rstrip().split())
+g = [[] for _ in range(n+1)]
+for _ in range(m):
+    a, b, c = map(int, input().rstrip().split())
+    g[a].append((c*2, b))
+    g[b].append((c*2, a))
+
+# w0 = wolf0()
+# w1 = wolf1()
+w = list(map(min, zip(wolf0(), wolf1())))
+f = fox()
+ans = 0
+for i in range(1, n+1):
+    if w[i] <= f[i]:
+        continue
+    ans += 1
+print(ans)
+'''
+
+
+
+from heapq import heappush, heappop
+import sys
+input = sys.stdin.readline
+
+def fox():
+    dst = [int(10e9) for _ in range(n+1)]
+    dst[1] = 0
+    heap = []
+    heappush(heap, (dst[1], 1))
+    while heap:
+        cost, nod = heappop(heap)
+        if dst[nod] < cost:
+            continue
+        for co, nnod in g[nod]:
+            costco = cost + co
+            if costco < dst[nnod]:
+                dst[nnod] = costco
+                heappush(heap, (dst[nnod], nnod))
+    return dst
+
+def wolf():
+    # dst[0] 빠르게 도착 / dst[1] 느리게 도착
+    dst = [[int(10e9)] * (n+1) for _ in range(2)]
+    dst[1][1] = 0
+    heap = []
+    heappush(heap, (dst[1][1], 1, False))
+    while heap:
+        cost, nod, fla = heappop(heap)
+        if fla and dst[0][nod] < cost:
+            continue
+        elif not fla and dst[1][nod] < cost:
+            continue
+        for co, nnod in g[nod]:
+            if fla:
+                costco = cost + (co * 2)
+                if costco < dst[1][nnod]:
+                    dst[1][nnod] = costco
+                    heappush(heap, (dst[1][nnod], nnod, False))
+            else:
+                costco = cost + (co // 2)
+                if costco < dst[0][nnod]:
+                    dst[0][nnod] = costco
+                    heappush(heap, (dst[0][nnod], nnod, True))
+    return dst
+
+n, m = map(int, input().split())
+g = [[] for _ in range(n+1)]
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    g[a].append((c*2, b))
+    g[b].append((c*2, a))
+
+f = fox()
+w = wolf()
+ans = 0
+for i in range(1, n+1):
+    if f[i] < min(w[0][i], w[1][i]):
+        ans += 1
+print(ans)
+
+
+
+
+
+
+'''
+from heapq import heappop, heappush
+import sys
+input = sys.stdin.readline
+
+def fox():
+    global n
+    dst = [int(10e9)]*(n+1)
+    dst[1] = 0
+    heap = [(0, 1)]
+    while heap:
+        cost, nod = heappop(heap)
+        if dst[nod] < cost:
+            continue
+        for co, nnod in g[nod]:
+            if dst[nnod] > cost+co:
+                dst[nnod] = cost+co
+                heappush(heap, (cost+co, nnod))
+    return dst
+
+def wolf1():
+    global n
+    dst = [[int(10e9), int(10e9)] for _ in range(n+1)]
+    dst[1] = [0, 0]
+    heap = [(0, 1, 1)]
+    while heap:
+        cost, nod, fla = heappop(heap)
+        if dst[nod][fla] < cost:
+            continue
+        for co, nnod in g[nod]:
+            if fla:
+                costco = cost + co//2
+            else:
+                costco = cost + co*2
+            if dst[nnod][(fla+1)%2] > costco:
+                dst[nnod][(fla+1)%2] = costco
+                heappush(heap, (costco, nnod, (fla+1)%2))
+    for i in zip(*dst):
+        print(i)
+    dst = list(map(min, dst))
+    return dst
+def wolf0():
+    global n
+    dst = [[int(10e9), int(10e9)] for _ in range(n+1)]
+    dst[1] = [0, 0]
+    heap = [(0, 1, 0)]
+    while heap:
+        cost, nod, fla = heappop(heap)
+        if dst[nod][fla] < cost:
+            continue
+        for co, nnod in g[nod]:
+            if fla:
+                costco = cost + co//2
+            else:
+                costco = cost + co*2
+            if dst[nnod][(fla+1)%2] > costco:
+                dst[nnod][(fla+1)%2] = costco
+                heappush(heap, (costco, nnod, (fla+1)%2))
+    for i in zip(*dst):
+        print(i)
     dst = list(map(min, dst))
     return dst
 
@@ -88,19 +238,20 @@ for _ in range(m):
 
 # w0 = wolf0()
 # w1 = wolf1()
-w = list(map(min, zip(wolf0(), wolf1())))
+# w = list(map(min, zip(wolf0(), wolf1())))
+w = wolf1()
 f = fox()
+w = list(map(min, zip(wolf1(), wolf0())))
+print(w)
+print(f)
 ans = 0
 for i in range(1, n+1):
-    if w[i] == int(10e9):
-        w[i] = -1
-    if f[i] == int(10e9):
-        f[i] = -1
     if w[i] <= f[i]:
         continue
     ans += 1
-print(ans)
 
+print(ans)
+'''
 
 
 
