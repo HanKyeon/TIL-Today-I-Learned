@@ -1,0 +1,563 @@
+# 20221004
+
+유라
+
+## 데이터 베이스
+
+데이터를 저장하는 곳. db 이전의 개념을 볼 것.
+- 파일을 이용한 데이터 관리.
+ - 일반적으로 데이터를 파일에 저장한다.
+ - 장점 : 운영체제 관계 없이 어디에서나 쉽게 사용 가능. 이메일/메신저를 이용해 간편전송 가능.
+ - 단점 : 성능과 보안적 측면에서 한계가 명확. 대용량 데이터 다루기 미적합. 데이터를 구조적으로 정리하기 어려움. 확장이 불가능.
+
+- 스프레드 시트를 이용한 데이터 관리. 엑셀 형태.
+ - 엑셀 시트를 사용.
+ - 스프레드 시트는 컬럼을 통해 데이터의 유형을 지정하고, 레코드를 통해 구체적인 데이터 값을 포함.
+ - 스프레드 시트 자체를 db라고 부를 수는 없지만, db로 가는 길목 정도로 생각해볼 수 있음.
+
+- db 등장.
+ - db는 프로그래밍 언어를 통해 작동 가능.
+ - db는 많은 형태가 있지만 가장 많이 쓰는 유형은 RDB Relational DataBase라고 부르는 관계형 데이터베이스이다.
+ - RDB는 각각의 데이터를 테이블에 기입한다는 특징을 가진다. 마치 스프레드 시트에 작성하는 것 처럼. 컬럼과 행이 있는.
+ - 쉽게 생각하면 스프레드시트 파일 모음이라 보면 된다.
+
+- DB 학습 목표
+1. db를 사용하면 데이터를 안전, 편리, 신속하게 저장하고 사용 가능.
+2. 거대하고 복잡한 데이털르 다루기 위해서 고안된 도구이기 때문에 매우 많은 기능을 제공한다. 기능이 많다 == 데이터 관련해서 할 수 있는 일이 많다. 하지만 모든 기능을 학습하는 것은 시간이 부족하기에 기초적인 부분만 다룰 것이다.
+3. DB 학습의 기초. DB에 데이터를 어떻게 입력하고, 어떻게 출력하는가. CRUD 입장에서는 정보 저장C, 수정U, 삭제D이고, 출력은 조회R이다.
+4. 즉, DB에서의 CRUD와 여러 키워드들 위주로 학습 할 예정이다.
+
+### DB 정의
+- 체계화된 데이터의 모음
+- 여러 사람이 공유하고 사용 할 목적으로 통합적으로 관리되는 정보의 집합이다.
+- 검색, 구조화 같은 작업을 보다 쉽게 하기 위해 조직화된 데이터를 수집하는 저장 시스템.
+ - 내용을 고도로 구조화 함으로써 검색과 갱신의 효율화를 꾀한 것.
+ - 즉, 자료 파일을 조직적으로 통합하여 자료 항목의 중복을 없애고 구조화하여 기억시켜놓은 자료의 집합체, 객체이다.
+- 이러한 DB를 조작하는 프로그램을 DBMS라 한다. DataBase Management System
+ - Oracle, MySQL, SQLite 등이 모두 DBMS이다.
+ - 모두 DB를 조작하기 위한 프로그램이다. 이 프로그램에서 사용하는 언어가 SQL이다.
+- 웹 개발에서 대부분의 DB는 관계형 데이터베이스 관리 시스템 RDBMS를 사용하여 SQL로 데이터와 프로그래밍을 구성한다.
+
+### RDB 관계형 데이터 베이스
+- Relational DataBase.
+- 데이터를 테이블, 행, 열 등으로 나누어 구조화하는 방식.
+- 자료를 여러 테이블로 나누어서 관리하고, 이 테이블 간 관계를 설정해 여러 데이터를 쉽게 조작 할 수 있다는 장점이 있다. 오늘은 하나의 테이블만 다루고, 내일 장고 위에서 여러개를 다룰 것이다.
+- SQL을 사용하여 데이터를 조회하고 조작한다.
+
+#### 테이블 간 관계 설정 예시
+##### 고객 테이블 - 주문 테이블의 경우.
+- 고객 테이블에서 고객 id는 고객이 관계형 데이터베이스에서 고유하게 식별되는 기본 키이다.
+- 주문 테이블에서 특정 주문을 식별하는 기본 키는 주문 id이다. 외래키를 사용하여 고객 테이블의 고객 id를 연결하여 고객을 주문과 연결 할 수 있다.
+- 이 관계를 통해 특정 날짜에 구매한 모든 고객에 관한 정보를 조회하거나 지난 달에 배송일이 지연된 주문을 받은 고객인지 파악하거나 하는 등에 사용된다.
+- 외래 키 개념 및 RDB 모델에 관련된 자세한 사항은 내일 예정.
+주문 테이블에 추가적인 컬럼으로 고객 id라는 정보를 가지고 있다. 외래키에 고객 id가 들어가면 이 주문은 고객 id가 시킨 주문이다 라고 관리 할 수 있다.
+
+### RDB 기본 구조
+- 어무해에서 모델 할 때 DB 기본 구조를 다뤘던 적이 있다.
+1. 스키마 - 테이블의 구조를 나타낸다. DB에서 자료의 구조, 표현 방법, 관계 등 전반적인 명세를 기술 한 것. 다른 테이블과 어떤 관계를 가졌는지 등. 어떤 테이블에 대한 스키마를 갖는다. 스키마를 통해 몇개의 컬럼을 가졌는지, 각각의 컬럼의 이름이 무엇인지, 각각의 컬럼의 타입이 무엇인지 등을 알 수 있다.
+2. 테이블 - 필드와 레코드를 사용해 조직된 데이터 요소들의 집합. 관계라고도 부른다. 필드와 레코드가 잇다. 필드는 컬럼, 속성이라 부르고, 레코드는 튜플, 행이라고 부른다. 필드와 레코드라 부른다.
+
+PK : primary key. 각각 레코드의 고유한 값. id를 준다. 각각의 레코드를 정확히 구분하기 위한 유니크값, 단일값이다.
+
+- RDB 관계형 데이터베이스
+- RDB를 관리하는 RDBMS -> 모두 SQL 언어를 쓴다.
+
+### SQLite
+- 파일 형태로 저장하는 비교적 가벼운 데이터베이스이다. 안드로이드 혹은 Macos에서 기본 탑재된 DB이다. 오픈소스라 자유 활용 가능
+- 대규모 동시 처리 작업에는 적합하지 않다. 진짜 대규모. 학습에는 문제 없다.
+- 다른 RDBMS에서 지원하는 SQL 기능을 지웒하지 않을 수 있음.
+- 어떤 환경에서나 실행 가능한 호환성.
+- 데이터 타입이 비교적 적고 강하지 않기 때문에 유연한 학습 환경을 제공한다. 강제성이 떨어진다.
+- djagno Framework의 기본 데이터베이스이다.
+
+### SQL이란
+- Structured Query Language : 구조 명령 언어
+- RDBMS의 데이터를 관리하기 위해 설계된 특수 목적의 프로그래밍 언어이다.
+- RDBMS에서 데이터베이ㅡㅅ 스키마를 생성 및 수정 할 수 있으며, 테이블에서의 자료 검색 및 관리도 가능하다
+- 접근 권한 설정도 가능.
+- 많은 데이터베이스 관련 프로그램들이 SQL을 표준으로 채택하고 있다. SQL을 배워야 오라클,MySQL,SQLite 등을 사용 할 수 있다.
+- 모든 DB 언어는 그냥 SQL이라고 보면 된다.
+
+- SQL은 데이터베이스와 상호작용하는 방법이다.
+- SQL을 배우면서 DV의 동작원리 또한 알 수 있다.
+
+### SQL Commands
+1. DDL Data Definition Language - 데이터 정의 언어
+- 관계형 데이터베이스 구조인 테이블과 스키마를 정의(생성, 수정 및 삭제)하기 위한 명령어. CREATE DROP ALTER 키워드 사용.
+2. DML Data Manipulation Language - 데이터 조작 언어
+- 데이터를 조작 (추가 조회 변경 삭제 CRUD)하기 위한 명령어. 키워드로는 INSERT SELECT UPDATE DELETE
+3. DCL Data Control Language - 데이터 제어 언어
+- SQLite는 파일로 존재하기 때문에, 보안에 대한 내용을 SQLite가 담당하지 않고, OS에 맡긴다. 그렇기 때문에 DCL 부분은 생략한다.
+
+### SQL Syntax
+
+- SQL 조회 문
+
+`SELECT column_name FROM table_name;`
+- 모든 SQL문statement는 SELECT INSERT UPDATE 등과 같은 키워드로 시작하고, 하나의 문은 세미콜론으로 끝난다.
+ - 세미콜론은 각각 SQL statement(문)을 구분하는 방법이다. 세미콜론 까먹지 말아라.
+- SQL 키워드는 대소문자 구분 안한다. SELECT와 select와 동일한 의미이지만, 기본적으로 대문자 작성을 권장한다. 어떤게 SQL문인지 구분하기 어렵기에 대문자로 쓰는 것을 권장한다.
+ - 대소문자, 세미콜론 잊지 말아라. 주석은 하이픈 2개로 한다. 컨트롤 슬래시하면 알아서 주석함.
+- SQL에 대한 세부적인 문법 사항들은 이어지는 DDL, DML 진행하며 배울 것.
+
+##### 참고 : statement & Clause 문과 절
+`SELECT column_name FROM table_name;` : SELECT statement
+- Statement(문)
+ - 독립적으로 실행 할 수 있는 완전한 코드 조각.
+ - statement는 clause로 구성된다.
+
+`SELECT column_name`
+`FROM table_name`
+- Clause(절)
+ - statement의 하위 단위
+
+### DDL -> 스키마 정의, 테이블 정의, 수정 등을 사용한다. 레코드에 관한 부분은 없다.
+1. CREATE TABLE
+2. SQLite Data Types
+3. Constraints
+4. ALTER TABLE
+5. DROP TABLE
+
+# DDL
+
+우클릭-use database-아까 만든 mydb.sqlite3 하면 연결이 된다. DDL.sql과.
+
+- CREATE TABLE statement
+데이터 베이스에 새 테이블을 만든다.
+```
+-- DB에 새 테이블을 만드는 문
+CREATE TABLE table_name (
+    컬럼 data_type constraints,
+    정의 data_type constraints,
+    한다 data_type constraints,
+    이게 data_type constraints,
+    스키마 data_type constraints
+); -- 중요한건 세미콜론!!
+```
+
+## 개요
+- Data definition
+- SQL DDL을 사용하여 테이블 DB 개체를 만드는 방법을 학습.
+- DDL은 테이블 구조를 관리한다. CREATE : 생성 / ALTER : 수정 / DROP : 삭제 - CRUD와 다르다!
+
+DDL의 NULL은 파이썬의 None과 같다.
+NULL 값을 허용하는 DB는 거의 없다. 그래서 NOT NULL이라고 NULL을 금지시켰다.
+제약 조건 하나하나 뒤쪽에서 볼 것이다.
+SQL은 트레일링 콤마 금지이다. 들여쓰기 2칸 4칸 상관 없다. 중요한건 세미콜론이다.
+
+실습 할 때는 실행하고자 하는 문 안에서 우클릭해서 run selected query 한다. run query 하면 전부 다 실행해서 에러 심하다.
+
+#### id 컬럼을 정의하지 않으면 rowid라는 컬럼이 자동 생성된다. 뒤에 배운다. 따라서 데이터 타입과 제약조건을 알아볼 것이다.
+
+## 데이터 타입과 제약 조건
+
+1. NULL - NULL value. 정보가 없거나 알 수 없음을 의미. missing information or unknown
+2. INTEGER - 정수. 8바이트 가변 크기 가진다.
+3. REAL - 실수. 8바이트 부동 소수점을 사용하는 10진수 값이 있는 실수.
+4. TEXT - 문자 데이터
+5. BLOB - 입력된 그대로 저장하는 데이터 덩어리. 대용타입 없음. 바이너리 등 멀티 미디어 파일. 이미지 등
+
+참고 ㅣ Boolean type : SQLite에는 별도의 Boolean 타입이 없다. 대신 Boolean 값은 정수0false과 1true로 저장됨.
+SQLite에는 날짜 및 시간을 저장하기 위한 타입이 없다. 대신 SQLite의 빌트인 Data And Time Functions로 TEXT, REAL 또는 INTEGER 값으로 저장 할 수 있음. -> 날짜와 시간을 반환하는 기본 함수가 존재한다. INTEGER 형태로.
+Binary Data : 데이터의 저장과 처리를 목적으로 0과 1의 이진 형식으로 인코딩 된 파일. 기본적으로 컴퓨터의 모든 데이터는 binary data이다. 다만, 이를 필요에 따라서 텍스트 타입으로 변형해서 사용하는 것이다.
+
+- SQLite는 다음 규칙을 기반으로 데이터 타입을 결정한다.
+값에 둘러싸는 따옴표와 소수점 또는 지수가 없으면 INTEGER
+값이 작은 따옴표나 큰 따옴표로 묶이면 TEXT
+값에 따옴표나 소수점, 지수가 없으면 REAL
+값이 따옴표 없이 NULL이면 NULL
+
+### SQLite Datatypes 특징
+- SQLite는 다른 모든 SQL db엔진의 정적이고 엄격한 타입 static, rigid typing이 아닌 동적 타입 시스템 dynamic type system 사용.
+ - 컬럼에 선언된 데이터 타입에 의해서가 아니라 컬럼에 저장된 값에 따라 데이터 타입이 결정된다. 일반적으로 선언된 데이터 타입만 받지만, SQLite는 데이터에 맞춰서 타입이 변동된다.
+ - 즉, 데이터 타입을 선언하지 않아도 된다.
+ - 데이터 타입을 선언하지 않고, 그냥 1을 넣으면 INTEGER가 되고, '1'을 넣으면 TEXT가 된다.
+ - 이러한 SQLite의 동적 타입 시스템을 사용하면 기존의 엄격하게 타입이 지정된  db에서는 불가능한 작업을 유연하게 수행 할 수 잇다.
+ - 동적이기에 정적 타입 시스템이 SQLite에서도 동일하게 작동이 가능하다. 유연하긴 하나 헷갈릴 수 있다.
+ - DB의 일관성을 해칠 수 있고, 다른 DB와의 호환성 문제가 있기 때문에, 테이블 생성 시 데이터 타입을 지정하는 것을 권장한다.
+ - 데이터 타입을 지정하면 그 타입으로 자동으로 형변환 해준다. 가능한 경우에만.
+ - 자동 변환 허용 가능한 타입이 있다. 교재 확인. 맞으면서 배우자.
+
+참고 : static typing / rigid typing : 정적 데이터 베이스. 저장되는 값의 데이터 타입은 컬럼에 선언된 데이터 타입에 의해 결정된다. 들어가는 데이터 타입에 맞추는 것이 아니라 선언된 데이터 타입에 맞춰 들어가게 된다.
+
+### Type Affinity 타입 선호도
+데이터 타입 작성 시 SQLite의 5가지 데이터 타입이 아닌 다른 데이터 타입을 선언한다면, 내부적으로 각 타입의 지정된 선호도에 따라 5가지 선호도로 인식된다. 원래 없던 Type을 선언 했을 때, 현재 가진 어떤 선호도의 type으로 지정해서 들어가는지. 5가지로 나눠 들어간다.
+1. INTEGER
+2. TEXT
+3. BLOB
+4. REAL
+5. NUMERIC
+타입 선호도의 존재 이유 : 다른 데이터베이스 엔진 간의 호환성을 최대화 하기 위함. 정적이고 엄격한 타입을 사용하는 SQL문을 SQLite에서도 작동하게 하도록 하기 위함이다.
+
+### Constraints 제약조건
+- 입력하는 자료에 대해 제약을 정한다.
+- 제약이 맞지 않다면 입력이 거부된다.
+- 사용자가 원하는 조건의 데이터만 유지하기 위한, 즉 데이터의 **무결성**을 유지하기 위한 보편적인 방법으로 테이블의 특정 컬럼에 설정하는 제약.
+
+데이터의 무결성 : db내 데이터에 대한 정확성과 일관성을 보증해야 한다. db 상태를 일관되게 유지하는 것.
+
+- 종류
+1. NOT NULL - 컬럼이 빈 값을 허용하지 않는 제약 사항. 기본적으로 NOT NULL을 선언 안하면 NULL을 허용한다.
+2. UNIQUE - 같은 값은 다른 레코드에 들어갈 수 없음. 컬럼의 모든 값이 서로 구별되거나 고유한 값이 되도록 한다. email에 주게 되면, 이미 가입된 이메일이라고 띄우는 것처럼.
+3. PRIMARY KEY - rowid가 자동으로 생성되서 실습때 사용하진 않았다. 하지만 아이디를 직접 만들 것이라면 PRIMARY KEY 제약조건을 걸어준다. 기본적으로 NOT NULL 제약사항도 들어가있다. 이 때, 선언 할 때 해당 data type은 무조건 INTEGER에 선언해야한다. 무조건. UNIQUE랑은 약간 다르다.
+4. AUTOINCREMENT - 이전에 사용되지 않은 값이나, 삭제된 행의 값을 재사용 하는 것을 방지하는 제약사항. PRIMARY KEY는 기본적으로 이전 값을 재사용 한다. 하지만 AUTOINCREMENT 제약사항을 걸어주면 PK를 재활용하지 않는다. 없다면 자동으로 PK를 가져다 쓴다. django에서 테이블 형성 시 id 컬럼에 기본적으로 사용하는 제약조건.
+5. 그 외 기타 등등 Constraints
+
+### rowid 특징
+- 테이블 생성 할 때마다 암시적 자동 증가 컬럼. 별도로 속성을 하지 않아도 자동으로 증가한다.
+- 테이블의 행을 고유하게 식별하는 64비트 부호 있는 정수 값. 64비트가 ㅎ용하는 최댓값.
+- 테이블에 새 행을 삽입 할 때마다 정수값을 자동 할당.
+- 값은 1부터 시작.
+- 데이터 삽입 시에 rowid를 쓰지 않을 것이라면 INTEGER PRIMARY KEY 제약사항을 걸어줘야 한다. 이렇게 걸 경우 rowid를 대체하게 된다. 다음 순차 정수를 자동으로 할당한다. AUTOINCREMENT 관계 없이
+- 직접 id column을 선언하고 INTEGER PRIMARY KEY 키워드를 선언하면, 내부적으로 rowid 컬럼의 별칭이 된다. 즉, 새 컬럼의 이름을 별칭으로 rowid에 액세스가 가능하며, rowid 역시 여전히 접근 가능.
+- 한 테이블의 pk가 최대 어디까지 저장 되는 지 :
+- 테이블이 가득 찼을 때 만약 SQLite가 사용되지 않은 정수를 찾을 수 없으면 SQLITE_FULL 에러가 발생한다. 또한, 일부 행을 삭제하고 새 행을 삽입하면 SQLite는 삭제된 행에서 rowid값을 재사용하려고 시도한다.
+
+## ALTER TABLE
+
+개요 : Modify the structure of an existing table
+- 기존 테이블의 구조를 수정.
+- SQLite의 ALTER TABLE 문을 사용하면 기존 테이블을 다음과 같이 변경 할 수 있음.
+1. Rename a table
+2. Rename a column
+3. Add a new column to a table
+4. Delete a column (3.35.0 버전에서 추가.)
+
+```
+ALTER TABLE 테이블 이름 RENAME TO 새 테이블 이름; -- 기존 테이블 이름 변경
+ALTER TABLE 테이블 이름 RENAME COLUMN 컬럼이름 TO 새 컬럼 이름; -- 컬럼 이름 바꾸기
+ALTER TABLE 테이블 이름 ADD COLUMN 컬럼 정의; -- 기존 데이터가 없어야 추가가 된다. 기본값 없이 추가될 수 없음. 디폴트 값을 넣어 해결 가능.
+ALTER TABLE 테이블 이름 ADD COLUMN 컬럼이름 제약사항 DEFAULT 기본값;
+ALTER TABLE 테이블 이름 DROP COLUMN 컬럼 이름; -- 삭제하지 못하는 경우가 있다. 3가지 이유가 있다. 컬럼이 다른 부분에서 참조되는 경우. FOREIGN KEY 제약조건에서 사용되는 경우. PRIMARY KEY COLUMN인 경우. UNIQUE 제약 조건이 있는 경우 못지운다.
+DROP TABLE 테이블 이름; -- db 삭제
+```
+
+CREATE TABLE
+ALTER TABLE
+DROP TABLE
+
+위 세가지가 DDL이다. 테이블의 수정 삭제 정의 언어.
+존재하지 않은 테이블을 제거하면 SQLite에서 오류가 발생한다.
+
+DROP TABLE의 특징 : 한 번에 하나의 테이블만 삭제 가능. 여러개 지우려면 여러번 반복해야한다. DROP TABLE 문은 실행 취소하거나 복구 할 수 없다. 따라서 각별히 주의하여 수행해야 한다.
+
+다양한 제약조건이 있다. 참조하고 있다면 못지우게 한다거나 하는 등 상황에 맞는 제약조건이 많다.
+
+# DML
+
+- DML을 통해 데이터 조작하기. CRUD. READ가 중요하다. 어떻게 원하는 데이터를 필터링해서 조회 할 것인지.
+- C : INSERT, R : SELECT, U : UPDATE, D : DELETE
+
+Simple query, Sorting data, Filtering data, Grouping data, Changing data
+5가지 배울 것.
+
+csv 파일을 쓰기 위해서는 import를 해야한다. 그냥 따라해라.
+
+## SELECT 문을 사용하여 간단하게 단일 테이블에서 데이터 조회하기
+
+`SELECT column1, column2 FROM table_name;`
+Query data from a table
+특정 테이블에서 데이터를 조회하기 위해 사용.
+문법 규칙 : 
+ 1. SELECT 절에서 컬럼 또는 쉼표로 구분된 컬럼 목록을 지정. 
+ 2. 이후 FROM 절에서 데이터를 가져올 테이블을 지정.
+SELECT문은 SQLite에서 가장 복잡한 문이다. 여러가지 조회가 가능해서.
+- 절의 종류
+ORDER BY
+DISTINCT
+WHERE
+LIMIT
+LIKE
+GROUP BY
+
+1. ORDER BY
+ - select 문제 추가하여 결과를 정렬한다.
+ - ORDER BY 절은 FROM 절 뒤에 위치한다.
+ - 하나 이상의 컬럼을 기준으로 결과를 오름차순, 내림차순 정렬 가능.
+ - 이를 위해 ORDER BY 절 다음에 ASC 또는 DESC 사용. ASC는 오름차순 기본값이라 언급 안해도 됨. DESC는 내림차순.
+ - 소팅 할 때 NULL이 있다면?? -> 가장 작은 값으로 처리된다.
+
+2. Filtering data
+- 데이터를 필터ㅓ링하며 중복 제거, 조건 설정 등 쿼리를 제어해야 한다.
+#### 절:
+
+
+- SELECT DISTINCT
+조회 결과에서 중복된 결과 제거 SELECT 에서 선택저긍로 사용 할 수 있는 절. DISTINCT절은 SELECT 키워드 바로 뒤에 나타나야 한다. DISTINCT 키워드 뒤에 컬럼 또는 컬럼 목록 작성.
+```
+-- 중복 없이 모든 지역 조회하기
+SELECT DISTINCT country FROM users;
+-- 지역 순으로 내림차순 정렬하여 중복없이 모든 지역 조회하기
+SELECT DISTINCT country FROM users ORDER BY country;
+
+-- 이름과 지역이 중복 없이 모든 이름과 지역 조회하기. 둘 따로 중복제거를 하는 것이 아니라, 둘을 세트로 본다.
+SELECT DISTINCT first_name, country FROM users;
+-- 이름과 지역 중복 없이 지역순으로 내림차순 정렬
+SELECT DISTINCT first_name, country FROM users ORDER BY country DESC;
+```
+NULL은 NULL값을 중복으로 간주한다. NULL 값이 있는 칼럼에 DISTINCT절을 사용하면 NULL값의 한 행을 유지한다.
+
+- WHERE
+FROM절 뒤쪽에 작성. 연산자와 함께 쓸 수 있다.
+WHERE 컬럼 = 10 -> 10글자?
+WHERE 컬럼 LIKE 'Ko%' -> Ko로 시작하는 것
+WHERE 컬럼 IN (1,2) -> 컬럼 값이 1혹 2인지
+WHERE 컬럼 BETWEEN 10 AND 20 -> 10부터 20 사이의 값을
+
+WHERE 비교 연산자는 같다.
+논리 연산자는 truth를 테스트하는 것인데, 1, 0, NULL값을 반환한다. 1은 TRUE, 0은 FALSE 의미.
+ALL AND ANY BETWEEN IN LIKE NOT OR 등등 존재.
+```
+
+```
+
+
+
+- LIMIT
+
+#### 오퍼레이터:
+LIKE
+IN
+BETWEEN
+
+패스. DML에 적어놨고 옮길 것이다.
+
+C U D는 특별한게 없다.
+INSERT UPDATE DELETE
+데이터 삽입 수정 삭제
+CREATE는 테이블 만들 때 쓰인다.
+
+```
+전부 정리
+
+CREATE TABLE users (
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    country TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    balance INTEGER NOT NULL
+);
+
+
+SELECT first_name, age FROM users; -- 이름 나이 출력
+
+SELECT * FROM users; -- 전체 조회
+
+SELECT rowid, first_name FROM users; -- rowid와 이름 조회
+
+SELECT first_name, age FROM users ORDER BY age ASC; -- 나이가 어린 순으로 이름 나이 조회
+SELECT first_name, age FROM users ORDER BY age DESC; -- 나이가 많은 순으로 이름 나이 조회
+
+-- 이름 나이 계좌 잔고를 나이가 어린 순으로, 같은 나이라면 계좌 잔고가 많은 순으로 정렬해서 조회
+SELECT first_name, age, balance FROM users ORDER BY age, balance DESC;
+
+-- 지역 조회하기
+SELECT country FROM users;
+-- 중복 없이 모든 지역 조회하기
+SELECT DISTINCT country FROM users;
+-- 지역 순으로 내림차순 정렬하여 중복없이 모든 지역 조회하기
+SELECT DISTINCT country FROM users ORDER BY country;
+
+-- 이름과 지역이 중복 없이 모든 이름과 지역 조회하기. 둘 따로 중복제거를 하는 것이 아니라, 둘을 세트로 본다.
+SELECT DISTINCT first_name, country FROM users;
+-- 이름과 지역 중복 없이 지역순으로 내림차순 정렬
+SELECT DISTINCT first_name, country FROM users ORDER BY country DESC;
+
+----------------------------------------------------
+--WHERE
+
+-- 나이가 30살 이상인 사람들의 이름, 나이, 계좌 잔고 조회하기
+SELECT first_name, age, balance FROM users WHERE age >= 30;
+-- 나이가 30살 이상인 사람들의 이름, 나이, 계좌 잔고 조회하기 이제 잔고가 50만원 초과하는
+SELECT first_name, age, balance FROM users WHERE age >= 30 AND balance > 500000;
+
+----------------------------------------------------
+-- LIKE : 문장의 패턴을 맞추는 것. 패턴 일치 기반. 대소문자 구분 안함.
+-- SELECT, DELETE, UPDATE와 같이 쓰인다.
+-- SQLite는 패턴 구성을 위한 두개의 와일드카드 제공. % : 0개 이상의 문자가 올 수 있다. _ : 단일 문자가 있음을 의미.
+-- '김%' : 김으로 시작하는 모든 단어들. 김치, 김준호, 김 등
+-- '김_' : 김으로 시작하는 두 글자 단어만 허용. 김치, 김밥 등. 
+-- '%도' : 도로 끝나는 모든 것
+-- '%강원%' : 강원이 포함되는 모든 단어들
+-- 섞어서 사용 가능. _2% , 1___, 2_%_% or 2__% 등
+-- 와일드카드 문 : 파일을 지정 할 때 여러 파일을 동시에 지정 할 목적으로 사용하는 기호. 언패킹 연산자* 라던가 ?라던가 등. 특정 패턴이 있는 문자열을 찾거나 할 때 사용.
+
+-- 이름에 호가 든 사람 조회
+SELECT first_name, last_name FROM users WHERE first_name LIKE '%호%';
+-- 이름이 준으로 끝나는 사람 조회
+SELECT first_name, last_name FROM users WHERE first_name LIKE '%준';
+-- 서울 지역 전화번호를 가진 사람들의 이름과 전화번호 조회
+SELECT first_name, phone FROM users WHERE phone LIKE '02-%';
+-- 나이가 20대인 사람들의 이름과 나이
+SELECT first_name, age FROM users WHERE phone LIKE '2-';
+-- 전화번호 중간 4자리가 51로 시작하는 사람들의 이름과 전화번호 조회
+SELECT first_name, phone FROM users WHERE phone LIKE '%-51__-%';
+
+------------------------------
+-- IN : NOT IN으로 부정 가능
+-- 값이 값 목록 결과에 있는 값과 일치하는지 확인
+-- 경기도나 강원도에 있는 사람들
+SELECT first_name, country FROM users WHERE country IN ('경기도', '강원도');
+SELECT first_name, country FROM users WHERE country ='경기도' OR country = '강원도';
+-- 안사는
+SELECT first_name, country FROM users WHERE country NOT IN ('경기도', '강원도');
+
+----------------------------
+-- BETWEEN : 값이 값 범위에 있는지 테스트.
+-- 20살 이상 30살 이하 사람
+SELECT first_name, age FROM users WHERE age BETWEEN 20 AND 30;
+SELECT first_name, age FROM users WHERE age >= 20 AND age <= 30;
+-- 20살이상 30살 이하 아닌 사람
+SELECT first_name, age FROM users WHERE age NOT BETWEEN 20 AND 30;
+SELECT first_name, age FROM users WHERE age < 20 OR age > 30;
+
+-------------------------------
+-- LIMIT : 행 수를 제한 할 수 있다.
+-- 10명만
+SELECT rowid, first_name FROM users LIMIT 10;
+-- 부자 순위 탑10
+SELECT first_name, balance FROM users ORDER BY balance DESC LIMIT 10;
+
+--------------------------------
+-- OFFSET : 리밋절은 지정한 수의 데이터, OFFSET은 특정 지정된 위치에서부터 데이터 조회 리밋과 ㅎ마께 사용.
+-- 11부터 20까지
+SELECT rowid, first_name FROM users LIMIT 10 OFFSET 10;
+
+-----------------------------------
+-- GROUP BY : 특정 그룹으로 묶인 결과 생성
+-- 좋은 기능인데 깊게 나갈 수는 없다. 데이터를 정리해주는 것이다.
+-- 지역을 조회하는데 지역으로 묶어서 집계함수 COUNT를 이요한다. SUM AVERAGE 같은 집계함수 등등.
+-- COUNT(*)에 대한 컬럼을 늘려준다.
+-- COUNT는 집계 함수이다. Aggregate function. AVG() MAX() MIN() SUM() COUNT()가 있는데 count를 제외하고는 전부 다 숫자로 계산되어야 하기 때문에 INTEGER가 되어야 한다.
+-- 만들어지는 컬럼 이름이 바뀔 것이다. 그룹으로 묶어서 카운팅하는 것이기 때문에 조회하는 컬럼을 어떤 이름으로 하느냐에 따라 달라지는 것이 없다. COUNT는. AS 키워드를 통해 컬럼 이름을 바꿔줄 수 있따.
+SELECT country, COUNT(*) FROM users GROUP BY country;
+SELECT country, COUNT(*) AS number_of_name FROM users GROUP BY country;
+
+
+
+-- CRUD CRUD CRUD CRUD
+-- C
+-- 컬럼 목록은 생략 가능. 생성. 컬럼을 생략하면 모든 컬럼이므로 VALUES의 갯수가 컬럼의 갯수와 같아야 한다.
+INSERT INTO 테이블 이름 (어떤컬럼에, 넣을지, 컬럼 목록, 작성) VALUES (컬럼 목록 순서에, 맞춰서, 값을, 넣어준다.)
+-- 여러 행 삽입은 column 목록을 나열하여 넣으면 된다. VALUES (), (), (), ();
+
+-- U
+-- SET와 WHERE를 쓴다.
+-- 여기서 WHERE를 걸지 않으면 모두 다 변경이 된다. 조건이 없으므로.
+SET 컬럼1 = 새 값,
+    컬럼2 = 새값2
+WHERE 조건 걸기;
+
+--D
+-- DELETE FROM과 WHERE를 쓴다.
+-- 마찬가지로 WHERE가 없으면 전부 다 지워버린다.
+DELETE FROM 테이블 이름 WHERE 검색 조건;
+```
+
+## 마무리
+ SQL 배웠다.
+ DDL과 DML
+ DDL은 CREATE TABLE, ALTER TABLE, DROP TABLE
+ DML은 SELECT INSERT UPDATE DELETE
+ 
+ SELECT DISTINCT 컬럼, 컬럼 FROM 테이블 ORDER BY 컬럼 DESC 내림 ASC 오름;
+ SELECT 컬럼, 컬럼 FROM 테이블 WHERE 커럼 LIKE '_문자열%';
+ SELECT 컬럼, 컬럼 FROM 테이블 WHERE 컬럼 BETWEEN 숫자 AND 숫자;
+ SELECT 컬럼, 컬럼 FROM 테이블 WHERE 컬럼 NOT BETWEEN 숫자 AND 숫자;
+ SELECT 컬럼, 컬럼 FROM 테이블 WHERE 컬럼 IN ('값', '값');
+ SELECT 컬럼, 컬럼 FROM 테이블 LIMIT 10;
+ SELECT 컬럼, 컬럼 FROM 테이블 LIMIT 10 OFFSET 10;
+ 
+ SELECT 컬럼, 어그리게이트함수(컬럼) AS 함수별명 FROM 테이블 GROUP BY 컬럼, 컬럼
+ 어그리게이트함수는 AVG SUM MIN MAX COUNT 등 존재.
+ 
+ INSERT INTO 테이블이름 (컬럼, 컬럼, 컬럼) VALUES (값, 값, 값);
+ INSERT INTO 테이블이름 VALUES (값, 값, 값), (값, 값, 값), (값, 값, 값);
+ 
+ UPDATE 테이블이름 SET 컬럼=값, 컬럼=값 WHERE 조건분기;
+ UPDATE 테이블이름 SET 컬럼=값, 컬럼=값; -- 전체 다
+ DELETE FROM 테이블 이름; -- 전체 삭제
+ DELETE FROM 테이블 이름 WHERE 조건분기; -- 일부 삭제
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 웹엑스
+
+환경변수 등록 : 등록한 위치는 컴퓨터가 항상 참고 할 수 있는 위치가 된다. 터미널로 어디를 입력해서 이동하던지 환경 변수에 있는 아이들은 무조건 사용 할 수 있도록 전역으로 잡아준다.
+이후 sqlite에서 git도 치고 여러가지 작업이 가능하다. 터미널 위치 어디서든 winpty sqlite3 하면 sqlite3가 실행된다.
+이게 귀찮아서 sqlite3로만 하기 위해서 커맨드를 조정함.
+
+장고 같은 경우 db.sqlite3 파일이 생긴다. 모든 데이터가 들어간 파일이 생김.
+사실은 이런 데이터 베이스를 조작하는 프로그램이 여러가지가 있다. ex 오라클, sqlite, MySQL 등
+
+DB같은 경우 두종류로 나뉜다.
+1. 관계형 데이터 베이스. 릴레이셔널
+2. 관계형 데이터 베이스. 노SQL db라 한다.
+
+관계형 db는 테이블 형태로 만든다. name/age 등 테이블 형태로 저장하는 것이 관계형 db이다.
+NoSQL db는 테이블 형태로 저장하는 것이 아니라, key : value 형태로 저장하는 db이다.
+
+보통 관계형 db를 굉장히 많이 쓴다.
+이러한 관계형 db를 조작하는 프로그램이 다양한데, MySQL, SQLite, porstgresql, 오라클 등등이 있다.
+이 중에서 우리는 SQLite를 쓴다. 이런 프로그램들을 DBMS라 부르며 굉장히 다양하다. 데이터베이스 매니지먼트 시스템. 이 중에서 SQLite라는 DBMS를 배울 것이고, DBMS에서 DB를 조작 할 때 쓰이는 언어가 SQL이다.
+
+우리는 이제 그 SQLite라는 프로그램을 설치한 것이다.
+
+1. 기본루트에 sqlite 설치
+2. vs code에 sqlite 설치
+
+수업시간 관심법
+
+DB를 배울 것이도
+그 언어인 SQL을 배울 것이다.
+언어 중 DDL과 DML 두가지만 배울 것이다. 하나는 안배울 것이다.
+DDL과 DML을 배우는 것이 포인트이다.
+
+실습 하나 같이 해보자.
+
+라이브 할 때 뒤쪽 진도가 죄다 실습이다.
+2개 당 하나. 조회하기-답안 이런식으로 장수는 많은데 내용이 많지는 않다
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
