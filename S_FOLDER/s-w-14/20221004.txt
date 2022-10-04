@@ -60,7 +60,7 @@
 PK : primary key. 각각 레코드의 고유한 값. id를 준다. 각각의 레코드를 정확히 구분하기 위한 유니크값, 단일값이다.
 
 - RDB 관계형 데이터베이스
-- RDB를 관리하는 RDBMS -> 모두 SQL 언어를 쓴다.
+- RDB를 관리하는 U -> 모두 SQL 언어를 쓴다.
 
 ### SQLite
 - 파일 형태로 저장하는 비교적 가벼운 데이터베이스이다. 안드로이드 혹은 Macos에서 기본 탑재된 DB이다. 오픈소스라 자유 활용 가능
@@ -460,9 +460,26 @@ DELETE FROM 테이블 이름 WHERE 검색 조건;
  DDL과 DML
  DDL은 CREATE TABLE, ALTER TABLE, DROP TABLE
  DML은 SELECT INSERT UPDATE DELETE
- 
+
+ - DDL
+ -- 테이블 형성 시 INTEGER PRIMARY KEY 주면 rowid 대체함.
+ CREATE TABLE contacts (
+  name TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  email TEXT NOT NULL UNIQUE
+ );
+
+ ALTER TABLE contacts RENAME TO new_contacts;
+ ALTER TABLE new_contacts RENAME COLUMN name TO last_name;
+ ALTER TABLE new_contacts ADD COLUMN address TEXT NOT NULL;
+ ALTER TABLE new_contacts ADD COLUMN address TEXT NOT NULL DEFAULT 'no address';
+ ALTER TABLE new_contacts DROP COLUMN address;
+
+ DROP TABLE new_contacts;
+
+ - DML
  SELECT DISTINCT 컬럼, 컬럼 FROM 테이블 ORDER BY 컬럼 DESC 내림 ASC 오름;
- SELECT 컬럼, 컬럼 FROM 테이블 WHERE 커럼 LIKE '_문자열%';
+ SELECT 컬럼, 컬럼 FROM 테이블 WHERE 컬럼 LIKE '_문자열%';
  SELECT 컬럼, 컬럼 FROM 테이블 WHERE 컬럼 BETWEEN 숫자 AND 숫자;
  SELECT 컬럼, 컬럼 FROM 테이블 WHERE 컬럼 NOT BETWEEN 숫자 AND 숫자;
  SELECT 컬럼, 컬럼 FROM 테이블 WHERE 컬럼 IN ('값', '값');
