@@ -1,0 +1,270 @@
+
+## A many to one relationship
+- 관계형 데이터 베이스에서의 외래 키 속성을 사용해 모델 간 N:1 설정하기. comment-article, article-user, comment-user
+
+#### RDB 복습
+- 데이터를 테이블, 행, 열 등으로 나눠 구조화하는 방식.
+- RDB의 모든 테이블에는 행에서 고유하게 식별 가능한 기본 키라는 속성이 있으며, **외래 키**를 사용하여 각 행에서 서로 다른 테이블 간의 관계를 만드는데 사용 할 수 있음.
+
+##### 참고 : 관계
+- 테이블 간의 상호작용을 기반으로 설정ㅎ되는 여러 테이블 간의 논리적인 연결
+
+Foreign key : 외래키 FK 라고도 부른다. 예시에서 들어준 외래키를 이용한 다양한 명령 처리는 특정 날짜에 구매한 모든 고객 정보, 어느 달에 배송이 지연된 주문 받은 유저 정보, 특정 유저가 주문한 모든 주문 정보 등 데이터 간의 매우 복잡한 관계를 보여주고 처리하는데 탁월하다.
+
+### RDB에서의 관계
+1. 1:1 관계
+ - One-to-one relationships
+ - 한 테이블의 레코드 하나가 다른 테이블의 레코드 단 한개와 관련된 경우.
+ - 존재만 인식하면 됨
+
+2. N:1 관계. 다대일
+ - Many-to-one relationships
+ - 한 테이블의 0개 이상의 레코드가 다른 테이블의 레코드 한 개와 관련된 경우.
+ - 기준 테이블에 따라 1대다(1:N, One-to-many relationships)라고도 함
+ - 장고에서는 N을 기준으로 말하기에 N:1이라 부르기로 함
+
+3. M:N 관계 -> 담주 진행함
+ - Many-to-many relationships
+ - 한 테이블의 0개 이상 레코드가 다른 텡블의 0개 이상의 레코드와 관련 된 경우.
+ - 양쪽 모두에서 N:1 관계를 가짐.
+
+### 외래 키
+
+개념:
+- 외래 키. 외부 키.
+- 관계형 데이터 베이스에서 한 테이블의 필드 중 다른 테이블의 행을 식별 할 수 있는 키.
+- 참조하는 테이블에서의 1개의 키에 해당하고, 이는 참조되는 측 테이블의 기본 키를 가르킨다.
+- 참조하는 테이블의 행 1개의 값은 참조되는 측 테이블의 행 값에 대응됨.
+ - 이 때문에 참조하는 테이블의 행에는, 참조되는 테이블에 나타나지 않는 값을 포함 할 수 없음. 없는 값을 참조 할 수 없다.
+- 참조하는 테이블 행 여러개가 참조되는 테이블의 동일한 행을 참조할 수 있음.
+
+특징:
+- 키를 사용하여 부모 테이블의 유일한 값을 참조. (참조 무결성 원칙.) (부모 테이블은 참조되는 테이블.)
+- 외래키의 값이 반드시 부모 테이블의 PK기본 키일 필요는 없지만 유일한 값이어야 한다.
+##### 참고 : 참조 무결성
+- 데이터베이스 관계 모델에서 관련된 2개의 테이블 간의 일관성을 말한다.
+- 외래 키가 선언된 테이블의 외래 키 속성의 값은 그 테이블의 부모가 되는 테이블의 기본 키 값으로 존재해야 함.
+
+## N:1 관계. Comment-Article
+- 현재 Article과 User만 있는 상태. 여기에서 Comment, 댓글을 만들 것.
+- Comment는 Article에 종속되어 있다. 댓글이 단일로 존재 할 수 없다.
+- Comment가 N이 될 것이고, Article이 1이 될 것이다.
+- 0개 이상의 댓글은 1개의 게시글에 작성 될 수 있다.
+
+### 모델 관계 설정
+- 참조하는 측에서 외래 키를 가지고 있고, 참조되는 측 부모측에서는 외래키를 가지고 있지 않다.
+
+### Django Relationship fields
+1. OneToOneField()
+ - A one-to-one relationship
+2. ForeignKey()
+ - A many-to-one relationship
+3. ManytoManyField()
+ - A many-to-many relationship
+
+#### ForeignKey(to, on_delete, **options)
+to는 참조하는 모델 클래스, on_delete는 이따 배움.
+- A many-to-one relationship을 담당하는 django의 모델 필드 클래스
+- django 모델에서 관계형 데이터베이스의 외래키 속성을 담당.
+- 2개의 필수 위치 인자가 필요. 참조하는 model class, on_delete 옵션.
+
+- 외래 키는 일반적인 컬럼이랑 구분되게 작성하면 된다.
+- 어디서 작성하던지 상관 없이 실제 테이블에서는 마지막 컬럼에 작성된다.
+- ForeignKey() 클래스의 인스턴스 이름은 참조하는 모델 클래스 이름의 단수형으로 작성하는 것을 권장. -> 외래키를 통해 db에 FK컬럼을 만들 때, 변수명_id로 생성한다. 그런데 어떤 모델을 참조하는지 알아야 하므로 단수형으로 하는 것이 좋다. 복수형은 담주에 다대다 할 때 쓴다.
+
+**on_delete**
+- 온 딜리트 속성은 참조하는 것이 지워졋을 때 어떻게 행동할 지 적어주는 것.
+- 외래 키가 참조하는 객체가 사라졌을 때 외래 키를 가진 객체를 어떻게 처리할지 정의.
+- 데이터 무결성을 위해 매우 중요한 설정.
+- 옵션 값은 아래와 같다.
+ - CASCADE : 부모 객체, 참조된 객체가 삭제 됐을 때, 이를 참조하는 객체도 삭제.
+ - PROTECT, SET_NULL, SET_DEFAULT 등 여러 옵션이 존재. 댓글이 있으면 못지우게 하기, SET_NULL은 지워지면 NULL로 만들어주기, SET_DEFAULT는 지워지면 default로 재참조 시키는 것 등.
+
+##### 참고 : 데이터 무결성
+- 데이터의 정확성과 일관성을 유지하고 보증하는 것.
+- 데이터베이스나 RDBMS의 중요한 기능.
+- 무결성 제한의 유형으로는 아래 셋이 존재한다.
+1. 개체 무결성 Entity integrity
+2. 참조 무결성 Referntial integrity
+3. 범위 무결성 Domain integrity
+
+`python manage.py sqlmigrate 앱이름 설계도넘버링` : SQL로 어떻게 마이그레이트가 들어가는지.
+
+comment.article = article 이런 식으로 객체를 통째로 넣어줘라. comment.article_id = article.pk 이렇게 해도 되지만 이거는 권장하지 않는다.
+
+### 관계 모델 참조
+N에서 1을 찾는 법 : comment.article
+1에서 N을 찾는 법이 문제다. 외래키를 N쪽이 들고 있기 때문.
+
+역참조 할 때 사용 할 수 있는 매니저를 django가 제공한다.
+이전 objects라는 매니저로 queryset api를 사용 했던 것 처럼 related manager를 통해 queryset api를 사용 할 수 있다.
+
+#### 역참조
+- 나를 참조하는 테이블, 나를 외래키로 지정한 테이블을 참조하는 것.
+- 본인을 외래키로 참조 중인 다른 테이블에 접근하는 것.
+- N:1 관계에서는 1이 N을 참조하는 상황. 외래키를 가지지 않은 1이 외래키를 가진 N을 참조하는 것.
+
+**참조 방법**
+`article.comment_set.method()`
+- objects같은 다른 매니저 이름이 `참조하는 모델명_set`이다. _set related manager 라고도 한다.
+- article.comment같은 참조는 불가능.
+- 참조는 변수값이 있기에 쉽게 참조 가능하지만 역참조는 어렵기 때문에 _set related manager를 지원한다.
+
+- 역참조를 통해 1번 게시글에 작성된 모든 댓글 출력 이런 내용을 detail 페이지 같은 곳에서 출력이 가능해진다.
+
+`article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')`
+언더바셋 매니저를 바꾸고 싶으면 Comment 객체에서 related_name='comments' 속성을 줘서 언더바셋 매니저의 이름을 바꿀 수 있다. 그렇게 될 경우 언더바셋 매니저 사용 할 수 없다. 아예 대체되는 것이다. 선택 인자이다.
+하지만 언더바셋 매니저의 이름을 반드시 바꿔야만 하는 경우가 있고, 그건 다음주이다.
+
+사용자로부터 댓글 데이터를 입력받기 위한 CommentForm 작성해야한다.
+폼과 모델폼은 db를 건드리는 경우의 차이이다.
+
+외래 키를 직접 입력하게 만들고 있다. 그걸 자동으로 넣어줘야 한다.
+**따라서 외래 키 필드는 사용자의 입력으로 받는 것이 아니라, view 함수 내에서 받아 별도로 처리되어 저장해야 한다.**
+detail 페이지에서 url로부터 pk 변수를 받기 때문에, 배리어블 라우팅으로 받기 때문에, 외래 키에 대한 데이터를 사용자가 선택하는 것이 아니라 view 함수에서 처리해야한다. variable routing
+
+# Comment 구현
+- save(commit=False)
+ -> 아직 db에 저장되지 않은 인스턴스 반환.
+ -> 저장학 ㅣ전에 객체에 대한 사용자 지정 처리를 수행 할 때 유용하게 사용.
+ -> 이번에는 저장하기 전에 article의 FK 값을 넣어주기 위해 사용했다.
+
+댓글 삭제 시 : 댓글의 pk는 필요한데 게시글의 pk가 필요한가? -> 굳이? 라는 뜻
+
+교재에서는 pk를 두개 다 받는다. 왜냐면 url 구성. 일부분 variable routing을 사용하는 것을 제외하고는 전부 다 article pk가 된다. url의 일관성 유지를 위해서.
+
+댓글 수정 구현하지 않는 이유
+- 댓글 수정도 게시글 수정과 마찬가지로 구현 가능. 그렇게 되면 댓글 수정 페이지가 별도로 필요하게 된다.
+- 하지만 일반적으로 댓글 수정은 수정 페이지 이동 없이 현재 페이지가 유지된 상태로 댓글 작성 Form 부분만 변경되어 수정 할 수 있도록 함.
+- 이처럼 페이지의 일부 내용만 업데이트 하는 것은 JavaScript의 영역이기 때문에 자스 배운 뒤 별도 진행하도록 함.
+
+### 댓글 갯수 출력하기
+DTL filter length 사용
+{{comments|length}}
+Queryset API count() 사용.
+{{article.comment_set.count}}
+
+# Article-User N:1
+- 댓글과 아티클은 N대 1이엇는데 아티클과 유저는 N대1이다.
+- 0개 이상의 게시글은 1개의 회원에 의해 작성 될 수 있음. 
+
+- 유저 모델과 연관되어 있다면 문제가 생긴다.
+
+- 장고에서 User 모델을 참조하는 방법
+ - settings.AUTH_USER_MODEL
+  : 'accounts.User' **문자열**을 반환한다.
+  : User 모델에 대한 외래 키 또는 M:N 관계를 정의 할 때 사용.
+  : models.py의 모델 필드에서 User 모델을 참조 할 때 사용한다. 중요!!!!!!!!!!!!!!
+  : 유저 객체를 만들기 전에 models.py가 먼저 실행되기 때문에 models.py에서 get_user_model()을 하면 장고의 실행이 다 끝나지 않은 시점이기 때문에 유저 객체가 없는 상태에서 호출이 된다. 그래서 생성 순서에 문제가 있어서 문자열로 대체해준 뒤 로딩이 끝난 뒤 재참조가 가능하도록 만드는 것이다.
+ - get_user_model()
+  : User Object **User 객체**를 반환.
+  : 현재 활성화된 User 모델 반환
+  : 커스터마이징 한 User 모델이 있을 경우는 Custom User 모델, 그렇지 않으면 User 반환.
+  : models.py 제외한 모든 곳에서 User model을 참조할 때 사용.
+
+바로 마이그레이트하면 원래 있던 글의 User_id 같은 경우 null값이 들어가기 때문에 설정 하라고 나온다.
+그 null 값의 기본 값을 적으라고 시킨다.
+기존 데이터가 존재하기 때문에 빈 컬럼이 추가될 수는 없다는 것이다.
+User의 아이디를 가진 컬럼이 Article에 추가가 된다. 그래서 해당 작성자의 id를 임의로 1을 준 것이다.
+
+### Article 만들기 CREATE
+-> 또 다시 N:1 Create 할 때 User를 받게 된다.
+- 그렇기에 Create 할 때 User 선택을 가리고, 해당 부분을 처리해줘야 한다.
+- user는 variable routing을 이용한 것이 아니라, request 객체에서 user를 받아서 FK에 넣어준다.
+
+### 게시글 삭제 DELETE
+-> 남의 글을 삭제하면 안된다.
+- 삭제를 요청하려는 user와 작성한 user를 비교하여 본인의 게시글인지 비교해야 한다.
+- 안보이게 하는 것은 수정도 완료 한 뒤, 하도록 하겠삼. UPDATE 완료 이후.
+
+### 게시글 UPDATE
+-> 본인의 글만 수정이 가능해야 한다.
+- request.user == article.user 일 때와 다를 때를 하면 된다.
+
+버튼이 보이고 안보이고보다는 view 함수에서 막는 처리가 가장 중요하다.
+
+### 게시글 조회 READ
+
+이 부분은 작성자만 만들어서 붙여줬따.
+
+작성한 사람이 회탈하면 삭제가 안되는지? -> CASCADE 상태라 다 지워진다.
+
+
+## Comment-User N:1 관계
+
+유저는 댓글도 여러개 만들 수 있다.
+- 0개 이상의 댓글은 1개의 회원에 의해 작성 될 수 있음.
+
+#### 모델 관계 설정
+- comment에 user의 id가 추가되어야 한다. -> comment의 외래 키 FK가 2개가 된다. 몇 번 게시글/누가 쓴 건지
+- FK가 추가되니 또 다시 FK를 받으라고 뜨게 된다. 댓글 작성란에.
+- request에서 받을 것이다. 가려야 하고. 
+
+### READ
+- 조회한다기 보다는 이 댓글을 누가 썼느냐를 출력하는 것.
+- 또한, 남이 한 건 삭제 못하도록.
+- 댓글에는 이제 작성자 정보가 들어있기에 현재 삭제를 요청하려는 사람과 댓글을 작성한 사람을 비교하여 본인의 댓글만 삭제 할 수 있도록 할 수 있다.
+
+### 인증된 사용자에 대한 접근 제한하기.
+- 저번에 했던 인증에 관한 내용의 적용.
+- is_authenticated 와 View decorator 활용 할 것이다.
+
+
+# 마무리
+
+- many-to-one relationship
+FK : ForeignKey 다른 테이블의 id, PK를 갖다 쓰는 것.
+django Relationship fields : N:1로 묶었다!
+related manager : 언더바셋 _set
+
+- N:1 모델 관계 설정
+1. comment-Article : n:1
+2. Article-User : n:1 반복
+3. Comment-User : models.py에서는 settings.AUTH_USER_MODEL 쓴다. 중요.
+
+# import문 쓰는 순서 있다.
+수업 중 가이드에 맞춰 쓰고 있긴 하다.
+구글에 django style guide 검색하면 Coding style이라고 django docs가 나온다. 베이스는 python style guide.
+거기서 imoprts 검색해서 순서 보면 된다.
+1. PSL. python standard library - 파이썬 기본 라이브러리. itertools 등
+2. third-party - pip install로 가져온 것
+3. django - django에서 땡겨온 것
+4. local - .으로 가져온 것
+같은 레벨이라면 짧은 것 부터.
+
+`python -m pip install "isort >= 5.1.0"` 터미널에서 설치 한 뒤, isort accounts/views.py 하면 임포트 문들을 정리해준다.
+
+delete나 그런 곳에서 if문에 걸러졌을 때, 상태를 보내야 하는데, 405 404 302 200 등등 상태 코드를 보내주어야 한다. 실제 서비스에서 redirect를 해주면 왜 삭제가 안되는지 등을 설명해주어야 한다.
+
+
+
+
+
+
+
+
+#웹엑스
+
+개념적인 부분 설명.
+FK는 unique 값을 넣어주는데 보통 pk이다.
+pk 쓰자.
+인스타 따봉, 빨로우, 하트 이런 기능들이 다 테이블 간의 관계이다.
+모든 기능들은 DB 설계로부터 나온다.
+1:1 N:1 M:N 관계.
+
+user / article / comment 만들었다. 현재는 따로 놀고 있는데, table에 관계를 설정해줄 것이다.
+Article은 어떤 user가 썼는지 FK로 잡아서 한다던가, comment는 어떤 user가 썼는지 어떤 Article에 썼는지 relation을 잡아줄 것이다.
+FK를 views에서 정해줘서 FK를 정해줄 것이다.
+shell_plus : 장고 기능들을 터미널에서 진행해볼 수 있는 것.
+
+참조와 역참조
+
+
+
+
+`get_object_or_404` : 객체를 먼저 가져와보고 안되면 404에러 not found. 404는 클라탓.
+
+
+
+
+
