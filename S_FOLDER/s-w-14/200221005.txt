@@ -267,4 +267,13 @@ shell_plus : 장고 기능들을 터미널에서 진행해볼 수 있는 것.
 
 
 
+# 기본값 설정 파라미터는 default=이다.
+
+## 데이터베이스 초기화 - 모델이나 마이그레이션이 꼬이는 일이 생긴다. 그 때 자주 한다.
+
+1. migrations 파일 삭제.
+ - migrations 폴더 및 __init__.py는 삭제하지 않음. 0001 0002 등 넘버링 파일들만 삭제한다.
+2. db.sqlite3 삭제
+3. migrations 진행
+ - makemigrations, migrate
 
