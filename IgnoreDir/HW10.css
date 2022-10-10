@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css?family=Black+And+White+Picture|Black+Han+Sans|Cute+Font|Do+Hyeon|Dokdo|East+Sea+Dokdo|Gaegu|Gamja+Flower|Gothic+A1|Gugi|Hi+Melody|Jua|Kirang+Haerang|Nanum+Brush+Script|Nanum+Gothic|Nanum+Gothic+Coding|Nanum+Myeongjo|Nanum+Pen+Script|Noto+Sans+KR|Poor+Story|Song+Myung|Stylish|Sunflower:300|Yeon+Sung');
+
+body{
+  margin: 0;
+}
+#menulist{
+  position: absolute;
+  width: 60%;
+  height: 50px;
+  background-color: #ff5050;
+  box-shadow: 0px 10px 10px #00000070;
+  padding: 0% 20%;
+  font-family: 'Cute Font', cursive;
+  font-size: 30px;
+  display: flex;
+  justify-content :space-around;
+  color: #fff;
+  z-index: 1px;
+}
+#menulist a{
+  line-height: 50px
+}
+#menulist a:link{
+  color: #fff;
+  text-decoration: none;
+}
+#menulist a:visited{
+  color: #fff;
+  text-decoration: none;
+}
+
+#Introduce{
+  background-color: #ffc000;
+  font-family: 'Jua', sans-serif;
+  font-size: 50px;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 200px;
+}
+#Introduce_text{
+  background-color: #ffc000;
+  font-family: 'Jua', sans-serif;
+  font-size: 50px;
+  display: flex;
+  justify-content: space-around;
+  padding: 0px 200px 100px 200px;
+}
+.text1{
+  margin: 100px;
+  padding: 20px 50px;
+  border-radius: 30px;
+  background-color: #fdeca5;
+  text-align: center;
+
+}
+#KWGQ_BT3:hover{
+  transform: rotate( -90deg );
+}
+
+.KWGQ_BT {
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  margin: 100px;
+  font-size: 90px;
+  font-family: 'Jua', sans-serif;
+  color: black;
+  /* font-size: 17vh;  미디어쿼리 참조 */
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 1vh 1vh #cda705;
+  border: 0;
+  transition: transform ease 1s;
+}
+#Introduce_GAME1{
+  background-color: #ff5050;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 200px;
+}
+
+#Introduce_GAME1 .text{
+  padding: 100px 0px;
+  font-size: 50px;
+  font-family: 'Nanum Brush Script', cursive;
+  color: #fff;
+}
+
+#Introduce_GAME2{
+  background-color: #284135;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 200px;
+}
+
+#Introduce_GAME2 .text{
+  margin: auto;
+  border: solid 15px #6f490b;
+  padding: 40px 40px;
+  font-size: 50px;
+  font-family: 'Poor Story', cursive;
+  text-align: center;
+  color: #fff;
+}
+
+#Introduce_GAME3{
+  background-color: #b2c7d9;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 200px;
+}
+
+#Introduce_GAME3 .img{
+  padding: 100px 0;
+}
+
+#Introduce_GAME3 .text{
+  padding: 20px;
+  margin: auto 0;
+  background-color: #ffeb33;
+  box-shadow: 10px 10px 10px #00000070;
+  border-radius: 30px;
+  font-size: 40px;
+  font-family: 'Jua', sans-serif;
+  color: #000;
+}
+#time{
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  font-size: 40px;
+  font-family: 'Jua', sans-serif;
+}
+#time_Text{
+  margin-right: 20px;
+}
+
+#Download{
+  background-color: #ffc000;
+}
+
+@media screen and (max-width:1299px) {
+
+  #Introduce{
+    flex-direction: column-reverse;
+      justify-content: center;
+      align-content: center;
+  }
+  .text2 {
+    display: flex;
+    justify-content: center;
+  }
+  #Introduce_GAME1{
+    flex-direction: column;
+    justify-content: center;
+  }
+  #Introduce_GAME2{
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 100px;
+  }
+  #Introduce_GAME3{
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 100px;
+  }
+
+}

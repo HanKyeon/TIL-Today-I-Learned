@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link rel="stylesheet" href="HW10.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    function time(){
+    var GT = new Date('2019-06-14 12:00');
+    var now = new Date();
+    var time = new Date( GT.valueOf() - now.valueOf());
+    var d = time.getDate();
+    var mon = time.getMonth()
+    var y = time.getFullYear() - 1970
+
+    var h = time.getHours();
+    var m = time.getMinutes();
+    var s = time.getSeconds();
+    $("#time_time").text(' '+d+'일 '+h+'시간 '+m+'분 '+s+'초 남음');
+
+  }
+  $(document).ready(function() {
+    setInterval(function()
+    {time();},1000);
+  });
+  </script>
+</head>
+
+<body>
+  <div id="menulist">
+    <a href="#Introduce">소개</a>
+    <a href="#Introduce_GAME1">세종대왕 단어게임</a>
+    <a href="#Introduce_GAME2">도전신조어</a>
+    <a href="#Introduce_GAME3">신조어톡</a>
+    <a href="2019_06_10-2.html">기타</a>
+  </div>
+  <div id="Introduce">
+    <div class="text1">
+      성공회대 기초프로젝트<br> 모두의 신조어를 소개합니다 <br>
+    </div>
+    <div class="text2">
+      <button id="KWGQ_BT3" class="KWGQ_BT" value="마" onclick="KingWordGame3_click(this.value)">
+            모
+          </button>
+    </div>
+  </div>
+  <div id="Introduce_text">
+    <ul>
+      <li>모두의 신조어는 세대간의 격차를 줄이기 위한 학습게임입니다.</li>
+      <li>어르신들이 신조어를 학습할수 있는 게임입니다.</li>
+      <li>3개의 게임으로 이루워저 있습니다.</li>
+    </ul>
+
+  </div>
+  <div id="Introduce_GAME1">
+    <div class="img">
+      <img src="img/kingLobby.png" width="500px" height="500px">
+    </div>
+    <div class="text">
+      세종대왕과 같이 신조어를 배워보세요
+      <div class="quiz">
+        혼밥? 가즈아? 소확행? <br> 어디서 들어본 단어 어떤뜻일까요?
+      </div>
+    </div>
+  </div>
+  <div id="Introduce_GAME2">
+    <div class="text">
+      비넴띤, 세종머앟 무슨이야긴지 모르겠다고요?
+      <div class="quiz">
+        모양이 비슷한 글자끼리 서로바꿔쓰는<br> 신조어를 배워보세요
+      </div>
+    </div>
+    <div class="img">
+      <img src="img/teacher.png" width="500px" height="500px">
+    </div>
+  </div>
+  <div id="Introduce_GAME3">
+    <div class="img">
+      <img src="img/TalklogoLobby.png" width="300px" height="300px">
+    </div>
+    <div class="text">
+      자식들이랑 혹은 학생들이랑 대화할때<br> 신조어때문에 어려움을 겪는다고요?
+      <div class="quiz">
+        신조어 톡으로 신조어를 배워보세요
+      </div>
+    </div>
+  </div>
+  <div id="time">
+    <div id="time_Text">
+      기말 발표까지
+    </div>
+
+    <div id="time_time">
+
+    </div>
+  </div>
+  <div id="Download">
+
+  </div>
+</body>
+
+</html>
