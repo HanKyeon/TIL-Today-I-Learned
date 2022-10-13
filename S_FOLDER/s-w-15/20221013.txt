@@ -1,0 +1,109 @@
+
+# 20221013
+
+## Q & F
+
+사용 이유 : ORM에서 연산 처리 하려고. Q 이외에도 F 오브젝트 역시 존재중. F는 db로부터 데이터를 가져온 뒤 rename을 할 때 자주 사용.
+
+Field lookups : 던더스커오로 참조 가능하다.
+
+## aggregate
+
+- 쿼리셋 연산을 하고 싶을 때 사용.
+- 파이썬에서 쿼리셋을 돌려도 된다만, db에서 처리해서 가져오는 것이 aggregate이다. 파이썬으로 가져와서 처리 하거나 aggregate로 db에서 처리하거나 선택적이다. 정말 큰 데이터를 가져와야 한다면 python으로 가져와서 사용하는 것이 좋다.
+- Avg, Count, Max, Min, Sum 등이 있다.
+- 반환 값은 딕셔너리. 쿼리셋이 아닌 key:value로 반환을 받는다.
+
+## annotate()
+
+- 주석을 달다 라는 사전적 의미.
+- GROUP_BY 역할을 한다.
+- 하나의 컬럼을 추가하는데, 추가 할 때 기능이 하나 추가된다.
+
+- 크게 두가지로 중요하게 쓰인다.
+1. 쿼리셋의 values(). 쿼리셋 중 보고싶은 값을 지정해서 가져오는 것이다. 보통 annotate는 values와 함께 쓰인다. SQL 기준으로 GROUP_BY 수행, HAVING 연산 수행.
+2. SELECT 된 대상의 field명을 변경한다.
+
+GROUP_BY에 values가 여러개라면 INNER_JOIN 혹은 JOIN연산을 통해 GROUP_BY가 묶여진다.
+annotate 관련 예제 4시 쯤 제공 예정.
+
+python manage.py dumpdata appnames.Model > name.json
+
+django에서 DB를 히트하는 것은 굉장히 부담이 커서 DB 히트는 최후방이다. 그래서 DB 히트가 더 쌓여서 양이 많아지고, 느려지게 된다.
+DB에 보내는 히트를 최소화 해야한다. DB를 호출하는 횟수 최소화가 필요.
+그것을 위한 것이 select_related, prefetch_related이다.
+정참조와 역참조의 경우이다. select_related가 정 참조, prefetch_related가 역참조에 쓰인다.
+역할은 db에서 가져올 때 아예 한꺼번에 가져와라. 라는 뜻.
+
+DB의 JOIN이라는 개념을 알아야 한다. 테이블을 다 들고 오는데 어떻게 들고 오는지에 대해 알아야 한다.
+JOIN의 방법에 따라 다르지만 INNER_JOIN은 교집합이 잇는 것만 가져오는 것이다. 나머지는 다 버려진다. 교집합이 없다면 버려진다.
+버려진 데이터가 없이 조회하는 것이 있고 A-B B-A 같이 어떻게 조인하느냐에 따라서 테이블이 달라진다.
+
+django는 대부분 INNER_JOIN을 사용하게 된다. -> FK로 쓰는 id값이 주로 겹치게 된다. 
+
+이전에는 일단 A를 데려오고 이후 A에 있는 fk를 이용해 히트를 하기 때문에 쿼리가 n번 발생했는데, JOIN해서 들고오면 속도가 빨라지게 된다.
+
+섣부른 최적화 하지 말아라. 필요할 때 써야지만 효율적인거다. 많은 데이터를 JOIN해서 가져오는 것이므로.
+
+
+annotate의 Count는 어떤 값으로 셀 지 적어주는 것.
+values에 여러개를 쓰고 annotate를 쓰면 values의 앞순서로 정렬되어 나온다.
+
+annotate를 쓰고 values를 쓰면 또 달라진다. annotate로 한 뒤, values를 가져온다는 것이다. 하나를 붙여서 전체에서 원하는 것을 선택한다는 것. 컬럼에서 가져오는 것.
+
+values를먼저 쓰고 annotate를 걸면 GROUP_BY HAVING 역할
+
+django order of annotate 검색해서 공식 문서 보면 된다.
+```
+Order of annotate() and values() clauses¶
+As with the filter() clause, the order in which annotate() and values() clauses are applied to a query is significant. If the values() clause precedes the annotate(), the annotation will be computed using the grouping described by the values() clause.
+
+However, if the annotate() clause precedes the values() clause, the annotations will be generated over the entire query set. In this case, the values() clause only constrains the fields that are generated on output.
+
+For example, if we reverse the order of the values() and annotate() clause from our previous example:
+
+>>> Author.objects.annotate(average_rating=Avg('book__rating')).values('name', 'average_rating')
+This will now yield one unique result for each author; however, only the author’s name and the average_rating annotation will be returned in the output data.
+
+You should also note that average_rating has been explicitly included in the list of values to be returned. This is required because of the ordering of the values() and annotate() clause.
+
+If the values() clause precedes the annotate() clause, any annotations will be automatically added to the result set. However, if the values() clause is applied after the annotate() clause, you need to explicitly include the aggregate column.
+```
+
+blank=True 옵션은 데이터를 입력 받을 때 field가 채워지지 않아도 된다는 의미이다.
+
+ManyToManyField 는 null=True는 아무 소용이 없다. blank=True는 가능함.
+
+for문 돌 때마다 히트한다. html에서.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

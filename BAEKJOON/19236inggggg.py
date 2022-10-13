@@ -31,52 +31,27 @@ input = sys.stdin.readline
 dh = [-1, -1, 0, 1, 1, 1, 0, -1]
 dw = [0, -1, -1, -1, 0, 1, 1, 1]
 
-def fmove():
-    for i in range(1, 17):
-        if fjp[i]:
-            fh, fw = fjp[i][0], fjp[i][1]
-            fd = dg[fh][fw]
-            nfh, nfw = fh+dh[fd], fw+dw[fd]
-            if 0<=nfh<4 and 0<=nfw<4 and [nfh, nfw]!=fjp[0]:
-                chidx = 0
-                for j in range(1, 17):
-                    if [nfh, nfw] == fjp[j]:
-                        break
-                fg[fjp[i][0]][fjp[i][1]], fg[fjp[j][0]][fjp[j][1]] = fg[fjp[j][0]][fjp[j][1]], fg[fjp[i][0]][fjp[i][1]]
-                dg[fjp[i][0]][fjp[i][1]], dg[fjp[j][0]][fjp[j][1]] = dg[fjp[j][0]][fjp[j][1]], dg[fjp[i][0]][fjp[i][1]]
-                fjp[i], fjp[j] = fjp[j], fjp[i]
-            else:
-                fla = True
-                while fla:
-                    dg[fh][fw] = (fd+1) % 8
-                    
+def dfs(grh, dgrp, val):
+    global ans
 
-
-
-fg = [[0]*4 for _ in range(4)]
-dg = [[0]*4 for _ in range(4)]
-fjp = [[] for _ in range(17)]
+g = []
+dg = []
+alive = {}
 for i in range(4):
-    fn1, di1, fn2, di2, fn3, di3, fn4, di4 = map(int, input().rstrip().split())
-    fg[i] = [fn1, fn2, fn3, fn4]
-    dg[i] = [di1-1, di2-1, di3-1, di4-1]
-c = fg[0][0] # 잡아먹으면서
-fg[0][0] = 0 # 상어 등장!
-for i in range(4):
-    for j in range(4):
-        fjp[fg[i][j]] = [i, j]
+    fsh1, di1, fsh2, di2, fsh3, di3, fsh4, di4 = map(int, input().rstrip().split())
+    g.append([fsh1, fsh2, fsh3, fsh4])
+    dg.append([di1, di2, di3, di4])
+    alive.add(fsh1)
+    alive.add(fsh2)
+    alive.add(fsh3)
+    alive.add(fsh4)
 
-for i in fg:
-    print(i)
+cnt = g[0][0] # 잡아먹으면서
+alive.remove(cnt)
+g[0][0] = 0 # 상어 등장!
+ans = 0
 
-for i in dg:
-    print(i)
-
-print(fjp)
-fmove()
-for i in fg:
-    print(i)
-
+dfs(g, dg, cnt)
 
 
 '''
@@ -102,6 +77,26 @@ def fmove(fijp, figra, digra):
                     chidx = j
             g[][], g[][] = g[][], g[][]
             nfjp[i], nfjp[j] = nfjp[j], nfjp[i]
+
+def fmove():
+    for i in range(1, 17):
+        if fjp[i]:
+            fh, fw = fjp[i][0], fjp[i][1]
+            fd = dg[fh][fw]
+            nfh, nfw = fh+dh[fd], fw+dw[fd]
+            if 0<=nfh<4 and 0<=nfw<4 and [nfh, nfw]!=fjp[0]:
+                chidx = 0
+                for j in range(1, 17):
+                    if [nfh, nfw] == fjp[j]:
+                        break
+                fg[fjp[i][0]][fjp[i][1]], fg[fjp[j][0]][fjp[j][1]] = fg[fjp[j][0]][fjp[j][1]], fg[fjp[i][0]][fjp[i][1]]
+                dg[fjp[i][0]][fjp[i][1]], dg[fjp[j][0]][fjp[j][1]] = dg[fjp[j][0]][fjp[j][1]], dg[fjp[i][0]][fjp[i][1]]
+                fjp[i], fjp[j] = fjp[j], fjp[i]
+            else:
+                fla = True
+                while fla:
+                    dg[fh][fw] = (fd+1) % 8
+                    
 '''
 
 
