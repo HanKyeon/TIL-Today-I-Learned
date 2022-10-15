@@ -29,29 +29,78 @@ import sys
 input = sys.stdin.readline
 
 dh = [-1, -1, 0, 1, 1, 1, 0, -1]
-dw = [0, -1, -1, -1, 0, 1, 1, 1]
+dw = [0, -2, -2, -2, 0, 2, 2, 2]
 
-def dfs(grh, dgrp, val):
+def move(grph, tbl):
+    ng = []
+    for i in grph:
+        ng.append(i[:])
+    ntbl = tbl[:]
+    for i in range(1, 17):
+        h, w = ntbl[i]
+        if ng[h][w] != i:
+            continue
+        diw = w+1
+        di = ng[h][diw]
+        for j in range(di, di+8):
+            nj = j % 8
+            nh, nw, ndiw = h+dh[nj], w+dw[nj], diw+dw[nj]
+            if 0<=nh<4 and 0<=nw<8 and 0<=ndiw<8 and ng[nh][nw] != 99:
+                ni = ng[nh][nw]
+                if ni:
+                    ntbl[i], ntbl[ni] = ntbl[ni], ntbl[i]
+                else:
+                    ntbl[i] = [nh, nw]
+                ng[h][w], ng[h][diw], ng[nh][nw], ng[nh][ndiw] = ng[nh][nw], ng[nh][ndiw], ng[h][w], nj
+                break
+    return ng, ntbl
+
+def find(h, w, di, g):
+    nh, nw = h+dh[di], w+dw[di]
+    ret = []
+    while 0<=nh<4 and 0<=nw<8 and g[nh][nw]:
+        ret.append((nh, nw))
+        nh, nw = nh+dh[di], nw+dw[di]
+    return ret
+
+def shamove(sh, sw, th, tw, grph):
+    ng = []
+    for i in grph:
+        ng.append(i[:])
+    ng[sh][sw] = 0
+    ret = ng[th][tw]
+    ng[th][tw] = 99
+    return ng, ret
+
+def dfs(grph, tbl, cnt, sh, sw):
     global ans
+    ng, ntbl = move(grph, tbl)
+    goli = find(sh, sw, ng[sh][sw+1], ng)
+    if not goli:
+        ans = max(ans, cnt)
+        return
+    for th, tw in goli:
+        nng, pl = shamove(sh, sw, th, tw, ng)
+        dfs(nng, ntbl, cnt+pl, th, tw)
 
 g = []
-dg = []
-alive = {}
+# alive = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}
+jp = [[] for _ in range(17)]
 for i in range(4):
     fsh1, di1, fsh2, di2, fsh3, di3, fsh4, di4 = map(int, input().rstrip().split())
-    g.append([fsh1, fsh2, fsh3, fsh4])
-    dg.append([di1, di2, di3, di4])
-    alive.add(fsh1)
-    alive.add(fsh2)
-    alive.add(fsh3)
-    alive.add(fsh4)
+    g.append([fsh1, di1-1, fsh2, di2-1, fsh3, di3-1, fsh4, di4-1])
+    jp[fsh1] = [i, 0]
+    jp[fsh2] = [i, 2]
+    jp[fsh3] = [i, 4]
+    jp[fsh4] = [i, 6]
 
 cnt = g[0][0] # 잡아먹으면서
-alive.remove(cnt)
-g[0][0] = 0 # 상어 등장!
-ans = 0
-
-dfs(g, dg, cnt)
+# alive.remove(g[0][0])
+g[0][0] = 99 # 상어 등장!
+sha = [0, 0]
+ans = cnt
+dfs(g, jp, cnt, 0, 0)
+print(ans)
 
 
 '''
