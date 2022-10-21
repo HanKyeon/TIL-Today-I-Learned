@@ -1,0 +1,9 @@
+views에서 대충 처리해서 serializer로 컬럼을 추가해주는 것이 serializerMethodField
+
+view에서 처리하고 serializer에서 넘겨주느냐. 처리
+-> column들을 join해서 가져온다. 그것이 annotate, prefech_related, select_related 등등 그거.
+
+serializerMethodField()는 column을 추가하는 방식.
+
+ManyToManyField를 지정했다고 그 값을 가지고 있는 것이 아닌, related manager의 이름이 그거라고 알려주는 것이다. 중개 테이블을 만들기 때문에 그런 듯 하다.
+
