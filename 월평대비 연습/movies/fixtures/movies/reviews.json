@@ -1,0 +1,92 @@
+[
+{
+    "model": "movies.review",
+    "pk": 1,
+    "fields": {
+        "movie": 6,
+        "title": "Need little drug hand any pay.",
+        "content": "Instead assume talk professor treat fight Democrat surface. Film president likely between boy watch agency.\nSuffer each generation. Front month site this blood require."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 2,
+    "fields": {
+        "movie": 7,
+        "title": "Production pay center help today manage last add.",
+        "content": "Turn energy central create eye behind. Card west treatment down. Us doctor senior and necessary. Instead perform hold edge."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 3,
+    "fields": {
+        "movie": 6,
+        "title": "Pay interesting serious collection Republican.",
+        "content": "To city skill old. Mrs everybody material life. Such contain price science capital store.\nHowever in remain both.\nPerformance consumer simple point. Majority people perform yes."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 4,
+    "fields": {
+        "movie": 8,
+        "title": "Interesting listen beautiful compare west section station.",
+        "content": "Same our set position account sound goal.\nCourt or address finish resource build. Dream step beautiful will. Mrs especially area key cultural seem believe."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 5,
+    "fields": {
+        "movie": 1,
+        "title": "Health support surface standard challenge of.",
+        "content": "One hit prevent mouth there time. Reach picture reason nature worry drive reveal sometimes.\nDifficult page sport with. Force myself mouth return growth."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 6,
+    "fields": {
+        "movie": 4,
+        "title": "Career what particularly fear western industry too.",
+        "content": "Alone effort reduce when reason. Couple direction of process ground.\nActually modern teach face. Talk both answer rock cover. From then over almost."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 7,
+    "fields": {
+        "movie": 2,
+        "title": "Hit ok others paper.",
+        "content": "Four create leader. Whose why indicate feel south debate form focus. Write life should old money."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 8,
+    "fields": {
+        "movie": 5,
+        "title": "Young chance operation their writer deal thousand.",
+        "content": "Enough beautiful question reach. Story east black budget television vote.\nOn entire situation free imagine purpose of. Behind ten step whatever technology work.\nTest discussion course benefit."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 9,
+    "fields": {
+        "movie": 1,
+        "title": "Theory simply around hope throw.",
+        "content": "Final create person. Agent language lawyer assume media.\nThan least us why political summer however. Party training few sell door evening."
+    }
+},
+{
+    "model": "movies.review",
+    "pk": 10,
+    "fields": {
+        "movie": 8,
+        "title": "Cut fire huge half control court.",
+        "content": "Fine too nothing green everybody company. Structure quite many upon. Production medical compare beautiful. Season yes well bed authority.\nYeah step natural single watch million close."
+    }
+}
+]
