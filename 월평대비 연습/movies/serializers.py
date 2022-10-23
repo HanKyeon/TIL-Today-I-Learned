@@ -41,8 +41,16 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("actors", )
 
+class MovieTitleSerializer(serializers.ModelSerializer):
+
+    class Meta():
+        model = Movie
+        fields = ('title',)
+        read_only_fields=("actors",)
+
 class ActorSerializer(serializers.ModelSerializer):
     movies = MovieSerializer(many=True, read_only=True)
+    works22 = MovieTitleSerializer(many=True, read_only=True)
     works = serializers.SerializerMethodField(method_name='work')
     def work(self, obj):
         ret = []

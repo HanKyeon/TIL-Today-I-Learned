@@ -20,6 +20,7 @@ def actor_detail(request, actor_pk):
     if request.method == "GET":
         actor = get_object_or_404(Actor, pk=actor_pk)
         serializer = ActorSerializer(actor)
+        print(serializer, '==========================')
         return Response(serializer.data)
 
 @api_view(["GET"])
