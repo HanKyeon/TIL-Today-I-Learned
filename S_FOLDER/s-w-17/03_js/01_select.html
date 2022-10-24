@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1 id="title">DOM 조작</h1>
+  <p class="text">querySelector</p>
+  <p class="text">querySelectorAll</p>
+  <ul>
+    <li>Javascript</li>
+    <li>Python</li>
+  </ul>
+
+  <script>
+    // 짜스 스크립트로 따로 빼서 해도 된다... 만 실습을 위해 여따 해라.
+    console.log(document.querySelector('#title'))
+    console.log(document.querySelector('.text'))
+    console.log(document.querySelectorAll('.text'))
+    console.log(document.querySelectorAll('p'))
+    console.log(document.querySelectorAll('ul > li'))
+    console.log(document.querySelectorAll('body > ul > li'))
+    // body > ul > li:nth-child(1) 우클릭 해서 선택자로 가져온 것.
+    // 여러개 가져오려면 body > ul > li 이렇게 뒷부분 지워준다. 단순한거는 자식 선택자로 해줘도 되는데 경로 선택이 힘들기에 우클릭 copy selector로 복사가 가능하다.
+    liTags = document.querySelectorAll('body > ul > li')
+    liTags.forEach(element => {
+      console.log(element)
+    })
+  </script>
+</body>
+</html>

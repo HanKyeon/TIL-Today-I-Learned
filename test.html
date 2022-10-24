@@ -1,32 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        /*css 예정*/
-        .box {
-            width: 150px;
-            height: 150px;
-            border: 1px solid black;
-            background-color: crimson;
-            margin: 20px;
-        }
-        .left {
-            float: left;
-        }
-        .right {
-            float: right;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <body>
-    <!-- 클래스 선택자 . 을 이용해 자동선택이 가능 -->
-    <div class="box left">float left</div>
-    <div class="box left">float left</div>
-    <div class="box right">float right</div>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis recusandae voluptatem perferendis ducimus! Suscipit veniam illum, quam laudantium tempore similique accusamus autem deserunt natus tempora enim, dolore porro amet. Alias.</p>
+  
+  <script>
+    // 이곳에 코드를 작성합니다.
+    const aTag = document.createElement('a')
+    aTag.setAttribute('href', 'https://www.ssafy.com/')
+    // aTag.href = 'https://www.ssafy.com/'
+    aTag.innerText = 'SSAFY'
+    aTag.setAttribute('style', 'font-size: 3rem')
+    aTag.addEventListener('click', function (event) {
+      event.preventDefault()
+    })
+    const bodyTag = document.querySelector('body')
+    bodyTag.appendChild(aTag)
+  </script>
 </body>
 </html>

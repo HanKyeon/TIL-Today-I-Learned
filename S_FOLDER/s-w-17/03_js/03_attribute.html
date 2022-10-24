@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .red { 
+      color: red;
+    }
+    .blue {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="red">안녕하세요</h1>
+  <div></div>
+
+  <script>
+    const aTag = document.createElement('a')
+    aTag.innerText = '구글'
+    aTag.setAttribute('href', 'https://google.com')
+    aTag.setAttribute('class', 'red')
+    const divTag = document.querySelector('div')
+    divTag.appendChild(aTag)
+    const h1Tag = document.querySelector('h1')
+    console.log(h1Tag.classList)
+    // h1Tag.setAttribute('class', 'blue')
+    console.log(h1Tag.classList.toggle('blue'))
+    
+  </script>
+</body>
+</html>

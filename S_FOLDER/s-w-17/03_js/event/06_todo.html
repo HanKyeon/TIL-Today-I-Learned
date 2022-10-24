@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="#">
+    <input type="text" class="inputData">
+    <input type="submit" value="Add">
+  </form>
+  <ul></ul>
+
+  <script>
+    const formTag = document.querySelector('form')
+    const addTodo = function (event) {
+      event.preventDefault() // form의 기본 동작을 막아야 짜스로 원하는 행동을 적용이 가능하다.
+
+      const inputTag = document.querySelector('.inputData') // 쿼리 셀렉터로 선택
+      const data = inputTag.value
+      const ulTag = document.querySelector('ul')
+
+      if (data.trim()) { // 양쪽에 공백을 제거 했을 때 데이터가 있다면
+        const liTag = document.createElement('li')
+        liTag.innerText = data
+
+        ulTag.appendChild(liTag)
+      } else {
+        alert('입력 똑디 하세요~')
+      }
+      event.target.reset() // input 태그에서 submit 해도 남아있는 것을 없애는 용도. 이벤트 타겟을 리셋한다.
+    }
+    
+    formTag.addEventListener('submit', addTodo)
+  </script>
+</body>
+</html>
