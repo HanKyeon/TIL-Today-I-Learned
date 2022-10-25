@@ -1,0 +1,42 @@
+
+#number {
+  font-size: 10rem;
+}
+
+button {
+  background-color:aqua;
+  width: 5rem;
+  height: 3rem;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  margin: 1rem;
+}
+
+.hi {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.red {
+  background-color: red;
+}
+.blue {
+  background-color: blue;
+}
+.green {
+  background-color: green;
+}
+
+.red-font {
+  color: red;
+}
+.blue-font {
+  color: blue;
+}
+.green-font {
+  color: green;
+}

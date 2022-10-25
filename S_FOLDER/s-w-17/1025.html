@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouJam JaS</title>
+  <link rel="stylesheet" href="1025.css">
+</head>
+<body>
+  <div id="number">0</div>
+  <button id="minus">-</button>
+  <button id="plus">+</button>
+
+  <div id="hi">
+    <div class="box red" id="red"></div>
+    <div class="box blue" id="blue"></div>
+    <div class="box green" id="green"></div>
+  </div>
+
+  <script>
+    let val = 0
+    const divT = document.querySelector('#number')
+    const btn1 = document.querySelector('#minus')
+    const btn2 = document.querySelector('#plus')
+    btn1.addEventListener('click', function (event) {
+      val--
+      divT.innerText = val
+    })
+    btn2.addEventListener('click', function (event) {
+      val++
+      divT.innerText = val
+    })
+
+    // 줄바꿈 막기
+    const div2 = document.querySelector('#hi')
+    div2.classList.add('hi')
+
+    const box1 = document.querySelector('#red')
+    const box2 = document.querySelector('#blue')
+    const box3 = document.querySelector('#green')
+
+    box1.addEventListener('mouseover', function (event) {
+      divT.setAttribute('class', 'red-font')
+      // divT.setAttribute('style', 'color: red;')
+    })
+    box1.addEventListener('mouseout', function (event) {
+      divT.classList.remove('red-font')
+    })
+    box2.addEventListener('mouseover', function (event) {
+      divT.setAttribute('class', 'blue-font')
+      // divT.setAttribute('style', 'color: blue;')
+    })
+    box2.addEventListener('mouseout', function (event) {
+      divT.classList.remove('blue-font')
+    })
+    box3.addEventListener('mouseover', function (event) {
+      divT.setAttribute('class', 'green-font')
+      // divT.setAttribute('style', 'color: green;')
+    })
+    box3.addEventListener('mouseout', function (event) {
+      divT.classList.remove('green-font')
+    })
+
+  </script>
+</body>
+</html>

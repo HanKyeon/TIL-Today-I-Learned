@@ -154,6 +154,7 @@ setAttribute()
 getAttribute()
 createElement()
 appendChild()
+removeChild()
 
 ## Event
 - 마우스 오버, 클릭, 키다운 등의 사건. 이벤트.
