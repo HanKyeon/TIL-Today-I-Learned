@@ -1,12 +1,11 @@
 
-di = {1:2, 2:3}
-def cdi(d):
-    dd = d
-    dd[1] = 3
-    print(dd)
-print(di)
-cdi(di)
-print(di)
+s, b = map(int, input().split())
+if b >= 45:
+    print(f"{s} {b-45}")
+elif s > 0:
+    print(f"{s-1} {b-45+60}")
+elif not s:
+    print(f"23 {b-45+60}")
 
 
 # import heapq

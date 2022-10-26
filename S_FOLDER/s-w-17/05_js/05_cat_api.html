@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>야옹아 이리온</button>
+    <button id="bark">댕댕이 멍멍</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      console.log("고양이는 야옹");
+      const catImageSearchURL = "https://api.thecatapi.com/v1/images/search";
+      const dogImageRandomURL = "https://dog.ceo/api/breeds/image/random";
+
+      const btn = document.querySelector("button");
+      const dogBtn = document.querySelector("#bark");
+
+      dogBtn.addEventListener("click", function () {
+        const foo = function (imgSrc) {
+          const imgTag = document.createElement("img");
+          imgTag.setAttribute("src", imgSrc);
+          document.body.append(imgTag);
+        };
+        axios({
+          method: "get",
+          url: dogImageRandomURL,
+        })
+          .then((response) => {
+            console.log(response.data.message);
+            return response.data.message;
+          })
+          .then(foo)
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+
+      btn.addEventListener("click", function () {
+        axios({
+          method: "get",
+          url: catImageSearchURL,
+        }).then((response) => {
+          console.log("ㅎㅇㅎㅇ");
+        }); // 이런 식으로 추가 데이터를 적어서 부럴와도 된다.
+
+        axios
+          .get(catImageSearchURL)
+          .then((response) => {
+            console.log(response);
+            imgElem = document.createElement("img");
+            imgElem.setAttribute("src", response.data[0].url);
+            document.body.appendChild(imgElem);
+          })
+          .catch((error) => {
+            console.log("실패했다옹");
+          });
+        console.log("야옹야옹");
+      });
+    </script>
+  </body>
+</html>
