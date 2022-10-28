@@ -340,7 +340,6 @@ git push origin 브랜치
 
 
 
-
 cd .. : 상위 폴더
 cd 폴더명 : 폴더 이동
 ls
