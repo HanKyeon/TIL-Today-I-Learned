@@ -14,11 +14,6 @@
 import sys
 input = sys.stdin.readline
 
-
-
-
-
-
 '''
 # 짜증나서 만든 노가다 코드
 a = [
