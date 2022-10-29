@@ -1,11 +1,19 @@
+ans, midx = 0, 0
+for i in range(1, 10):
+    n = int(input())
+    if n > ans:
+        ans, midx = n, i
+print(ans)
+print(midx)
 
-s, b = map(int, input().split())
-if b >= 45:
-    print(f"{s} {b-45}")
-elif s > 0:
-    print(f"{s-1} {b-45+60}")
-elif not s:
-    print(f"23 {b-45+60}")
+
+# s, b = map(int, input().split())
+# if b >= 45:
+#     print(f"{s} {b-45}")
+# elif s > 0:
+#     print(f"{s-1} {b-45+60}")
+# elif not s:
+#     print(f"23 {b-45+60}")
 
 
 # import heapq
