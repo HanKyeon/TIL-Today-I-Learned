@@ -21,15 +21,21 @@ class ArticleUserCount(serializers.ModelSerializer):
 
 class ArticleSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
-    writer_followers = serializers.SerializerMethodField(method_name='wirters_followers')
+    writer_followers = serializers.SerializerMethodField(method_name='writers_followers')
+    def writers_followers(self, obj):
+        writer = obj.user
+        print(writer, '======================================')
+        a = writer.followers.all().values()
+        print(a, '======================================')
+        b = list(a)
+        print(b, '======================================')
+        return b
 
     class Meta:
         model = Article
         fields = '__all__'
         read_only_fields = ('user', 'like_users')
 
-    def writers_followers(self, obj):
-        return self
 
 
 

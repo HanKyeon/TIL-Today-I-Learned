@@ -17,3 +17,85 @@ migration 했을 때 에러상황 왜 에러 나는지.
 마이그레이션 했을 때 어떤 것도 안만들어질 수 있따. 뭘 의미 하는지? 등등. installed_app에 안적었던건가?
 
 서술형 3문제 존재. 섭섭....
+
+---
+
+USER 대체 하는 방법
+1. AUTH_USER_MODEL 설정.
+ ```
+from django.contrib.auth.admin import UserAdmin
+from .models import User
+
+admin.site.register(User, UserAdmin)
+ ```
+Admin에 위 코드 추가.
+또한 UserCreationForm, UserChangeForm의 model을 accounts.User로 바꿔주어야 하는데, 참조 할 때는 get_user_model()로 해줘야 한다.
+
+다른 APP에서 User를 받아야 한다면, settings.AUTH_USER_MODEL로 바꿔주어야 한다. AUTH_USER_MODEL은 문자열을 반환하며, get_user_model()은 사용중인 user Model을 반환한다.
+
+Usermodel 변경 이후 signup 할 때, request.user.is_authenticated로 인증되어야 진행해야 한다.
+- POST일 경우 CustomUserCreationForm 및 CustomUserChangeForm을 재설정 해주어야 한다. 또한 form에 할당 이후 form의 유효성 검사를 진행해야 하며, user = form.save 이후 from django.contrib.auth import login as auth_login 이런 식으로 로그인을 추가해준 뒤 auth_login(request, form.user)를 통해 로그인을 시켜준다.
+또한, get을 통해 들어왔는데 login이 안될 경우에는 
+
+
+
+쿼리셋이 Object of type User is not JSON serializable 오류가 난다면 all()에 values.()를 붙이고 list로 감싸주면 된다. 그러면 리스트 형태로 나옴.
+
+AuthenticationForm이 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm 에 존재한다.
+AuthenticationForm은 get_user() 메소드가 존재하며, 해당 폼의 유저 정보를 반환하는 듯하다.
+
+로그인의 경우
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('articles:index')
+    
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            auth_login(request, form.fet_user())
+            return redirect(requset.GET.get('next') or 'articles:index')
+    else:
+        form = AuthenticationForm()
+    context = {
+        'form' = form
+    }
+    return render(request, 'accounts/login.html', context)
+
+signup의 경우
+
+def signup(request):
+    if request.user.is_authenticated:
+        return redirect('articles:index')
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('articles:index')
+    else:
+        form = CustomUserCreationForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/signup.html', context)
+
+login은 request와 request.POST를 AuthenticationForm에.
+create는 requset.POST를 CustomUserCreationForm에.
+update는 request와 instance=request.user를 CustomUserChangeForm에.
+delete는 requset.user.delete() 이후 auth_logout(request)
+
+change_password는 PasswordChangeForm에 requset.user와 request.POST를 넣어준다. 이후 유효하다면 form.is_valid()하면 form.save() 이후 update_session_auth_hash(requset, form.user)로 세션을 업데이트 해준다.
+아니라면 그냥 PasswordChangeForm에 request.user를 넣어서 반환.
+
+
+
+
+
+
+
+
+
+
+
+

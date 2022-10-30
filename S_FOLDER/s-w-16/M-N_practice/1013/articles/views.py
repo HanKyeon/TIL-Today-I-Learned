@@ -141,7 +141,7 @@ def articles_info(request):
     elif request.method == "POST":
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True): # 400리턴
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED) # 201 리턴
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 400리턴
 
