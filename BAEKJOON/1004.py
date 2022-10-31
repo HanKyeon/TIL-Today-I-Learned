@@ -16,4 +16,4 @@ for t in range(int(input())) :
             c+=1
     
     print(c)
-    
+    # test test
