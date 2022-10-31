@@ -63,5 +63,5 @@ os, ns = sum(map(sum, g)), sum(map(sum, ng))
 print(ns-os)
 
 
-
+# 테스트 용도로 해봅시다.
 
