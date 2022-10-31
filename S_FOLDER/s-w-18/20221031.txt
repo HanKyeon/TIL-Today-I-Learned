@@ -352,9 +352,9 @@ v-for
 v-if
 v-text
 
-
-
-
+https://v2.vuejs.org/v2/api/#Options-DOM
+https://v2.vuejs.org/v2/api/#Options-Data
+https://v2.vuejs.org/v2/guide/instance.html#Lifecycle-Diagram
 
 
 
