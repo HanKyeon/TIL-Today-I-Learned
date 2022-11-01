@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    #before {
+      background-color: greenyellow;
+    }
+    #after {
+      background-color: blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>{{num}}</h1>
+    <h1>*2: {{dNum}}</h1>
+    <button @click="foo" v-text="pl"></button>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      template: '',
+      data:{
+        txt: '',
+        pl:'눌러보덩가',
+        num: 0,
+      },
+      computed: {
+        dNum() {
+          console.log(this.num)
+          return this.num*2
+        }
+      },
+      methods: {
+        foo(event) {
+          this.num++
+        }
+      },
+      watch: {
+        num(newValue, oldValue) {
+          console.log(newValue, oldValue)
+        }
+      }
+    })
+    console.log(vm)
+  </script>
+</body>
+</html>

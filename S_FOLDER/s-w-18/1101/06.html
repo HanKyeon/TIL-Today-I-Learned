@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    #before {
+      background-color: greenyellow;
+    }
+    #after {
+      background-color: blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <p :id="elemId" @click="loglog" v-text="content"></p>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      template: '',
+      data:{
+        num: -1,
+        content: 'click me',
+        elemId: 'before',
+        bool: 0,
+        li: ['안녕', '하세요.', '반갑', '습니다.', '메롱'],
+        li2: ['before', 'after'],
+      },
+      computed: {
+      },
+      methods: {
+        loglog() {
+          this.num++
+          if (this.num>4) {
+            this.num = 0
+          }
+          this.content = this.li[this.num]
+          this.bool = (this.bool+1)%2
+          this.elemId = this.li2[this.bool]
+        },
+      },
+    })
+    console.log(vm)
+  </script>
+</body>
+</html>

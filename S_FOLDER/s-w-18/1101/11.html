@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    #before {
+      background-color: greenyellow;
+    }
+    #after {
+      background-color: blueviolet;
+    }
+    .errorColor {
+      color: crimson;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h3 :class="errorText">ERROR</h3>
+    <button @click="foo">click</button>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      template: '',
+      data:{
+        isError: false,
+      },
+      computed: {
+        errorText() {return this.isError? 'errorColor':null}
+      },
+      methods: {
+        foo(event) {
+          event.preventDefault()
+          this.isError = !this.isError
+        }
+      },
+      watch: {
+      }
+    })
+    console.log(vm)
+  </script>
+</body>
+</html>

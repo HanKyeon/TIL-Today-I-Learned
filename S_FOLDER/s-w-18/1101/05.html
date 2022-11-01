@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <button id="myBtn" @click="legogo(lego(legogogo()))">click</button>
+    <p id="myP" v-text="myNum"></p>
+  </div>
+
+  <script>
+    // // 짜스로 하는 법
+    // const btnbtn = document.querySelector('#myBtn')
+    // const myP = document.querySelector('#myP')
+    // let num = parseInt(myP.innerText)
+    // btnbtn.addEventListener('click', (event) => {
+    //   event.preventDefault()
+    //   num++
+    //   myP.innerText = num
+    // })
+
+    const vm = new Vue({
+      el: '#app',
+      // template:'<h3 v-text="point"></h3><p>여러줄 됨?</p>',
+      data:{
+        myNum: 0,
+      },
+      computed: {
+      },
+      methods: {
+        lego() {
+          this.myNum++
+        },
+        legogo() {
+          this.myNum -= 1
+          this.myNum -= 1
+        },
+        legogogo: () => {
+          console.log(this)
+        },
+      },
+    })
+    console.log(vm)
+  </script>
+</body>
+</html>

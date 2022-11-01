@@ -309,7 +309,7 @@ computed : 함수의 종속 대상(피연산자?)의 변화에 따라 계산 여
 - 주로 디버깅에 사용. 과거 값과 새 값을 알 수 있으므로.
 - watch에서 값이 바꼈을 때, this의 함수를 쓰고 싶은 경우 키값을 `'handler'`로 사용해야하며, 함수 명 역시 `'nameChange'`이런 식으로 해야한다.
 
-- 데이터가 만약 객체 혹은 배열의 경우, watch가 바로 들여다 볼 수 없기에 depp=true 옵션을 주어야 제대로 된 감시가 가능하다.
+- 데이터가 만약 객체 혹은 배열의 경우, watch가 바로 들여다 볼 수 없기에 deep=true 옵션을 주어야 제대로 된 감시가 가능하다.
 ```js
 myObj: {
     handler: function (val) {
@@ -345,21 +345,29 @@ Directives 쪽이 많다고 느껴질 것이다.
 
 
 el은 가장 위쪽 객체를 가져온다. 첫번째. 같은 속성 혹은 id를 가지고 있다면.
-v-model
-v-on: @
-v-bind: :
-v-for
-v-if
-v-text
+v-model : 양방향 데이터로 만들어준다.
+v-on: @ eventListener처럼 째려보고 있다.
+v-bind: : 바인딩한다. HTML 기본 속성을 변수로 받도록 설정해준다.
+v-for : 반복문
+v-if : 조건문
+v-text : 변수 넣어서 연결해준다.
+v-html : html을 넣어줄 때 쓴다. raw html. 쓰지 말라한다.
+v-show : 만들어 두고 display 속성을 boolean 값으로 조정.
 
+1. el, template, render, renderEror를 가진 DOM 속성들
 https://v2.vuejs.org/v2/api/#Options-DOM
+2. data, props, propsData, computed, methods, watch를 가진 Options 및 데이터
 https://v2.vuejs.org/v2/api/#Options-Data
+3. 뷰 인스턴스 생명주기
 https://v2.vuejs.org/v2/guide/instance.html#Lifecycle-Diagram
 
-
-
-
-
+4. 뷰 인스턴스 템플릿 관련
+https://mimah.tistory.com/entry/Vuejs-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-Instance
+https://jocoma.tistory.com/entry/Vue%EC%9D%98-template%EC%86%8D%EC%84%B1
+- 아마도 div를 만들어두고 div 안에 렌더링 하는 용도로 사용하는 듯 하다.
+- 아래 조코마씨 블로그 좋다. 열심히 읽어보자.
+5. 그냥 찾아본 블로그
+https://itkjspo56.tistory.com/228
 
 
 

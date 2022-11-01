@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    #before {
+      background-color: greenyellow;
+    }
+    #after {
+      background-color: blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <input v-model="txt">
+    <p v-text="txt"></p>
+    <div v-if="txt === 'hello'">인사 잘한다</div>
+    <div v-else-if="txt">기다리라 했잖아</div>
+    <div v-else="txt">기다려</div>
+
+    <div v-if="txt">잎</div>
+    <div v-show="txt">쇼</div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      template: '',
+      data:{
+        txt: '',
+      },
+      computed: {
+      },
+      methods: {
+        foo() {
+
+        }
+      },
+    })
+    console.log(vm)
+  </script>
+</body>
+</html>

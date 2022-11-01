@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    #before {
+      background-color: greenyellow;
+    }
+    #after {
+      background-color: blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <input v-model="txt" @input="foo" :placeholder="pl"> <!-- 이게 모델이면 아래 p태그가 view인 느낌이고 Vue가 v-model로 역할을 하는 느김. -->
+    <p v-text="txt"></p>
+    <p>{{txt}}</p>
+    <p v-text="txt"></p>
+    <p>{{txt}}</p>
+    <p v-text="txt"></p>
+    <p>{{txt}}</p>
+    <p v-text="txt"></p>
+    <p>{{txt}}</p>
+    <h1 v-if="txt === 'hello'">인사 잘한다</h1>
+    <div v-else-if="txt">기다리라 했잖아</div>
+    <div v-else="txt">기다려</div>
+
+    <div v-if="txt">if txt</div>
+    <div v-show="txt">show txt</div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      template: '',
+      data:{
+        txt: '',
+        pl:'눌러보덩가'
+      },
+      computed: {
+      },
+      methods: {
+        foo(event) {
+          console.log(event.target.value)
+        }
+      },
+    })
+    console.log(vm)
+  </script>
+</body>
+</html>
