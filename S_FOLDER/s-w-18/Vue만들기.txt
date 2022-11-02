@@ -1,0 +1,9 @@
+### Vue CLI Quick Start
+- 설치
+`npm install -g @vue/cli`
+- 프로젝트 생성 in VScode terminal : git bash는 인터렉티브 쉘 지원을 하지 않기에 vs code에서 진행한다.
+`vue create {프로젝트 이름}`
+참고 vue2 babel router vuex 들어간게 수업 세팅이었삼
+`cd vue-cli` : 프젝 위치로 이동하라고 하고
+`npm run serve` : 서버 키라 함
+두개 주소 중 Network 주소는 모바일로도 접속이 가능하다. 같은 네트워크라면 조정해준다.

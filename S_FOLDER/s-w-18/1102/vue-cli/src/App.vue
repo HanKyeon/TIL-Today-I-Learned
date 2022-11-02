@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <MyComponent/> <!--보여주기-->
+    <MyComponent
+      @my-component-shout-out="lego"
+    /> <!--보여주기-->
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
@@ -17,6 +19,11 @@ export default {
     HelloWorld,
     MyComponent, // 2. 등록
   },
+  methods: {
+    lego(param) {
+      console.log("app에서 실행", param)
+    }
+  }
 }
 </script>
 
