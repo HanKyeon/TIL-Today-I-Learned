@@ -24,12 +24,77 @@ input = sys.stdin.readline
 dh = [-1, 0, 1, 0]
 dw = [0, 1, 0, -1]
 
+def inputdata():
+    global n, m, sh, sw
+    cnt = 0
+    for i in range(n):
+        s = list(input().rstrip())
+        for j in range(m):
+            if s[j] == 'S':
+                sh, sw = i, j
+                s[j] = 0
+            elif s[j] == 'C':
+                cnt+=1
+                s[j] = cnt
+            elif s[j] == '#':
+                s[j] = -1
+            else:
+                s[j] = 0
+        g.append(s)
+
 def bfs(h, w):
     global n, m
-    v = [[[0,0,0,0] for _ in range(m)] for _ in range(n)]
-    v[h][w] = [1,1,1,1]
+    v = [[[[0,0,0,0] for _ in range(m)] for _ in range(n)] for _ in range(3)]
+    v[0][h][w] = [1,1,1,1] # 열쇠, 세로, 가로, 방향
     q = deque()
-    gcnt = 1
+    q.append((0, h, w, -1, 0)) # 열쇠 보유 여부. 세로 가로 방향, 시간
+    while q:
+        kyz, h, w, di, dep = q.popleft()
+        for i in range(4):
+            if i == di:
+                continue
+            nh, nw = h+dh[i], w+dw[i]
+            if 0<=nh<n and 0<=nw<m and g[nh][nw] == -1:
+                continue
+            elif 0<=nh<n and 0<=nw<m and g[nh][nw] == 0 and not v[kyz][nh][nw][i]:
+                v[kyz][nh][nw][i] = 1
+                q.append((kyz, nh, nw, i, dep+1))
+            elif 0<=nh<n and 0<=nw<m and g[nh][nw] == 1:
+                if kyz == 1:
+                    v[kyz][nh][nw][i] = 1
+                    q.append((kyz, nh, nw, i, dep+1))
+                    continue
+                if kyz+1 == 3:
+                    return dep+1
+                v[kyz+1][nh][nw][i]=1
+                q.append((kyz+1, nh, nw, i, dep+1))
+            elif 0<=nh<n and 0<=nw<m and g[nh][nw] == 2:
+                if kyz == 2: # 해당 방향으로 다시 갈 때 방문처리가 되어야 함
+                    v[kyz][nh][nw][i] = 1
+                    q.append((kyz, nh, nw, i, dep+1))
+                    continue
+                if kyz+2 == 3:
+                    return dep+1
+                v[kyz+2][nh][nw][i]=1
+                q.append((kyz+2, nh, nw, i, dep+1))
+    return -1
+
+
+n, m = map(int, input().rstrip().split())
+g = []
+parsing = {}
+sh, sw = 0, 0
+inputdata()
+print(bfs(sh, sw))
+
+
+'''
+폐기
+def bfs(h, w):
+    global n, m
+    v = [[[[0,0,0,0] for _ in range(m)] for _ in range(n)] for _ in range(n)]
+    v[0][h][w] = [1,1,1,1]
+    q = deque()
     q.append((h, w, -1, 1, 0)) # h, w, di, cnt, dep(v 배열에 남길 것. cnt가 v보다 더 크다면 방문 시작한다.)
     while q:
         h, w, di, cnt, dep = q.popleft()
@@ -66,25 +131,7 @@ def bfs(h, w):
                 else:
                     v[nh][nw][i] = cnt
                     q.append((nh, nw, i, cnt, dep+1))
-
-n, m = map(int, input().rstrip().split())
-g = []
-nodz = []
-parsing = {}
-cnt = 0
-for i in range(n):
-    s = list(input().rstrip())
-    for j in range(m):
-        if s[j] == 'S':
-            nodz = [(i, j)] + nodz
-            sh, sw = i, j
-            s[j] = '.'
-    g.append(s)
-
-print(bfs(sh, sw))
-
-
-
+'''
 
 '''
 # 잘 하면 짤 수 있을거 같은데 시간낭비라 패스
