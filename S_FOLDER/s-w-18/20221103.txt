@@ -1,0 +1,25 @@
+
+
+npm i lodash 로 로대쉬를 플젝에 설치 가능
+
+## `.native` 관련
+https://eddie2yim.tistory.com/47
+https://hj-tilblog.tistory.com/88
+
+## `.env ` 관련
+.env 파일에 API KEY, 서버 키 등등 넣어두고 쓰면서 깃엔 올리지 않는 방식으로 한다.
+`vue .env` 이렇게 검색하면 된다.
+
+부트스트랩 뷰 쓰기
+https://cntechsystems.tistory.com/53
+
+
+
+
+
+
+
+
+
+
+
