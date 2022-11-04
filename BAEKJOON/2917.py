@@ -22,6 +22,122 @@ from heapq import heappop, heappush
 from collections import deque
 input = sys.stdin.readline
 
+mov = [(-1,0),(0,1),(1,0),(0,-1)]
+
+n, m = map(int, input().rstrip().split())
+trees = []
+
+for i in range(n):
+    s = list(input().rstrip())
+    for j in range(m):
+        if s[j] == 'V':
+            sh, sw = i, j
+            s[j] = '.'
+        elif s[j] == 'J':
+            eh, ew = i, j
+            s[j] = '.'
+        elif s[j] == '+':
+            trees.append([i, j])
+
+def bfs():
+    global n, m , eh, ew, sh, sw
+    dst = [[-1 for _ in range(m)] for _ in range(n)]
+    q = deque()
+    for h, w in trees:
+        dst[h][w] = 0
+        q.append((h, w))
+    while q:
+        h, w = q.popleft()
+        for dh, dw in mov:
+            nh, nw = h+dw, w+dh
+            if nh < 0 or nw < 0 or nh >= n or nw >= m:
+                continue
+            if dst[nh][nw] < 0:
+                dst[nh][nw] = dst[h][w]+1
+                q.append((nh, nw))
+    return dst
+
+def path():
+    global eh, ew, n, m, sh, sw
+    pq = []
+    v = [[False for _ in range(m)] for _ in range(n)]
+    ans = dst[sh][sw]
+    heappush(pq, [-dst[sh][sw], sh, sw])
+    v[sh][sw] = True
+    while pq:
+        c, h, w = heappop(pq)
+        ans = min(-c, ans)
+        if h == eh and w == ew: break
+        for dh, dw in mov:
+            nh, nw = h+dw, w+dh
+            if nh < 0 or nw < 0 or nh >= n or nw >= m:
+                continue
+            if not v[nh][nw]:
+                v[nh][nw] = True
+                nc = dst[nh][nw]
+                heappush(pq, [-nc, nh, nw])
+    return ans
+
+dst = bfs()
+ans = path()
+print(ans)
+
+'''
+from collections import deque
+from heapq import heappop, heappush
+import sys
+input = sys.stdin.readline
+N, M = map(int, input().split())
+matrix = [list(input().rstrip()) for _ in range(N)]
+visited = [[1] * M for _ in range(N)]
+sx, sy, ex, ey = 0, 0, 0, 0
+start = deque()
+for i in range(N):
+    for j in range(M):
+        if matrix[i][j] == '+':
+            start.append((i, j))
+            visited[i][j] = 0
+        elif matrix[i][j] == 'V':
+            sx, sy = i, j
+        elif matrix[i][j] == 'J':
+            ex, ey = i, j
+dx, dy = [0,0,1,-1], [1,-1,0,0]
+while start:
+    x, y = start.popleft()
+
+    for i in range(4):
+        nx, ny = x + dx[i], y + dy[i]
+        if 0 <= nx < N and 0 <= ny < M:
+            if visited[nx][ny] == 1:
+                visited[nx][ny] = visited[x][y] - 1
+                start.append((nx, ny))
+start = []
+result = sys.maxsize
+s_visited = [[0] * M for _ in range(N)]
+s_visited[sx][sy] = 1
+heappush(start, [visited[sx][sy], sx, sy])
+while start:
+    t, x, y = heappop(start)
+    if result > -t:
+        result = -t
+    if x == ex and y == ey:
+        print(result)
+        break
+    for i in range(4):
+        nx, ny = x + dx[i], y + dy[i]
+        if 0 <= nx < N and 0 <= ny < M:
+            if not s_visited[nx][ny]:
+                s_visited[nx][ny] = 1
+                heappush(start, [visited[nx][ny], nx, ny])
+'''
+
+
+'''
+import sys
+from heapq import heappop, heappush
+from collections import deque
+input = sys.stdin.readline
+
 mov = [(-1,0), (0,1), (1,0), (0,-1)]
 
 def meetingtree():
@@ -77,8 +193,11 @@ for i in range(n):
 
 mt = [[-1]*m for _ in range(n)]
 meetingtree()
+for i in mt:
+    print(i)
+print('========', 'mt')
 print(dij())
-
+'''
 '''
 V...................................................................................................
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.
