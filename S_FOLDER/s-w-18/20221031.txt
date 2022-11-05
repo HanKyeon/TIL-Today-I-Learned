@@ -369,7 +369,7 @@ https://jocoma.tistory.com/entry/Vue%EC%9D%98-template%EC%86%8D%EC%84%B1
 5. 그냥 찾아본 블로그
 https://itkjspo56.tistory.com/228
 
-
+생명주기 이해 영상 : https://youtu.be/0mC7K2wOuJA
 
 
 

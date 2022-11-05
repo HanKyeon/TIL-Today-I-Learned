@@ -1,4 +1,9 @@
+print(min(int(input())for _ in (1,1,1))+min(int(input()),int(input()))-50)
+ans = min(int(input())for _ in range(3)) + min(int(input()), int(input())) -50
 
+print(ans)
+
+'''
 ans = 0
 for _ in range(5):
     a = int(input())
@@ -6,7 +11,7 @@ for _ in range(5):
         a = 40
     ans += a//5
 print(ans)
-
+'''
 
 '''
 from heapq import heapify, heappop
