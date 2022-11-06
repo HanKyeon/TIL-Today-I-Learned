@@ -1,3 +1,6 @@
 {
-  "liveServer.settings.port": 5501
+    "python.jediEnabled": true,
+    "python.pythonPath": "C:\\Users\\hgh72\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "python.autoComplete.addBrackets": true
+
 }
