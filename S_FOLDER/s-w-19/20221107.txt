@@ -210,8 +210,8 @@ export default new Vuex.Store({
 - 결과적으로 역할에 적절한 상황에서 활용 했을 때 Vuex 라이브러리 효용을 극대화 할 수 있음.
 - 즉, 필요한 순간이 왔을 때 사용하는 것을 권장.
 
-
-
+# 깃 python path 관련.
+https://github.com/microsoft/vscode-python/wiki/Setting-descriptions#pythondefaultinterpreterpath
 
 
 
