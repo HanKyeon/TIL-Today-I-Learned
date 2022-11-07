@@ -23,59 +23,125 @@ m개 줄 a, b, c 제시.
 '''
 import sys
 from heapq import heappop, heappush
+from math import inf
 input = sys.stdin.readline
 
-def dijup(idx):
+def dijup():
     global n
-    dst = [int(10e9)] * (n+1)
-    dst[idx] = 0
-    heap = [(0, idx)]
+    dst = [inf] * (n+1)
+    dst[1] = 0
+    heap = [(0, 1)]
+    cnt = 0
     while heap:
         cost, nod = heappop(heap)
         if dst[nod] < cost:
             continue
-
-def dijdown(idx):
-    global n
-    dst = [int(10e9)] * (n+1)
-    dst[idx] = 0
-    heap = [(0, idx)]
-    while heap:
-        cost, nod = heappop(heap)
-        if dst[nod] < cost:
-            continue
-        if nod == n:
-            return cost
-        for co, nnod in godown[nod]:
+        cnt+=1
+        if cnt == n:
+            return dst
+        for co, nnod in goup[nod]:
             if cost+co < dst[nnod]:
                 dst[nnod] = cost+co
                 heappush(heap, (cost+co, nnod))
-    return int(10e9)
+    return dst
 
-
-
+def dijdown():
+    global n
+    dst = [inf] * (n+1)
+    dst[n] = 0
+    heap = [(0, n)]
+    cnt = 0
+    while heap:
+        cost, nod = heappop(heap)
+        if dst[nod] < cost:
+            continue
+        cnt+=1
+        if cnt == n:
+            return dst
+        for co, nnod in goup[nod]:
+            if cost+co < dst[nnod]:
+                dst[nnod] = cost+co
+                heappush(heap, (cost+co, nnod))
+    return dst
 
 n, m, d, e = map(int, input().rstrip().split())
 hli = [0]+list(map(int, input().rstrip().split()))
 goup = [[] for _ in range(n+1)]
-godown = [[] for _ in range(n+1)]
 for _ in range(m):
     a, b, c = map(int, input().rstrip().split())
     ha, hb = hli[a], hli[b]
     if ha > hb:
-        goup[b].append((c - (ha-hb)*e, a)) # 소모체력 - 성취감. 최대 힙 돌려야 하므로.
-        godown[a].append((c, b)) # 소모한 체력이 최소여야 하므로 양수
+        goup[b].append((c, a))
     elif ha < hb:
-        goup[a].append((c - (hb-ha)*e, b))
-        godown[b].append((c, a))
-downdp = [0]
+        goup[a].append((c, b))
+
+downdp = dijdown()
+updp = dijup()
+ans = -inf
+for i in range(2, n):
+    dwn, upp = downdp[i], updp[i]
+    if dwn == inf or upp == inf:
+        continue
+    val = (hli[i])*e - (dwn+upp)*d
+    ans = max(ans, val)
+
+if ans == -inf:
+    ans = 'Impossible'
+print(ans)
+
+
+
+
+
+
+'''
+downdp = [inf]
+updp = [inf]
 for i in range(1, n+1):
     if i == 1 or i == n:
-        downdp.append(0)
+        downdp.append(inf)
+        updp.append(inf)
         continue
-    downdp.append(dijdown(i))
+    val = dijdown(i)
+    if val == inf:
+        downdp.append(inf)
+        updp.append(inf)
+        continue
+    updp.append(dijup(i))
 
 
 
 
 
+
+
+
+
+for i in range(1, n+1):
+    if i == 1 or i == n:
+        downdp.append(inf)
+        updp.append(inf)
+        continue
+    val = dijdown(i)
+    if val == inf:
+        downdp.append(inf)
+        updp.append(inf)
+        continue
+    downdp.append(val)
+    updp.append(dijup(i))
+print(updp)
+print(downdp)
+
+ans = inf
+for i in range(2, n):
+    dval = dijdown(i)
+    if dval == inf:
+        continue
+    uval = dijup(i)
+    if uval == inf:
+        continue
+    print(i, hli[i], dval+uval)
+    ans = min((hli[i]-hli[1])*e-dval-uval, ans)
+
+print(ans)
+'''

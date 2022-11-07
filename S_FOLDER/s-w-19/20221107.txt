@@ -1,0 +1,226 @@
+
+# 20221107
+
+## 상태 관리 State Management
+
+상태 : 현재에 대한 정보.
+
+- 여러개의 컴포를 조합해서 하나의 앱을 만든다.
+- 각 컴포는 독립적이기 때문에 각각의 상태data를 가진다.
+- 이런 컴포들이 모여 앱을 구성 할 예정이다. 즉, 여러개의 컴포넌트가 같은 상태(data)를 유지할 필요가 있다. -> 상태 관리가 필요하다.
+
+- 기존에는 props와 emit을 이용해 상태를 관리.
+- 같은 데이터를 공유하고 있으므로 각 컴포넌트가 동일한 상태를 유지하고 잇다.
+- 데이터의 흐름을 직관적으로 파악이 가능하지만, 깊이가 깊어질 경우 데이터의 전달 구조가 복잡해진다. -> 유지 보수 비용이 비싸지고 데이터 전달 구조가 복잡해진다.
+
+- **Centralized Store**
+- 중앙 저장소store에 데이터를 모아서 상태 관리.
+- 각 컴포넌트는 중앙 저장소의 데이터를 사용. 저장소를 Vuex라고 한다.
+- 컴포의 **계층에 상관 없이** 중앙 저장소에 접근해서 데이터를 얻거나 변경 할 수 있음.
+- 중앙 저장소의 데이터가 변경되면 각각의 컴포는 해당 데이터의 변화에 반응하여 새로 변경된 데이터를 반영함.
+- 규모가 크거나 컴포넌트 중첩이 깊은 프로젝트의 관리가 매우 편리.
+
+## Vuex
+
+- 'state management pattern + Library' for vue.js (상태 관리 패턴 + 라이브러리)
+- 상태 관리 패턴과 라이브러리를 말하는 것.
+- 중앙 저장소를 통해 상태 관리를 할 수 있도록 하는 라이브러리.
+- 데이터가 예측 가능한 방식으로만 변경 될 수 있도록 하는 규칙을 설정하며, Vue의 반응성을 효율적으로 사용하는 상태 관리 기능을 제공.
+- Vue의 공식 도구로써 다양한 기능을 제공.
+
+```
+vue create 앱이름
+cd 앱폴더
+vue add vuex
+vue add {플러그인 이름}
+```
+
+### Vue와 Vuex 인스턴스 비교.
+- Vuex state -> Vue의 data 역할.
+- Vuex getters -> Vue의 computed 역할.
+- Vuex mutations, actions -> Vue의 methods 역할.
+
+## Vuex
+
+### State
+
+- vue 인스턴스의 data에 해당.
+- 중앙에서 관리하는 모든 상태 정보.
+- 개별 컴포는 state에서 데이터를 가져와서 사용. 개별 컴포가 관리하던 데이터를 중앙 저장소에서 관리하게 된다.
+- state의 데이터가 변화하면 해당 데이터를 사용하는 컴포넌트도 자동으로 다시 렌더링.
+- 접근 방법은 `$store.state`
+
+### Mutations
+
+- 실제로 state를 변경하는 유일한 방법.
+- vue 인스턴스의 methods에 해당하지만 Mutations에서 호출되는 handler 함수는 반드시 동기적이어야 함. 비동기 로직으로 mutations를 사용해서 state를 변경하는 경우, state의 변화 시기를 특정 할 수 없기 때문.
+- 첫번째 인자로 state를 받으며, component 혹은 Actions에서 commit() 메서드로 호출된다.
+- mutation, action에서 호출되는 함수를 handler 함수라고 한다.
+
+### Actions
+
+- mutations와 비슷하지만 비동기 작업을 포함 할 수 있다는 차이가 있음.
+- state를 직접 변경하지 않고, commit() 메서드로 mutations를 호출해서 state를 변경함.
+- context 객체를 인자로 받으며, 이 객체를 통해 store.js의 모든 요소와 메서드에 접근 할 수 있음. 즉 state를 직접 변경이 가능은 하다. 하지만 직접 변경은 하지 마라.
+- component에서 dispatch() 메서드에 의해 호출된다.
+- 비동기 요청, API 요청 등의 함수가 들어간다.
+
+### Mutations & Actions
+- vue component의 methods 역할이 분리된 것이다.
+- Mutations : state를 변경.
+- Actions : state 변경을 제외한 나머지 로직들.
+
+### Getters
+
+- vue 인스턴스의 computed에 해당.
+- state를 활용하여 계산된 값을 얻고자 할 때 사용. state의 원본 데이터를 건드리지 않고 계산된 값을 얻을 수 있음.
+- computed와 마찬가지로 getters의 계산 결과는 캐시cache 되며, 종속된 값이 변경 된 경우에만 재계산됨.
+- getters에서 계산된 값은 state에 영향을 미치지 않음. state는 mutations로 변경.
+- 첫번째 인자로 state, 두번 째 인자로 getter를 받는다.
+
+
+##### vuex에서 모든 데이터를 관리해야 할까? : 아님
+- vuex를 사용한다고 해서 모든 데이터를 state에 넣어야 하는 것은 아님.
+- vuex에서도 여전히 pass props, emit event를 사용하여 상태를 관리 할 수 있음.
+- 개발 환경에 따라 적절하게 사용해야 한다.
+
+## 정리
+1. state : 중앙에서 관리하는 모든 상태 정보
+2. mutations : state를 변경하기 위한 methods
+3. actions : 비동기 작업이 포함 될 수 있는, 외부 API와의 소통 등이 가능한 methods
+4. getters : state를 활용해 계산한 새로운 변수 값
+- component에서 데이터를 조작하기 위한 데이터 흐름 : component -> actions(mutations로 접근 시 생략 가능) -> mutations -> state
+- component에서 데이터를 사용하기 위한 데이터 흐름 : state -> getters -> component
+
+### state
+- 중앙에서 관리하는 모든 상태 정보
+- `$store.state`를 통해 접근 가능
+- `$store.state`로 바로 접근하기 보다, computed에 정의 후 접근하는 것을 권장.
+
+### actions
+- actions에 정의된 함수에 데이터 전달하고, dispatch() 함수에 의해 호출된다.
+
+`this.$store.dispatch("actions에 있는 함수이름", 추가 데이터)` 이런 형태로 호출. 이 때, 다른 actions도 호출 가능.
+- actions 내 함수는 context로 전체 객체 데이터를 받는다.
+- 추가 데이터 올린 것은 2번째 인자로 받는다.
+
+- actions의 첫번째 인자는 context. context는 store의 전반적인 모든 속성을 가지고 있으므로 context.state와 context.getters를 통해 mutations를 호출하는 것이 모두 가능. dispatch()를 사용해 다른 actions도 호출 가능. 단, actions에서 state를 직접 조작하는 것은 비권장.
+- actions의 두번째 인자는 payload. 넘겨준 데이터를 받는다.
+
+
+### mutation
+- actions와 구분하기 위해 전부 대문자로 작성한다.
+`context.commit('mutation에 있는 메서드 이름', req)` 이런 식으로 호출한다.
+actions와 마찬가지로 첫번째 인자는 state, 두번째 인자는 payload.
+
+### getters
+- 첫번째 인자는 state, 두번째 인자는 getters. 두번째 인자는 다른 계산된 값을 가져올 때 사용하므로 선택이다.
+- 중앙 저장소의 state에 있는 데이터를 가공한 결과를, app.vue의 computed에 적어준다.
+- 두번째 인자인 getters를 이용해 `getters.다른getter이름` 이런식으로 리턴이 가능하다.
+
+- 컴포넌트에서는 computed에 선언해준다. `return this.$store.getters.게터이름` 형태로.
+
+# 생명주기
+
+## created
+- vue instance가 생성된 후 호출.
+- data, computed 등의 설정이 완료된 상태.
+- 서버에서 받은 데이터를 vue instance의 data에 할당하는 로직을 구현하기 적합.
+- 단, mount 되지 않아 요소element에 접근 할 수 없음.
+- 기본 값 설정? 같은 것들을 하기 적합하다는 듯.
+- DOM 요소 접근 안됨.
+
+## mounted
+- vue instance가 요소에 mount 된 후 호출.
+- mount된 요소를 조작 할 수 있음.
+- created의 경우, mount가 되기 전이기 때문에 DOM에서 접근 할 수 없으므로 동작하지 않음.
+
+## updated
+- 데이터가 변경되어 DOM에 변화를 줄 때 호출됨.
+
+### 생명주기 특징
+
+Lifecycle Hooks
+- 각 vue 인스턴스는 생성과 소멸의 과정 중 단계별 초기화 과정을 거친다.
+ - 뷰 인스턴스가 생성된 경우, 인스턴스를 DOM에 마운트 하는 경우, 데이터가 변경되어 DOM을 업데이트 하는 경우 등.
+- 각 단계가 트리거가 되어 특정 로직을 실행 할 수 있음.
+- 이를 Lifecycle Hooks라고 한다.
+
+- 인스턴스마다 각각의 Lifecycle을 가지고 있음.
+- Lifecycle Hooks는 컴포넌트 별로 정의 할 수있음.
+- 부모 컴포넌트의 mounted hook이 실행 되었다고 해서 자식이 mount 된 것이 아니다.
+- 부모 컴포넌트의 updated hook이 실행 되었다고 해서 자식이 updated 된 것이 아님.
+- 부착 여부가 부모-자식 관계에 따라 순서를 가지고 있지 않다.
+- **instance마다 각각의 Lifecycle을 가지고 있기 때문.**
+
+# 노드 모듈스 설치하기
+`npm install` 하면 됨.
+
+`:class="{'a': t/f}"` : 클래스를 불리언 값에 따라 넣고 빼고 한다.
+여러개는 배열로 넣으면 됨.
+`:class="{'hi': true, 'hello': true}"` : 이런 식으로 여러개 넣어주면 됨.
+`:class="todo.isCompleted? ['is-completed', 'hello'] : ''"` 이거 가능
+
+## Local Storage
+- 브라우저의 Local Storage에 todo 데이터를 저장하여 브라우저를 종료하고 다시 실행해도 데이터가 보존될 수 있도록 하기.
+
+### Window.localStorage
+- 브라우저에서 제공하는 저장공간 중 하나인 Local Storage에 관련된 속성.
+- 만료되지 않고 브라우저를 종료하고 다시 실행해도 데이터가 보존됨.
+- 데이터가 문자열 형태로 저장됨.
+- 관련 메서드 :
+ 1. setItem(key, value) : key value 형태로 데이터 저장.
+ 2. getItem(key) : key에 해당하는 데이터 조회
+- data를 로컬로 저장하기 위해 문자열로 변경해주어야 한다.
+- JSON.stringfy를 사용해 문자열로 변환한다.
+- state를 변경하는 작업이 아니기 때문에 mutations가 아닌 actions에 작성.
+
+- 개발자도구 -> application -> storage -> local storage 에서 저장된 것 확인 가능.
+- 하지만, todo 목록을 local에 연결되어 있다고 바로 불러오지 ㅇ낳는다.
+- 불러오기 버튼을 만들거나 created에 만들면 될듯?
+
+## vuex-persistedstate
+- Vuex state를 자동으로 브라우저의 Local Storage에 저장해주는 라이브러리 중 하나.
+- 페이지가 새로고침 되어도 Vuex state를 유지시킴.
+- Local Storage에 저장된 data를 자동으로 state로 불러옴.
+`npm i vuex-persistedstate` : 깃배쉬 설치
+```index.js
+import createPersistedState from 'vuex-persistedstate'
+
+Vue.user(Vuex)
+
+export default new Vuex.Store({
+  plugins: [
+    createPersistedState(),
+  ]
+})
+```
+
+## 정리
+
+1. 그냥 mutations로만 state를 변경하면 안될까?
+- 씹가능.
+- 저장소의 각 컨셉은 각자의 역할이 존재하도록 설계 되어있음. state, getters, mutations, actions
+- 물론 실습한 todo app처럼 actions의 로직이 특별한 작업 없이 단순히 mutations만을 호출하는 경우도 있으나, 이 경우는 Vuex 도입의 적절성을 판단 해 볼 필요가 있음.
+
+2. 그럼 언제 Vuex 써야해?
+- Vuex는 공유된 상태 관리를 처리하는데 유용하지만, 개념에 대한 이해와 시작하는 비용이 큼.
+- 앱이 단순하다면 Vuex가 없는 것이 더 효율적일 수 있음.
+- 그러나 중대형 규모의 SPA를 구축하는 경우 Vuex는 자연스럽게 선택 할 수 있는 단계가 오게 됨.
+- 결과적으로 역할에 적절한 상황에서 활용 했을 때 Vuex 라이브러리 효용을 극대화 할 수 있음.
+- 즉, 필요한 순간이 왔을 때 사용하는 것을 권장.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
