@@ -15,9 +15,11 @@ https://inpa.tistory.com/entry/WEB-%F0%9F%93%9A-JWTjson-web-token-%EB%9E%80-%F0%
 https://inpa.tistory.com/entry/WEB-%F0%9F%93%9A-Access-Token-Refresh-Token-%EC%9B%90%EB%A6%AC-feat-JWT
 
 사랑한다 인도인 : https://www.youtube.com/watch?v=PUzgZrS_piQ&list=PLlameCF3cMEvj7fV-Szcaz_ve303e4AxX
+
 `pip install pyJWT` -> 이후 views.py에서 import jwt, datetime을 이용해서 사용.
 
 `pip install django-cors-headers`
+`python -m pip install django-cors-headers`
 
 settings.py installed app에 추가
 `'corsheaders',`
@@ -54,9 +56,9 @@ https://minu0807.tistory.com/64
 https://www.npmjs.com/package/vue-cookie
 https://kyounghwan01.github.io/blog/Vue/vue/vue-cookies/
 
+# axios withCredentials 설정. import 하자마자 바로 설정해주면 된다.
+`axios.defaults.withCredentials = true`
 
-
-
-
++ proxy 설정을 해줘야 한다. 앞부분을 생략하고 proxy를 기본 설정해서 호출하도록.
 
 
