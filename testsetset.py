@@ -1,7 +1,13 @@
-print(min(int(input())for _ in (1,1,1))+min(int(input()),int(input()))-50)
-ans = min(int(input())for _ in range(3)) + min(int(input()), int(input())) -50
 
-print(ans)
+a = list(map(int, input().split()))
+a.sort()
+print(a[1])
+
+
+
+
+# print(min(int(input())for _ in (1,1,1))+min(int(input()),int(input()))-50)
+
 
 '''
 ans = 0

@@ -1,0 +1,62 @@
+
+
+# node.js 세션 관련
+https://morningbird.tistory.com/31
+
+# django 세션 관련
+https://rueki.tistory.com/45
+https://withchu.tistory.com/entry/Django-Session-%EC%84%B8%EC%85%98-%EC%A0%80%EC%9E%A5
+https://velog.io/@teddybearjung/Django-%EB%A1%9C-%EA%B2%8C%EC%8B%9C%ED%8C%90-%EB%A7%8C%EB%93%A4%EA%B8%B011.-Login-%EC%84%B8%EC%85%98%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8-%EC%B2%98%EB%A6%AC
+https://withchu.tistory.com/entry/Django-Session-%EC%84%B8%EC%85%98-%EC%A0%80%EC%9E%A5
+
+# JWT 토큰 관련
+https://inpa.tistory.com/entry/WEB-%F0%9F%93%9A-JWTjson-web-token-%EB%9E%80-%F0%9F%92%AF-%EC%A0%95%EB%A6%AC
+
+https://inpa.tistory.com/entry/WEB-%F0%9F%93%9A-Access-Token-Refresh-Token-%EC%9B%90%EB%A6%AC-feat-JWT
+
+사랑한다 인도인 : https://www.youtube.com/watch?v=PUzgZrS_piQ&list=PLlameCF3cMEvj7fV-Szcaz_ve303e4AxX
+`pip install pyJWT` -> 이후 views.py에서 import jwt, datetime을 이용해서 사용.
+
+`pip install django-cors-headers`
+
+settings.py installed app에 추가
+`'corsheaders',`
+settings.py 미들웨어 부분에 추가
+`'corsheaders.middleware.CorsMiddleware',`
+```settings.py
+CORS_ORIGIN_ALLOW_ALL = True # FE 에서 필요한듯. prevent 할 때.
+CORS_ALLOW_CREDENTIALS = True # 쿠키로 로그인 할 때 필요.
+```
+
+# 장고 프로젝트 이름 변경
+https://velog.io/@solar3070/%EC%9E%A5%EA%B3%A0-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%9D%B4%EB%A6%84-%EB%B3%80%EA%B2%BD
+
+
+# dict 파일 JSON 변경 / JSON 파일 dict 파싱
+
+`json.dumps(딕셔너리)`
+`json.loads(json데이터)`
+
+# refresh token 관련
+https://seongonion.tistory.com/112
+
+
+# save on format
+# formatter 옵션 보면 뭐 많이 나온다. 거기서 에디터? 그거 잘 하면 됨.
+# prettier 쓸 때 semi 옵션을 해제하면 세미콜론 안친다.
+# Tabnine 쓰면 자주 쓰는거 땡겨와준다. Tabnine AI Autocomplete for Javascript, Pyth
+# 깃 GUI로 쓰는 것 https://git-fork.com/ 괜찮으니 써보면 좋다.
+
+# 약간 새치기 하는 기분
+https://minu0807.tistory.com/64
+
+# 쿠키 관리
+https://www.npmjs.com/package/vue-cookie
+https://kyounghwan01.github.io/blog/Vue/vue/vue-cookies/
+
+
+
+
+
+
+
