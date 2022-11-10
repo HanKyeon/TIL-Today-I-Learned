@@ -1,0 +1,23 @@
+
+1. fixture 데이터 만드는 법 알았음.
+```
+{
+    "model":"apps.modelname",
+    "pk": "pk",
+    "fields": {"prop": "prop"}
+}
+```
+
+2. TMDB 영화 이미지 쓰는 법
+- 백드롭 패스는 가로가 긴 포스터
+- 일반 포스터 패스는 포스터.
+`https://image.tmdb.org/t/p/original${poster_path}`
+
+이미지 호출법 : `https://image.tmdb.org/t/p/w500${poster_path}`
+여기서 w500 은 이미지 사이징
+500 750 포스터 2000 3000까지
+1280 720 백드롭 3840 2160까지.
+original 혹은 w780 w1280 등 사용 가능.
+original로 사용해야 할듯 `https://image.tmdb.org/t/p/original${poster_path}`
+https://www.themoviedb.org/talk/5abcef779251411e97025408
+
