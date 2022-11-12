@@ -1,4 +1,11 @@
 
+a, b, c = map(int, input().rstrip().split())
+print((a+b)%c)
+print(((a%c)+(b%c))%c)
+print((a*b)%c)
+print(((a%c)*(b%c))%c)
+
+
 # 60개를 만들자.
 nl = [0]
 for i in range(1, int(input())):
