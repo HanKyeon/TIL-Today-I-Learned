@@ -1,17 +1,29 @@
 
-a, b, c = map(int, input().rstrip().split())
-print((a+b)%c)
-print(((a%c)+(b%c))%c)
-print((a*b)%c)
-print(((a%c)*(b%c))%c)
+print("|\\_/|")
+print("|q p|   /}")
+print('( 0 )"""\\')
+print('|"^"`    |')
+print("||_/=\\\\__|")
+
+# |\_/|
+# |q p|   /}
+# ( 0 )"""\
+# |"^"`    |
+# ||_/=\\__|
+
+# a, b, c = map(int, input().rstrip().split())
+# print((a+b)%c)
+# print(((a%c)+(b%c))%c)
+# print((a*b)%c)
+# print(((a%c)*(b%c))%c)
 
 
 # 60개를 만들자.
-nl = [0]
-for i in range(1, int(input())):
-    # nl.append(nl[i-1] + (i*(i+1))//2 * 6)
-    nl.append(nl[i-1] + i * 6)
-print(nl)
+# nl = [0]
+# for i in range(1, int(input())):
+#     # nl.append(nl[i-1] + (i*(i+1))//2 * 6)
+#     nl.append(nl[i-1] + i * 6)
+# print(nl)
 
 # for i in range(1, int(input())+1):
 #     print('*'*i)
