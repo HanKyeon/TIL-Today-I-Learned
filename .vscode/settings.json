@@ -1,8 +1,7 @@
 {
-    "python.jediEnabled": true,
-    "python.pythonPath": "C:\\Users\\hgh72\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
-    "python.autoComplete.addBrackets": true,
-    "python.analysis.completeFunctionParens": true,
-    "python.defaultInterpreterPath": "C:\\Users\\multicampus\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
-    
+  "python.jediEnabled": true,
+  "python.defaultInterpreterPath": "C:\\Users\\multicampus\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+  "python.pythonPath": "C:\\Users\\hgh72\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+  "python.autoComplete.addBrackets": true,
+  "python.analysis.completeFunctionParens": true
 }

@@ -1,0 +1,210 @@
+
+# 20221114
+
+## 서버
+- 클라이언트에게 정보와 서비스를 제공하는 컴퓨터 시스템
+- 서비스 전체를 제공 == django web service
+- 정보를 제공 == DRF API service
+
+- 서버에서 모든 정보만 제공 할 것이다.
+- django를 통해 관리하는 정보만을 클라이언트에게 제공. DRF를 사용하여 JSON으로 변환.
+
+## 클라이언트
+- 서버가 제공하는 서비스에 적절한 요청을 통해 서버로부터 반환 받은 응답을 사용자에게 표현하는 기능을 가진 프로그램 혹은 시스템.
+
+- 서버가 제공하는 서비스에 적절한 요청
+- 서버가 정의한 방식대로 요청 인자를 넘겨 요청.
+- 서버는 정상적인 요청에 적합한 응답 제공.
+- 요청의 key value를 맞춰 보내주어야 한다.
+
+- 서버로부터 반환 받은 응답을 사용자에게 표현.
+
+## 정리
+- 서버는 정보와 서비스를 제공.
+ - DB와 통신하며 데이터를 생성, 조회, 수정, 삭제를 담당.
+ - 요청을 보낸 클라이언트에게 정상적인 요청이었다면 처리한 결과를 응답
+- 클라이언트는 사용자의 정보 요청을 처리, server에게 응답 받은 정보를 표현.
+ - 서버에게 정보를 요청.
+ - 응답 받은 정보를 가공하여 화면에 표현.
+
+### 
+
+`pip install drf-spectacular`
+이후 
+settings.py의 INSTALLED_APPS에 `drf-spectacular` 추가.
+`pip install django-cors-headers` INSTALLED_APPS에 corsheaders 추가 및 아랫 부분에 머 추가.
+
+## CORS. Cross-Origin Resource Sharing
+- 브라우저가 요청을 보내고 서버의 응답이 브라우저에 도착.
+ - 서버의 로그는 200. 서버는 정상 응답이지만, 브라우저가 막은 것이다.
+- 보안상의 이유로 브라우저는 동일 출처 정책 SOP에 의해 다른 출처의 리소스와 상호작용 하는 것을 제한함.
+- SOP : Same - Origin Policy 동일 출처 정첵
+ - 불러온 문서나 스크립트가 다른 출처에서 가져온 리소스와 상호작용 하는 것을 제한하는 보안 방식.
+ - 잠재적으로 해로울 수 있는 문서를 분리함으로써 공격 받을 수 있는 경로를 줄임.
+
+### Origin - 출처
+- URL의 Protocol, Host, Port를 모두 포함하여 출처라고 부름.
+- http://localhost:8000 에서 http가 프로토콜, localhost가 Host, 8000이 Port. 이후는 Path.
+- 세가지가 모두 같아야 출처가 된다.
+
+## CORS - 교차 출처 리소스 공유.
+- 추가 HTTP Header를 사용하여, 특정 출처에서 실행중인 웹 앱이 다른 출처의 자원에 접근 할 수 있는 권한을 부여하도록 브라우저에게 알려주는 체제.
+- 즉, 어떤 출처에서 자신의 컨텐츠를 불러갈 수 있는지 서버에 지정 할 수 있는 방법.
+- 리소스가 자신의 출처와 다를 때 교차 출처 HTTP 요청을 실행.
+ - 만약 다른 출처의 리소스를 가져오기 위해서는 이를 제공하는 서버가 브라우저에게 다른 출처지만 접근해도 된다는 사실을 알려야 한다. 교차 출처 리소스 공유 정책. 
+- CORS policy
+ - 다른 출처에서 온 리소스를 공유하는 것에 대한 정책
+ - CORS policy에 위배되는 경우 브라우저에서 해당 응답 결과를 사용하지 않음. 서버에서 응답을 주더라도 브라우저에서 거절.
+- 다른 출처의 리소스를 불러오려면 그 출처에서 올바름 CORS header를 포함한 응답을 반환해야 함.
+
+## 해결
+- CORS 표준에 의해 추가된 HTTP Response Header를 통해 이를 통제 가능.
+- HTTP Response Header 예시
+- 깃허브로 아래 확인 가능.
+`Access-Control-Allow-Origin`
+`Access-Control-Allow-Credentials` 
+`Access-Control-Allow-Headers` 
+`Access-Control-Allow-Methods`
+4가지가 있으며, 그 중 Origin은 단일 출처를 지정하여 브라우저가 해당 출처가 리소스에 접근하도록 허용.
+
+### django-cors-headers library
+https://github.com/adamchainz/django-cors-headers
+- django-cors-headers 깃헙에서 확인 가능.
+- 응답에 CORS header를 추가 해주는 라이브러리.
+- 다른 출처에서 django 앱에 대한 브라우저 내 요청을 허용함.
+`pip install django-cors-headers` 설치 이후 `pip freeze > requirements.txt`
+INSTALLED_APPS에 'corsheaders 추가.
+MIDDLEWARE에 `"corsheaders.middleware.CorsMiddleware",` 추가. 최대한 상단부에. `'django.middleware.common.CommonMiddleware'` 이거보다 위에 있어야 한다. 적어도.
+```
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+]
+```
+문자열 하나 들어간다. 기본 값이 배열. 배열 안에 문자열로 작성. 다른 요청이 오면 이 CORS header를 붙여주겠다.
+해당 내용 작성. 모두 허용하고 싶은 경우 `CORS_ALLOWED_ALL_ORIGINS=True` 작성.
+
+[참고] 실습 방식의 요청은 효율적인가?
+- 비효율적인 부분이 존재.
+ - 전체 게시글 정보를 요청해야 새로 생성도니 게시글을 확인이 가능.
+ - 만약 vuex state를 통해 전체 게시글 정보를 관리하도록 구성한다면 내가 새로 생성한 게시글 확인은 자유롭지만 나 이외의 유저가 새로 작성한 게시글 불러오기가 힘들다. 무엇을 기준으로 새로운 데이터가 생겼다는 것을 확인 할 수 있을지 고민해야한다.
+- 즉, 내가 구성하는 서비스에 따라 데이터 관리 방식을 고려해 보아야 한다.
+
+## Authorization - 권한 부여, 허가.
+- 사용자에게 특정 리소스 또는 기능에 대한 액세스 권한을 부여하는 과정.
+- 보안 환경에서 권한 부여는 항상 인증이 먼저 필요함. 사용자는 조직에 대한 액세스 권한을 부여 받기 전에 먼저 자신의 ID가 진짜인지 먼저 확인해야 한다.
+- 서류의 등급, 웹 페이지에서 글을 CRUD할 수 있는 방법, 제한 구역 등 인증이 되었다고 모든 권한을 부여 받는 것은 아님.
+- 403 Forbidden : 401과 다른 점은 서버가 클라가 누군지 안다는 것.
+
+### Authentication and authorization work together
+- 회원가입 후 로그인 시 서비스를 이용 할 수 있는 권한 생성. 인증 이후 권한이 따라오는 경우가 많다.
+- 단, 모든 인증을 거쳐도 권한이 동일하게 부여되는 것은 아님.
+- 세션, 토큰, 제 3자를 활용하는 등 다양한 인증 방식이 존재.
+
+## 인증 여부 확인 방법
+- BasicAuthentication, SessionAuthentication
+- settings.py에 작성해야 할 설정.
+ - 기본적인 인증 절차를 어떠한 방식으로 둘 것이냐 설정해야 한다.
+ - 각 framework마다 다양한 인증 방식이 있다.
+- 우리가 사용 할 방법은 DRF가 기본 제공하는 인증 방식 중 하나인 TokenAuthentication이다.
+- 모든 상황에 대한 인증 방식을 정의하는 것이므로, 각 요청에 따라 다른 인증 방식을 거치고자 한다면 다른 방식이 필요.
+- view 함수마다 다른 인증 방식을 설정하고자 한다면 decorator 활용.
+- [참고]: permission_classes : 권한 관련 설정. 권한 역시 특정 view 함수마다 다른 접근 권한을 요구 할 수 있음.
+
+## 다양한 인증 방식
+1. BasicAuthenticateion
+- 가장 기본적인 수준의 인증 방식
+- 테스트에 적합
+2. SessionAuthentication
+- django에서 사용 했던 session 기반 인증 시스템.
+- DRF와 django의 session 인증 방식은 보안적 측면을 구성하는 방법에 차이가 있음.
+3. RemoteUserAuthentication
+- django의 Remote user 방식을 사용 할 때 활용하는 인증 방식.
+4. TokenAuthentication
+- 매우 간단하게 구현 가능.
+- 기본적인 보안 기능 제공.
+- 다양한 외부 패키지 보유 -> 확장성이 높다.
+- **중요** settings.py에서 DEFAULT_AUTHENTICATION_CLASSES를 정의하여 TokenAuthentication 인증 방식을 사용 할 것임을 명시해야 한다.
+
+settings.py에 글로벌하게 쓰거나 븀 함수마다 다른 인증 방식을 쓰기 위해서는 decorator 설정을 하거나 둘 중 하나로 해야 한다.
+
+TokenAuthentication을 할 것임.
+
+settings.py에서 DEFAULT_AUTHENTICATION_CLASSES 정의해야 한다.
+
+User는 발급 받은 Token을 headers에 담아 요청과 함께 전송해야 한다. 반드시 Token 문자열과 함께 보내야 한다. 삽입해야 할 문자열은 각 인증 방식마다 다르다. Bearer, Auth, JWT
+토큰의 공백까지 지켜서 보내야 한다.
+`Authorizations : Token ashfdkf;ajn;gkajnrkjgn;aslf`
+
+## 토큰 생성 및 관리 문제점
+- 기본 제공 방식에서 고려해야 할 사항들
+1. Token 생성 시점
+2. 생성한 Token 관리 방법
+3. User와 관련된 각종 기능 관리 방법 : 히원가입, 로그인, 회원 정보 수정, 비밀번호 변경 등..
+
+## dj-rest-auth
+- 회원가입, 인증, 비번 재설정, 사용자 세부 정보 검색, 회원 정보 수정 등을 위한 REST API end point 제공. django-rest-auth가 아니라 dj-rest-auth이다.
+
+`pip install dj-rest-auth`
+INSTALLED_APPS에 `dj_rest_auth` 추가.
+URL 패턴에 등록.
+
+dj-rest-auth
+를 통한 토큰은 회원가입 시 토큰을 만들어준다. 토큰이 핵심이 되는 기능이다.
+따라서 회원가입 기능을 만들어주어야 한다. 상세 옵션은 공식문서를 확인해야 한다.
+공식 깃헙 Documentation까지 내려가면 전체 독스 볼 수 있다.
+공식문서 Registration 기능을 사용한다.
+3가지 옵셔널이 있다.
+1. Registration
+2. Social Authentication
+3. JSON Web Tken Support
+
+1번을 할 것.
+`pip install 'dj-rest-auth[with_social]'` 전부 설치.
+aadd3d5653b4b52f221d6587f5bd171f367b2076
+
+settings.py에서 REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+  
+  # permission
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated', # 모든 곳에서 확인
+        'rest_framework.permissions.AllowAny', # 모두 허용. 로그인만 되면.
+    ],
+  
+  'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+'rest_framework.permissions.AllowAny' 이것을 통해 모든 곳에 허용을 하고, 추가적으로 데코레이터로 제한을 걸 것이다.
+
+vue에서 유저 인증 정보를 로컬 저장소에 저장하지만, 현재 실습 편의를 위해 로컬 저장소에 저장한다.
+쿠키쪽에 저장하던가 로컬 저장소를 난독화 하던가 해야 한다.
+
+drf-spectacular
+drf-swagger
+
+=> Swagger를 생성 할 수 있도록 도움을 주는 라이브러리.
+https://github.com/tfranzel/drf-spectacular
+- 과거에는 다양한 라이브러리가 있었으나 OpenAPI Specification이 3.0으로 업데이트 되며 새 버전을 지원하지 않는 라이브러리들이 있으니 사용 시 유의.
+
+drf spectacular는 우리 api의 docs를 만들어준다. 문서화 된다. 싱기방기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
