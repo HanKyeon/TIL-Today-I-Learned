@@ -1,4 +1,7 @@
 
+n = int(input())
+print(n*(n+1)//2)
+
 print("|\\_/|")
 print("|q p|   /}")
 print('( 0 )"""\\')
