@@ -1,18 +1,22 @@
 
-while True:
+for tc in range(1, int(input())+1):
     a, b = map(int, input().split())
-    if not a and not b:
-        break
-    print(a+b)
+    print(f"Case #{tc}: {a+b}")
 
-n = int(input())
-print(n*(n+1)//2)
+# while True:
+#     a, b = map(int, input().split())
+#     if not a and not b:
+#         break
+#     print(a+b)
 
-print("|\\_/|")
-print("|q p|   /}")
-print('( 0 )"""\\')
-print('|"^"`    |')
-print("||_/=\\\\__|")
+# n = int(input())
+# print(n*(n+1)//2)
+
+# print("|\\_/|")
+# print("|q p|   /}")
+# print('( 0 )"""\\')
+# print('|"^"`    |')
+# print("||_/=\\\\__|")
 
 # |\_/|
 # |q p|   /}
