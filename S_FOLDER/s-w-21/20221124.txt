@@ -4,9 +4,9 @@
 ppt도 해야하고 css도 해야하고 난리 났다!
 
 
-1. 배포
-2. ppt
-3. README
-
+1. ppt
+2. README
+3. 깃랩에 최종 pjt 업로드
+4. 배포
 
 
