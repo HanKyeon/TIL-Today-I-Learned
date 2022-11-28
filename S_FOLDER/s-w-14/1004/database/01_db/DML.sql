@@ -91,7 +91,7 @@ SELECT first_name, balance FROM users ORDER BY balance DESC LIMIT 10;
 -- OFFSET : 리밋절은 지정한 수의 데이터, OFFSET은 특정 지정된 위치에서부터 데이터 조회 리밋과 ㅎ마께 사용.
 -- 11부터 20까지
 SELECT rowid, first_name FROM users LIMIT 10 OFFSET 10;
-
+-- SELECT *, COUNT(like_users)*10 + (vote_average * 100) + (vote_count) AS sample_score FROM movies_movie ORDER BY sample_score DESC
 -----------------------------------
 -- GROUP BY : 특정 그룹으로 묶인 결과 생성
 -- 좋은 기능인데 깊게 나갈 수는 없다. 데이터를 정리해주는 것이다.

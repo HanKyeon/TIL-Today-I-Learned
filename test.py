@@ -1,12 +1,27 @@
 
-n = int(input())
-print(n*(n+1)//2)
+n, x = map(int, input().split())
+nl = list(map(int, input().split()))
+nnl = [i for i in nl if i < x]
+print(*nnl)
 
-print("|\\_/|")
-print("|q p|   /}")
-print('( 0 )"""\\')
-print('|"^"`    |')
-print("||_/=\\\\__|")
+# for tc in range(1, int(input())+1):
+#     a, b = map(int, input().split())
+#     print(f"Case #{tc}: {a} + {b} = {a+b}")
+
+# while True:
+#     a, b = map(int, input().split())
+#     if not a and not b:
+#         break
+#     print(a+b)
+
+# n = int(input())
+# print(n*(n+1)//2)
+
+# print("|\\_/|")
+# print("|q p|   /}")
+# print('( 0 )"""\\')
+# print('|"^"`    |')
+# print("||_/=\\\\__|")
 
 # |\_/|
 # |q p|   /}
