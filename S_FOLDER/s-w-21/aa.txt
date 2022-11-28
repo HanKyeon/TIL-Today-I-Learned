@@ -1,0 +1,30 @@
+seoul1_6_myli = []
+def Me(opp, turn, opp_prev, opp_last_pattern) :
+    global seoul1_6_myli
+    if turn == 0:
+        seoul1_6_myli.append(2)
+        return 2
+    if len(set(map(tuple, opp_last_pattern))) == 1:
+        if opp_prev == opp_last_pattern[0][turn-1]:
+            if sum(opp_last_pattern[0]) == 20:
+                if turn % 3:
+                    seoul1_6_myli.append(2)
+                    return 2
+                else:
+                    seoul1_6_myli.append(0)
+                    return 0
+            else:
+                if opp_last_pattern[0][turn] == 0:
+                    seoul1_6_myli.append(1)
+                    return 1
+                if opp_last_pattern[0][turn] == 1:
+                    seoul1_6_myli.append(2)
+                    return 2
+                if opp_last_pattern[0][turn] == 2:
+                    seoul1_6_myli.append(2)
+                    return 2
+    else:
+        if seoul1_6_myli.count(0) <= 2 and (seoul1_6_myli and seoul1_6_myli[-1] != 0):
+            return [2,2,2,0][random.randrange(0, 4)]
+        else:
+            return 2
