@@ -163,3 +163,176 @@ while en != st:
     en = b[en]
     print(en, end=" ")
 '''
+
+'''
+수학 천재
+
+# (2, 4, 6)
+
+def canon(t):
+    a, b, c = t
+    m = sorted([a, b, c])[1]
+    a -= m
+    b -= m
+    c -= m
+    return a, b, c
+
+def get_coord(n):
+    if n == 1:
+        return 0, 0, 0
+    g = 0
+    # g * (g - 1) * 3 + 2 <= n < g * (g + 1) * 3 + 2
+    while g * (g + 1) * 3 + 2 <= n:
+        g += 1
+    i = n - (g * (g - 1) * 3 + 1)
+    p1 = 0, -1, 0
+    p2 = 1, 0, 0
+    while i >= g:
+        i -= g
+        p1 = -p1[1], -p1[2], -p1[0]
+        p2 = -p2[1], -p2[2], -p2[0]
+    return canon((
+        p1[0] * (g - i) + p2[0] * i,
+        p1[1] * (g - i) + p2[1] * i,
+        p1[2] * (g - i) + p2[2] * i,
+    ))
+
+def get_index(t):
+    a, b, c = canon(t)
+    g = abs(a) + abs(b) + abs(c)
+    if g == 0:
+        return 1
+    if b <= 0 == a <= c:
+        return g * (g - 1) * 3 + 1 + g * 5 - b
+    if a <= 0 == b <= c:
+        return g * (g - 1) * 3 + 1 + g * 4 + c
+    if a <= 0 == c <= b:
+        return g * (g - 1) * 3 + 1 + g * 3 - a
+    if c <= 0 == a <= b:
+        return g * (g - 1) * 3 + 1 + g * 2 + b
+    if c <= 0 == b <= a:
+        return g * (g - 1) * 3 + 1 + g * 1 - c
+    # assert b <= 0 == c <= a
+    return g * (g - 1) * 3 + 1 + g * 0 + a
+
+v1, v2 = map(int, input().split())
+p1 = get_coord(v1)
+p2 = get_coord(v2)
+df = canon((
+    p2[0] - p1[0],
+    p2[1] - p1[1],
+    p2[2] - p1[2],
+))
+
+print(get_index(p1), end=' ' if any(df) else '\n')
+
+while any(df):
+    d = [0, 0, 0]
+    if df[0]:
+        d[0] += 1 if df[0] > 0 else -1
+    elif df[1]:
+        d[1] += 1 if df[1] > 0 else -1
+    else:
+        d[2] += 1 if df[2] > 0 else -1
+    df = canon(tuple(v - w for v, w in zip(df, d)))
+    p1 = canon(tuple(v + w for v, w in zip(p1, d)))
+    print(get_index(p1), end=' ' if any(df) else '\n')
+
+'''
+
+'''
+import sys
+from collections import deque
+dx = [0,1,1,0,-1,-1]
+dy = [1,0,-1,-1,0,1]
+size = 2000
+n = 1000000
+
+honeycomb = [[0]*(size+1) for _ in range(size+1)]
+visited = [[0]*(size+1) for _ in range(size+1)]
+
+def set_comb():
+  x = 0
+  y = 0
+  num = 1
+  while num <= n:
+    honeycomb[x+int(size/2)][y+int(size/2)] = num
+    if x >= 0 and x+y <= 0:
+      x-=1
+    elif x+y < 0 and y >= 0:
+      y+=1
+    elif x < 0 and y > 0:
+      x+=1
+    elif x+y < 0 and y < 0:
+      x-=1
+      y+=1
+    elif x+y > 0 and y > 0:
+      x+=1
+      y-=1
+    elif x+y > 0 and x > 0:
+      y-=1
+    num+=1
+
+def bfs(in_a,in_b):
+  flag = 0
+  for i in range(2001):
+    for j in range(2001):
+      if honeycomb[i][j] == in_a:
+        flag = 1
+        break
+    if flag:
+      break
+    
+  visited[i][j] = 1
+  queue = deque([(i,j)])
+  while queue:
+    x,y = queue.popleft()
+    for r in range(6):
+      a = x+dx[r]
+      b = y+dy[r]
+  
+      if not(0<=a<=2000) or not(0<=b<=2000):
+        continue
+  
+      if not honeycomb[a][b]:
+        continue
+  
+      if visited[a][b]:
+        continue
+  
+      visited[a][b] = visited[x][y]+1
+      if honeycomb[a][b] == in_b:
+        return
+      queue.append((a,b))
+
+def trace(in_a,in_b):
+  stack = [in_b]
+  flag = 0
+  for i in range(2001):
+    for j in range(2001):
+      if honeycomb[i][j] == in_b:
+        flag = 1
+        break
+    if flag:
+      break
+      
+  x,y = i,j
+  while visited[x][y] != 1:
+    for r in range(6):
+      a = x+dx[r]
+      b = y+dy[r]
+
+      if visited[a][b] == visited[x][y]-1:
+        stack.append(honeycomb[a][b])
+        x,y = a,b
+        break
+        
+  stack.reverse()
+  print(*stack)
+  
+a,b = map(int,sys.stdin.readline().split())
+set_comb()
+bfs(a,b)
+trace(a,b)
+
+'''

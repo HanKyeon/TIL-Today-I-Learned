@@ -1,8 +1,11 @@
 
-n, x = map(int, input().split())
-nl = list(map(int, input().split()))
-nnl = [i for i in nl if i < x]
-print(*nnl)
+from math import factorial
+print(factorial(int(input())))
+
+# n, x = map(int, input().split())
+# nl = list(map(int, input().split()))
+# nnl = [i for i in nl if i < x]
+# print(*nnl)
 
 # for tc in range(1, int(input())+1):
 #     a, b = map(int, input().split())
