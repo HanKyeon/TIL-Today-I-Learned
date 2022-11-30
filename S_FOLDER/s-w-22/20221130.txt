@@ -1,0 +1,189 @@
+
+# 20221130
+
+겁내 춥네 BIT랑 UF 문제는 이미 알고 있다!
+
+# Framework 수업
+
+- Framework
+ - 웹 어플리케이션을 개발하기 위해서는 기본 기능을 많은 기능을 설계, 작성해야 한다. 요청처리, 세션관리, 리소스 관리, 멀티 쓰레드 등. 하지만 기본적인 공통 구조를 제공한다면 개발자는 웹 앱 기능 자체 개발에만 신경쓰면 되기 때문에 생산성이 높아진다.
+ - 개발자 입장에서는 완성된 구조에 자신이 맡은 코드만 개발해서 넣어줌녀 되기 때문에 개발 시간을 단축 할 수 있다.
+
+---
+
+## Spring MVC
+
+### Spring Framework의 특징
+- POJO Plain Old Java Object 방식의 프레임 워크. EJB가 기능 작성을 위해서 인터페이스를 구현하거나 상속하는 것에 비해 일반적인 자바 객체를 이용해서 그대로 사용 할 수 있음을 의미한다.
+- 의존성 주입Dependency Injection을 통한 객체 관계 구성. 프레임워크 내부에서 사용되는 객체간 의존성이 존재 할 경우, 개발자는 의존성에 관련한 설정만 해주면 실제 의존성 생성은 프레임워크가 담당한다.
+- 관점지향 프로그래밍 AOP Aspect Oriented Programming 지원. 트랜잭션, 로깅 등 여러 모듈에서 공통적으로 사용하는 기능에 대해서 별도로 분리하여 작성, 관리 할 수 있는 기능을 제공한다.
+- 제어 역전 IoC Inversion of Control. 제어 역전을 통해 객체 및 프로세스의 제어를 프레임워크가 담당하며, 필요에 따라 개발자의 코드를 호출한다.
+- 높은 확장성과 다양한 라이브러리 지원. 기존의 라이브러리를 스프링에서 사용 할 수 있는 기능을 지원하고 있다. 특히 영속성 관련하여 MyBatis나 Hibermate 등의 완성도 높은 데이터베이스 라이브러리와 연결 가능한 인터페이스를 제공한다.
+
+### Spring Web MVC
+
+- Servlet API를 기반으로 구축된 웹 프레임워크.
+- 정식 명칭은 Spring Web MVC이지만 Spring MVC로 주로 알려져 있다.
+- Spring Framework이 제공하는 DI AOP 뿐만 아니라 WEB 개발을 위한 기능을 제공.
+- DispatcherServlet(FrontController)를 중심으로 디자인 되었으며, View Resolver, Handler Mapping, Controller와 같은 객체와 함께 요청을 처리하도록 구성되어 있다.
+
+### 요청 처리 흐름
+1. 클라이언트 요청이 들어오면 DispatcherServlet이 받는다.
+2. HandlerMapping이 어떤 Controller가 요청을 처리할지 결정한다.
+3. DispatcherServlet은 Controller에 요청을 전달
+4. Controller는 요청을 처리
+5. 결과(요청 처리를 위한 data, 결과를 보여줄 view의 ㅇ름)를 ModelAndView에 담아 반환
+6. ViewResolver에 의해서 실제 결과를 처리할 View를 결정하고 반환
+7. 결과를 처리할 View에 ModelAndView를 전달.
+8. DispatcherServlet은 View가 만들어낸 결과를 응답.
+
+request -> controller -> DTO로 Model -> DAO에서 DTO or VO로 DB소통, View로 보내고 jsp를 통해 Controller와 소통. 
+
+---
+
+## Reflection
+
+- 동적으로 클래스 정보에 접근해서 객체 생성, 메서드 실행 등을 처리.
+- java.lang.reflect 패키지 제공.
+
+- 클래스 정보 접근
+ - Class<?> 클래스이름.class : `Class<?> clz = Dog.class` 클래스에 정보를 저장하는 클래스
+ - Class<?> Class.forName(String className) : `Class<?> clzs = Class.forName("com.ssafy.reflection.Dog");`
+ - Class<?> 객체.getClass()
+ ```
+Dog dog = new Dog();
+Class<?> clz = dog.getClass();
+ ```
+
+- 메서드 정보 접근
+ - Method[] Class.getDeclaredMethods()
+ ```
+ Class<?> clz = Dog.class;
+ Method[] methods = clz.getDeclaredMethods();
+ ```
+
+ - Method getDeclaredMethod(String name, Class<?>... paramTypes)
+ ```
+ Class<?> clz = Dog.class;
+ Method m = clz.getDeclaredMethod("getName");
+ Method m = clz.getDeclaredMethod("setName", String.class);
+ ```
+
+ - String getName()
+ ```
+ Method m = clz.getDeclaredMethod("setName", String.class);
+ String name = m.getName();
+ ```
+
+ - class<?> getReturnType()
+ ```
+ MEthod m = clz.getDeclaredMethod("setName", String.class);
+ String name = m.getName();
+ ```
+
+ - class<?> getReturnType()
+ ```
+ Method m = clz.getDeclaredMethod("setName", String.class)
+ class<?> rClz = m.getReturnType();
+ ```
+
+ 파라미터 정보 얻기
+ - Parameterp[] getParameters();
+ - Type Parameter.getParameterizedType();
+ - String Type.getTypeName();
+ ```
+ Parameter[] parameters = method.getParameters();
+ for (Parameter p : pArr) {
+    Type t = p.getParameterizedType();
+    System.out.println(t.getTypeName() + " " + p.getName());
+ }
+ ```
+
+- 객체 생성 및 메서드 실행
+ - 생성자 얻기 -> Constructor<?> Class.getDeclaredConstructor(Class<?>... params)
+ ```
+ Class<?> clz = Dog.class;
+ [[기본 생성자 얻기]]
+ Constructor<?> constructor = clz.getDeclaredConstructor();
+ ```
+ 
+ - 객체 생성 -> Object Constructor newInstance(Object... args)
+ ```
+ [[인스턴스 생성]]
+ Object obj = constructor.newInstance();
+ ```
+
+ - 메서드 실행 -> Object Method invoke(Object target, Object ... args)
+ ```
+ Class<?> clz = Dog.class;
+ Constructor<?> constructor = clz.getDeclaredConstructor();
+ Object obj = constructor.newInstance()
+ Method method = clz.getDeclaredMethod("setName", String.class);
+ method.invoke(obj, "메리");
+ ```
+
+---
+
+## Annotation
+
+- 클래스, 메서드, 변수 등에 추가적인 데이터를 붙이는 방식. Meta Data.
+- XML을 대용하는 설정 파일로 사용.
+- 동적으로 클래스나 메서드에 필요한 메타 데이터를 리플렉션 API를 이용하여 사용하는 방식.
+- Annotation을 사용하는 대표 기술 : Spring, MyBatis
+
+### 어노테이션 종류
+- 빌트인 어노테이션
+ 1. Override
+ 2. Deprecated
+ 3. SuppressWarnings
+
+- 메타 어노테이션 : 어노테이션을 만들 때 사용되는 어노테이션
+ 1. Target
+ 2. Retention 이 외 등.
+
+---
+
+## Mini Framework 만들어보기.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
