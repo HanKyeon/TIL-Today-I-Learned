@@ -29,23 +29,36 @@ class SegmentTree:
         if input_start_index == input_end_index:
             self.result_list[tree_index] = update_value
             return self.result_list[tree_index]
+        # 중앙을 찾아서
         input_mid_index = (input_start_index + input_end_index) // 2
+        # 왼쪽이 영향 받는지 아닌지 확인하고
         left_result = self.update_process(input_start_index, input_mid_index, tree_index * 2, update_index, update_value)
+        # 우측도 영향이 받는지 아닌지 확인하고
         right_result = self.update_process(input_mid_index + 1, input_end_index, tree_index * 2 + 1, update_index, update_value)
+        # 바뀌었다면 갱신
         self.result_list[tree_index] = self.method(left_result, right_result)
+        # 갱신된 값 리턴. 갱신되지 않았더라도 정상 리턴
         return self.result_list[tree_index]
+
     def update(self, update_index, update_value):
         self.tree_index = 1
         self.input_list[update_index] = update_value
         self.update_process(self.input_start_index, self.input_end_index, self.tree_index, update_index, update_value)
+
     def get_range_process(self, input_start_index, input_end_index, tree_index, range_start_index, range_end_index):
+        # 위치를 벗어났다면 종료.
         if input_end_index < range_start_index or input_start_index > range_end_index:
             return 0
+        # 범위 내라면 완전히 들어간다.
         if input_start_index >= range_start_index and input_end_index <= range_end_index:
             return self.result_list[tree_index]
+        # 중간값 구해서
         input_mid_index = (input_start_index + input_end_index) // 2
+        # 왼쪽 range 확인. 얼마나 range가 걸쳤는지 확인
         left_result = self.get_range_process(input_start_index, input_mid_index, tree_index * 2, range_start_index, range_end_index)
+        # 우측 range 확인. 얼마나 range가 걸쳤는지 확인.
         right_result = self.get_range_process(input_mid_index + 1, input_end_index, tree_index * 2 + 1, range_start_index, range_end_index)
+        # 결과를 더해서 가져온다.
         return self.method(left_result, right_result)
 
     def get_range(self, range_start_index, range_end_index):
@@ -53,12 +66,16 @@ class SegmentTree:
         return self.get_range_process(self.input_start_index, self.input_end_index, self.tree_index, range_start_index, range_end_index)
 
     def process(self, input_start_index, input_end_index, tree_index):
+        # 시작 인덱스와 끝이 같다면 (이진탐색 처럼.) 자기 자신 리턴. 리프노드라면 자기 자신 리턴
         if input_start_index == input_end_index:
             self.result_list[tree_index] = self.input_list[input_start_index]
             return self.result_list[tree_index]
+        # 중앙값 구해서 좌우 나누기.
         input_mid_index = (input_start_index + input_end_index) // 2
+        # 좌우로 들어갈 인덱스 값 구해주기
         left_result = self.process(input_start_index, input_mid_index, tree_index * 2)
         right_result = self.process(input_mid_index + 1, input_end_index, tree_index * 2 + 1)
+        # 두 값의 연산 결과를 현 위치에 저장 및 해당 값 리턴
         self.result_list[tree_index] = self.method(left_result, right_result)
         return self.result_list[tree_index]
 
