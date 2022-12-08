@@ -13,76 +13,6 @@ n 개줄 그래프 제시.
 시작 위치를 포함하여 갈 수 있는 땅의 갯수 출력
 '''
 import sys
-from collections import deque
-from heapq import heappop, heappush
-input = sys.stdin.readline
-
-# def bfs():
-#     global sh, sw, l, r, n, m
-#     g[sh][sw] = '0'
-#     v[sh][sw] = 0
-#     heap = [(0, sh, sw, l, r)]
-#     cnt = 0
-#     while heap:
-#         odr, h, w, lft, rgt = heappop(heap)
-#         cnt += 1
-#         for dh in (1, -1):
-#             nh = h+dh
-#             if 0<=nh<n and v[nh][w] < 0 and g[nh][w] == '0':
-#                 v[nh][w] = odr
-#                 heappush(heap, (odr, nh, w, lft, rgt))
-#         if lft:
-#             nw = w-1
-#             if 0<=nw<m and v[h][nw] < 0 and g[h][nw] == '0':
-#                 v[h][nw] = odr+1
-#                 heappush(heap, (odr+1, h, nw, lft-1, rgt))
-#         if rgt:
-#             nw = w+1
-#             if 0<=nw<m and v[h][nw] < 0 and g[h][nw] == '0':
-#                 v[h][nw] = odr+1
-#                 heappush(heap, (odr+1, h, nw, lft, rgt-1))
-#     return cnt
-
-def bfs2():
-    global sh, sw, l, r, n, m
-    g[sh][sw] = '0'
-    v[sh][sw] = 1
-    q = deque([(sh, sw, l, r)])
-    cnt = 0
-    while q:
-        h, w, lft, rgt = q.popleft()
-        cnt += 1
-        for dh in (-1, 1):
-            nh = h+dh
-            if 0<=nh<n and not v[nh][w] and g[nh][w] == '0':
-                v[nh][w] = 1
-                q.append((nh, w, lft, rgt))
-        if lft:
-            nw = w-1
-            if 0<=nw<m and not v[h][nw] and g[h][nw] == '0':
-                v[h][nw] = 1
-                q.append((h, nw, lft-1, rgt))
-        if rgt:
-            nw = w+1
-            if 0<=nw<m and not v[h][nw] and g[h][nw] == '0':
-                v[h][nw] = 1
-                q.append((h, nw, lft, rgt-1))
-    return cnt
-
-n, m = map(int, input().rstrip().split())
-l, r = map(int, input().rstrip().split())
-v = [[0]*m for _ in range(n)]
-g = []
-for i in range(n):
-    s = input().rstrip()
-    for j in range(m):
-        if s[j] == '2':
-            sh, sw = i, j
-    g.append(list(s))
-print(bfs2())
-
-import sys
-# from collections import deque
 from heapq import heappop, heappush
 input = sys.stdin.readline
 
@@ -111,8 +41,6 @@ def bfs():
                 v[h][nw] = odr+1
                 heappush(heap, (odr+1, h, nw, lft, rgt-1))
     return cnt            
-
-
 
 n, m = map(int, input().rstrip().split())
 l, r = map(int, input().rstrip().split())
@@ -223,4 +151,49 @@ for i in range(n):
 
 print(bfs())
 '''
+'''
+# 틀림
 
+import sys
+from collections import deque
+from heapq import heappop, heappush
+input = sys.stdin.readline
+
+def bfs2():
+    global sh, sw, l, r, n, m
+    g[sh][sw] = '0'
+    v[sh][sw] = 1
+    q = deque([(sh, sw, l, r)])
+    cnt = 0
+    while q:
+        h, w, lft, rgt = q.popleft()
+        cnt += 1
+        for dh in (-1, 1):
+            nh = h+dh
+            if 0<=nh<n and not v[nh][w] and g[nh][w] == '0':
+                v[nh][w] = 1
+                q.append((nh, w, lft, rgt))
+        if lft:
+            nw = w-1
+            if 0<=nw<m and not v[h][nw] and g[h][nw] == '0':
+                v[h][nw] = 1
+                q.append((h, nw, lft-1, rgt))
+        if rgt:
+            nw = w+1
+            if 0<=nw<m and not v[h][nw] and g[h][nw] == '0':
+                v[h][nw] = 1
+                q.append((h, nw, lft, rgt-1))
+    return cnt
+
+n, m = map(int, input().rstrip().split())
+l, r = map(int, input().rstrip().split())
+v = [[0]*m for _ in range(n)]
+g = []
+for i in range(n):
+    s = input().rstrip()
+    for j in range(m):
+        if s[j] == '2':
+            sh, sw = i, j
+    g.append(list(s))
+print(bfs2())
+'''
