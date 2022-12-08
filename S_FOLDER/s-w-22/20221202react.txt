@@ -21,8 +21,18 @@ class는 js의 예약어라서 jsx에서는 class 대신 className을 쓴다.
 `우측(값)은 항상 문자열`
 `{ color: "blue", fontSize : '30px' }`이 값을 변수로 저장해서 style={변수} 이런식으로 선언 가능.
 
+컴포넌트를 파일로 만들 때는
+```
+function 컴포이름() {
+    return (
+        jsx 파일 형태
+    )
+}
 
-
+export default 컴포이름
+```
+이런식으로 만들어서 import 해서 쓴다.
+import 할 때는 무조건 대문자로 시작하게 하는데, 그거 사용하려고 jsx에서 하면 자동 import 되는거 같더라.
 
 
 

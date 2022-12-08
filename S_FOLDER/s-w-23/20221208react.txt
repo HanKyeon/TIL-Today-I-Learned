@@ -1,0 +1,77 @@
+
+JS에서 Export와 import
+
+js 파일 끝물에
+
+`export default ㅁㅁㅁ` : 해당 js파일에서 import해서 이름을 정하면 ㅁㅁㅁ가 기본 값으로 된다. 이후 import asdf from aaa.js  이렇게 하면 asdf에 ㅁㅁㅁ가 할당되는 느낌으로 참조한다.
+`export const ㅇㅇㅇ` : 같은 파일에서도 import {} from './ㅇㅇ.js' 이런 식으로  하는데, 정확한 이름을 써야 한다. import {ㅇㅇㅇ} from './ㅇㅇ.js' 이런 식으로. 콤마 찍고도 가능 as 키워드로 이름 바꿔줄 수 있따. import * 를 통해 모든 걸 임포트 할 수 있다.
+`export const ㅋㅋㅋ` : ㅇㅇㅇ과 동일.
+`import * as bundeled from 'ddd.js'` : 이런 식으로 임포트 하면 bundled.원하는이름 이런 식으로 끌어 쓸 수 있다.
+
+`class Person extends Master` 이런 식으로 상속이 가능하다.
+
+constructor() {
+    여기서 원하는 this의 속성을 정해줄 수 있다.
+}
+
+상속 받을 때는 super() 메소드를 지정해주어야 한다. 호출해야한다.
+파이썬과 마찬가지로 상속보다 자기 자신이 더 작은 개념이라 데이터 선언이 더 세다.
+
+
+constructor 생성보다 최근이 바로 선언하는 것이다. ES7에서 나온다.
+
+Destructuring. 구조분할
+스프레드 오퍼레이터는 새로운 것에 전달하고, 디스트럭쳐링은 원소나 프로퍼티 하나만 가져와서 쓴다.
+`[a, b] = ['z', 's']`
+`[a, , b] = ['z', 's', 'ㅋ']` : 이런시그올 하며 z와 ㅋ이 a,b에 할당된다. 비워두면 되는듯.
+이게 Destructuring이다.
+`{name} = {name: 's', age: 123}` 이면 age는 undefined이고, name은 define 된다. 변수에 저장된다.
+
+array와 object를 복사 할 때는 스프레드 오퍼레이터를 이용해야 한다.
+
+배열 메서드.
+map() : 순회하며 적용해서 리턴하는 값으로 만들어낸다.
+forEach() : 순회하며 함수를 실행한다.
+filter() : true인 것만 반환
+reduce() : 배열의 모든 합. 주로 array.reduce((acc, newVal)=>{retyrb acc+newVal}, initialvalue)
+some() : true를 뱉으면 전체 트루 아니면 false 빈 배열은 false
+concat() : 기존 배열 복사 후 원소를 추가하여 새 배열 리턴
+push() : 기존 배열에 추가
+sort() : 정렬
+
+push() pop() : 원래 알던거
+unshift() shift() : 왼쪽 더하고 빼기. unshift가 더하기이다.
+
+slice(start, end) : 배열의 인덱스 기준 start 이상 end 미만 배열 복사 후 반환. 인자가 하나라면 0부터 그까지. 아니라면 전체 복사. 원본 배열은 절대 건드리지 않는다.
+splice(start, part) : 배열 인덱스 기준 start 부터 part 개의 배열을 pop 해온다. 이걸로 중간에 추가도 되고 대체도 가능하다.
+https://www.daleseo.com/js-array-slice-splice/ : 여기 참조.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

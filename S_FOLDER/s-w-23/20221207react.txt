@@ -1,0 +1,95 @@
+
+# 20221207
+
+eslint는 warning을 잡아준다.
+보기 싫으면 맨 위에 아래 주석을 달아준다.
+`/* eslint-disable */`
+
+이벤트 리스너는
+`onClick={ 함수() }`
+함수만 가능하다.
+```
+onClick={(event) => {
+            event.preventDefault()
+            console.log(1)
+        }}
+```
+이런 식으로 작성 가능
+
+state 변경은 변경 함수 안에 값을 넣으면 그 값이 그대로 들어간다.
+
+Array 딥카피 방법은 [...글제목array] 이런 식으로 하면 된다.
+obj 역시 마찬가지 {...글제목}
+spread operator를 써야 한다.
+
+모든 state data는 직접 변경해서는 안된다. emutable 해야한다.
+
+spread operator는 중괄호든 대괄호를 지워주는 역할이다.
+기본 자료형과 유사해야만 가능하다. 그래서 타입스크립트가 우수한듯.
+
+react의 return 안에는 하나의 컴포넌트만 있어야 한다.
+
+html을 줄여 쓸 수 있는 방법 : Component 문법.
+
+맨 아래에
+```
+function Modal() {
+    return (
+        <div>
+            <h1>이런 식으로 컴포 작성 한 뒤</h1>
+            <h1>return 안에 <Modal></Modal> 이런 식으로 쓰면 된다.</h1>
+        </div>
+    )
+}
+```
+컴포넌트 만들 때 첫 시작은 대문자로 하는 것이 관습이다.
+
+function App() {
+    return ()
+}
+
+이것도 컴포넌트의 일종이므로 이것과 나란히 배치해주면 된다. 컴포넌트는.
+
+컴포넌트로 만들면 좋은 것들은
+- 반복 출현하는 html들
+- 자주 변경되는 html UI들. 페이지로 나눌 때 props 할 때.
+컴포넌트 많이 만들면 state 쓸 때 복잡해진다.
+App의 state를 props를 통해 state 변수를 Component까지 내려줘야 한다.
+
+---
+
+리액트 vs 리액트 네이티브
+
+리액트는 웹, 리액트 네이티브는 하이브리드 모바일 앱이 가능하다.
+리액트 네이티브는 성능이 다른 네이티브에 비해 느리고 Flutter라는 강력한 경쟁자가 있다.
+react를 배우고 react Native를 덤으로 하는건 좋은듯.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
