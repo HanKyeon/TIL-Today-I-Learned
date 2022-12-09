@@ -1,11 +1,5 @@
-print(int(10e10))
-print(int(10e11))
-print(int(10e12))
-print(int(10e13))
-print(int(10e14))
-print(int(10e15))
-print(int(10e16))
-print(int(10e17))
-print(int(10e18))
-print(int(10e19))
-print(int(10e20))
+a = {1,2,3,4}
+b = a
+b.add(5)
+print(a)
+print(b)
