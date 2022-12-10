@@ -32,10 +32,10 @@ function App() {
   return (
     <div className="App">
       <h1>ㅎㅇㅎㅇ</h1>
-      <ExpenseItem expItem={expenses[0]} />
-      <ExpenseItem expItem={expenses[1]} />
-      <ExpenseItem expItem={expenses[2]} />
-      <ExpenseItem expItem={expenses[3]} />
+      <ExpenseItem data={expenses[0]} />
+      <ExpenseItem data={expenses[1]} />
+      <ExpenseItem data={expenses[2]} />
+      <ExpenseItem data={expenses[3]} />
     </div>
   )
 }
