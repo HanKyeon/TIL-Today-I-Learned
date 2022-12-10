@@ -1,0 +1,73 @@
+
+# 20221209
+
+react에서의 props는
+component 태그에 사용자 지정 속성명을 정해서 props로 내려주는데, 이러한 props들은, 하나의 함수로 이루어진 컴포넌트의 인자 값, params로 들어오게 된다.
+```
+import "./ExpenseItem.css"
+
+function ExpenseItem(props) {
+  const month = props.expItem.date.toLocaleString("en-US", { month: "long" })
+  const year = props.expItem.date.getFullYear()
+  const day = props.expItem.date.toLocaleString("en-US", { day: "2-digit" })
+  return (
+    <div className="expense-item">
+      <div className="expense-date">
+        <div>{month}</div>
+        <div>{year}</div>
+        <div>{day}</div>
+      </div>
+      <div className="expense-item__description">
+        <h2>{props.expItem.title}</h2>
+        <div className="expense-item__price">${props.expItem.amount}</div>
+      </div>
+    </div>
+  )
+}
+
+export default ExpenseItem
+```
+그렇기에 props 라는 이름으로 관습적으로 받아서 사용하며, 받아온 값은 props.프롭스이름 이런 식으로 호출이 가능하다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
