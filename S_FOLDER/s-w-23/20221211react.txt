@@ -1,0 +1,109 @@
+
+# 20221211
+
+리액트 반복문
+```
+function Expenses(props) {
+  const expenses = props.data
+  console.log(expenses)
+  return (
+    <div className="expenses">
+      {expenses.map((val) => {
+        return (
+          <div>
+            <ExpenseItem data={val} />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+```
+이렇게 사용 가능. 중괄호 안에 다 가능하다.
+
+뷰처럼 컴포넌트에 직접 클래스를 내리지는 못하는 것 같다. 컴포넌트 내부의 최상단 div에 className을 적어주는 것이 맞는 방식 같다.
+
+껍데기 컴포넌트 만들 수 있다.
+```
+import "./Card.css"
+
+function Card(props) {
+  const classes = "card " + props.className
+  return <div className={classes}>{props.children}</div>
+}
+
+export default Card
+```
+이런 식으로 props.children을 이용해 태그 사이에 뭔가 받을 수 있게 하고, props.className을 더해서 만들면 모달 혹은 경고창 등 중복되는 껍데기를 제거해주고 클린하게 코드를 짤 수 있게 한다. 컴포지션을 잘 써야 한다.
+주용한 것은 proprs.children이다.
+
+JSX를 사용 할 때 아래처럼 동작하게 된다.
+```
+return React.createElenment(
+    'div',
+    {},
+    React.createElement(태그, {props}, 사잇값children)
+    React.createElement()
+    React.createElement()
+)
+```
+이런 식으로 되기에 최상단 div로 감싸주어야 하고, props를 정해줘야 하는 등 많다.
+
+Trigger / Handler
+시작점은 Trigger 끝은 handler로 끝나게 이름을 짓는다.
+
+useState는 react hooks 중 하나로, hooks는 use로 시작되며 리액트 함수 안에서 호출되어야 한다.
+예외는 있지만 나중에.
+
+state를 업데이트 하는 것은 값만 받는 것ㅇ ㅣ아니고ㅜ, state를 업데이트
+어떤 변수를 바꾸겠다 가 아니라 상태를 관리하는 것이다. 새로운 값만 받는 것이 아니다.
+
+useState 를 할당 할 때 const에 할당한다.
+
+onClick, onInput 등 많으며, onChange는 모든 값 변경에 사용 가능
+
+useState를 할 때 set 함수쪽에 함수를 인자로 전달해도 된다.
+
+그럴 때
+```
+    setInputData((prevState) => {
+      return { ...prevState, inputTitle: event.target.value }
+    })
+```
+이런 식으로 사용하는데, 이런 식으로 state를 업데이트 하는 것이 이전 상태에 의존하고 있을 때 이런 식으로 쓰는 것이 더 안정적이다.
+
+요소와 양방향 바인딩은 그냥 `value = {}` 로 정해주면 된다.
+
+$emit 부분
+
+관례에 따라 듣는다는 거를 on으로 시작해서 적어준다.
+
+- 부모 컴포
+`<ExpenseForm onSaveExpenseData={onSaveExpenseDataHandler} />`
+- 자식 컴포 특정 함수로 데이터 올릴 때 사용법
+`props.onSaveExpenseData(expenseData)`
+
+즉, 함수를 직접 내려보내주고, 자식이 그 함수를 직접 사용하여 데이터를 올리게 하는 느낌 같다.
+html 속성은 포인터 형태로 함수를 가리키게 하고, 함수를 자식 부분에서 실행하는 것이다.
+
+속성을 넣어주는 것이고, 자식측에서 사용 할 때는 props.받은속성이름 이다.
+
+조부모:속성 함수
+부모 : 속성 함수
+자식 : 속성 함수
+자식의 함수가 실행되면 -> 자식의 함수에서 props.부모속성() 호출 -> 이후 부모 함수 실행 -> 부모 함수에서 props.조부모속성() 호출 -> 조부모 함수 실행.
+
+속성과 타입 중요.
+
+
+
+
+
+
+
+
+
+
+
+
+
