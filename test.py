@@ -1,6 +1,9 @@
 
-from math import factorial
-print(factorial(int(input())))
+nl = list(map(lambda x: int(x)**2, input().split()))
+print(sum(nl)%10)
+
+# from math import factorial
+# print(factorial(int(input())))
 
 # n, x = map(int, input().split())
 # nl = list(map(int, input().split()))
