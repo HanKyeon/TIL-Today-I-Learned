@@ -1,6 +1,12 @@
 
-nl = list(map(lambda x: int(x)**2, input().split()))
-print(sum(nl)%10)
+while True:
+    try:
+        print(input())
+    except:
+        break
+
+# nl = list(map(lambda x: int(x)**2, input().split()))
+# print(sum(nl)%10)
 
 # from math import factorial
 # print(factorial(int(input())))
