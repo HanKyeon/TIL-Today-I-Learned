@@ -1,11 +1,47 @@
 
 시험
 
-관계형 : 테이블
+관계형 : 테이블(스프레드 시트) 형태의 데이터 저장소.
 
 SQL 의 DDL과 DML 구분 해야한다.
 
+Data Definition Language.
+데이터를 정의하는, 데이터의 구조를 생성, 수정 및 변경하는데 쓰이는 언어.
+CREATE ALTER DROP 등.
+1. CREATE TABLE 테이블 이름();
+데이터 구조를 만들 때 데이터 구조를 지정 할 수 있다. NULL INTEGER REAL TEXT BLOB 등등.
+ NULL은 빈 데이터. 데이터가 없거나 확인이 안되는 경우.
+ INTEGER는 정수. REAL은 실수. TEXT는 문자
+ BLOB은 입력된 그대로의 데이터. 이미지 데이터 등등.
+ Boolean 타입은 별도로 없고, 정수 0과 1로 구분.
+
+타입 선호도:
+데이터 타입을 지정하지 않을 경우 지정된 선호도에 따라 5가지로 구분되어 인식.
+INTEGER TEXT BLOB REAL NUMERIC
+db 엔진 간의 호환성을 높이는 요소.
+
+제약 조건
+제약에 맞지 않으면 입력을 거부하는 것. 데이터 무결성을 위해 존재. 데이터 무결성이란 데이터의 정확성을 보증하는 것이다. 특히 무결성은 정확성과 일관성에 관계.
+NOT NULL  UNIQUE  PRIMARY KEY  AUTOINCREMENT 등등
+NOT NULL : 컬럼이 null값을 허용하지 않도록 하는 조건. 명시 안하면 NULL 값 허용이 디폴트.
+UNIQUE : 컬럼의 모든 값이 서로 구별되거나 고유한 값이 되도록 한다.
+PRIMARY KEY : 테이블에서 행의 고유성을 식별하는데 사용. 각 테이블에는 하나의 기본 키가 존재. 암시적으로 NOT NULL 제약이 포함. INTEGER 타입에만 사용 간으.
+AUTOINCREMENT : 사용되지 않은 값이나 이전에 삭제된 행의 값을 재사용 하는 것을 방지하는 조건. INTEGER PRIMARY KEY AUTOINCREMENT를 하면 해당 id를 재사용 못하도록 한다. django에서 테이블 생성 시 id 컬럼에 기본적으로 사용하는 제약 조건.
+
+rowid의 특징 : 테이블을 생성 할 때마다 rowid라는 암시적 자동 증가 column이 자동 생성. 테이블의 행에 고유하게 식별하는 64비트 부호있는 정수값이다. 새 행을 삽입 할 때마다 자동으로 정수 값을 할당한다. 명시적으로 할당하면 그 값이 들어가고.
+
+ALTER TABLE 테이블명 RENAME TO 새 테이블 명
+ALTER TABLE 테이블 명 RENAMTE COLUMN 컬럼명 TO 새컬럼명
+ALTER TABLE 테이블 명 ADD COLUMN 컬럼명 타입 제약. 새로 만들 때 NOT NULL 조건으로 인해 난리날 수 있으므로 DEFAULT 제약조건 사용.
+ALTER TABLE 테이블 명 DROP COLUMN 컬럼명. 삭제 못하는 경우는, FK로써 작동중인 컬럼, PK인 경우, UNIQUE 조건이 있는 경우.
+
+DROP TABLE 테이블 명 : 삭제.
+
+
+D
+
 table에 CRUD 하는 명령어 알아야 한다.
+INSERT DELETE UPDATE SELECT
 
 스키마, row, 레코드 칼럼 등 용어.
 
