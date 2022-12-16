@@ -1,0 +1,17 @@
+
+
+props 받은 state를 변수에 할당 할 때는 함수의 return 형태로 할당해주는 것이 좋다.
+
+--const 변수 = (arr) => {return arr.filter((val)=> {return val.flag === 원하는 값})}
+이런 식으로--
+ 아니고 그냥 할당하면 됨.
+
+
+
+
+
+
+
+
+
+
