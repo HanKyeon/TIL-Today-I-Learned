@@ -1,0 +1,54 @@
+
+# 20221216
+
+Styled Components 서드파티
+CSS Modules
+
+styled component : 서드파티 앱인데 스타일을 모듈화 할 때 도움이 되는듯. 스타일을 해당 스타일에만 영향을 끼칠 수 있도록 만들어주는 것 같다.
+`npm install --save styled-components` 해당 명령어로 설치.
+
+-> 동적으로 css 할당이 쉬워진다.
+```
+const Button = styled.button`
+  width: 100%;
+
+  $:focus {
+    outline: none
+  }
+`
+```
+위와 같은 식으로 설정하며
+`<Button isValid={true}/>`
+이렇게 props를 내려서
+```
+const Button = styled.button`
+  width: props.isValid ? 100% : 50%; -> 이렇게 props를 사용 가능하다.
+
+  $:focus {
+    outline: none
+  }
+`
+```
+
+
+혹은 css 파일을 저장 할 때 파일명.module.css 이런식으로 저장하고
+import styles from "./파일명.module.css"
+이렇게 추가하면 create-react-app 이 자체적으로 모듈화를 해준다.
+
+클래스 이름에 대쉬가 있다면 `className={styles["form-control"]}` 이런 식으로 할당해준다. 클래스를. 없다면 `className={styles.button}` 이런식으로 하면 됨.
+
+html label의 for를 대체하는 속성은 htmlFor 속성이다.
+
+input 에서 양방향 바인딩 하는거는 onChange={변수갱신함수} 프로퍼티와 value={변수} 바인딩.
+
+모달 같은 UI 들의 실행 함수의 경우, props의 함수 설정을 통일해주는 것이 좋다.
+props를 잊지 말자.
+useState를 잊지마라!
+props.on함수
+
+
+
+
+
+
+
