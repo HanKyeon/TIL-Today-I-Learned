@@ -3,5 +3,6 @@
   "python.defaultInterpreterPath": "C:\\Users\\hgh72\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
   "python.pythonPath": "C:\\Users\\hgh72\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
   "python.autoComplete.addBrackets": true,
-  "python.analysis.completeFunctionParens": true
+  "python.analysis.completeFunctionParens": true,
+  "tabnine.disableFileRegex": ["[.]py$"]
 }
