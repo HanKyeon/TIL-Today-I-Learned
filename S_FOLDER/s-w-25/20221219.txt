@@ -1,0 +1,138 @@
+
+# 20221219
+
+React.Fragment : Wrapper처럼 작동하는 것. 말 그대로 div로 감싸는 행위를 없애서 div 렌더링을 줄이기 위해 사용한다.
+
+html css js는 굉장히 유연하기에 좋은 방향이란 것이 있다.
+이 때, 화면 렌더링 순서가 이상 할 수도 있는데, react portal을 이용해 모달을 다른 곳에서 렌더링 할 수 있다.
+```
+<Fragment>
+    {ReactDOM.createPortal(
+    <Backdrop onConfirm={props.onConfirm} />,
+    document.getElementById("backdrop-root")
+    )}
+    {ReactDOM.createPortal(
+    <ModalOverlay
+        title={props.title}
+        message={props.message}
+        onConfirm={props.onConfirm}
+    />,
+    document.getElementById("overlay-root")
+    )}
+</Fragment>
+```
+이런 식으로 document를 지정해서 그곳에 포털로 붙여줄 수 있다.
+참고로 위 코드에서 Backdrop과 ModalOverlay는 콜백 함수가 저장되는데 return이 JSX인 변수이며, 해당 변수에 props를 저렇게 넣어준다는 것이다. 그러면 저 함수에서 props를 받은 그대로 return 내 JSX 코드가 받아서 렌더링 된다.
+
+useRef 같은 경우 함수 내부에서 사용한다. 요소와 요소를 연결하는 느낌. 바인딩.
+
+html 속성 ref는 어디에나 연결이 가능하다. 특별한 속성이며 내장 프롭이다. 모든 요소에 참조를 연결 가능하다.
+
+리액트가 렌더링 할 때 인풋을 기반으로 연결된 네이티브 DOM 요소에 연결도니다. 나중에는 실제 DOM 요소가 되고.
+ref는 항상 object이며, 항상 current를 가지며, 해당 current는 ref가 연결된 실제 값을 가진다. 기본 값은 언디파인드지만 코드가 실행되면 input에 current가 연결된다. 연결된 것은 이론적인 값이 아니라 진짜 DOM이다. 따라서 직접 조작도 가능하지만 조작하지 않는 것이 좋다. 읽는 것은 문제가 없다.
+
+Ref를 쓰면 장점은 특정 조건의 히트마다 갱신을 하지 않아도 된다.
+
+또한 길이 역시 줄일 수 있다.
+`변수명.current.value = ""` 이 식으로 변경이 가능하나, 변경하지 않는 것이 좋다.
+ref 혹은 state의 구분점은 ref는 읽을 때 사용하는 것이 좋다.
+
+ref를 쓰면 uncontroll 이라 부른다. 제어되지 ㅇ낳는다 한다. react로 제어되지 않는. react의 기능을 쓰지만 리액트로 제어되지 않는. ref로 DOM에 접근해서 value를 초기화 하는 것은 리액트가 하는 것이 아니다.
+
+
+`npm install react-redux` : redux 설치법.
+`npm install redux` : 둘 다 하면 좋음.
+`npm install redux react-redux` : 둘 다 설치
+
+`import {createStore} from 'redux'` : 스토어를 사용한다! 알려주는 것.
+```
+function reducer(currentState, action) {
+    if (currentState === undefined) {
+        return {number: 1}
+    }
+    const newState = {...currentState}
+    return // 리턴 값이 새로운 스테이트가 된다.
+}
+
+const store = createStore(reducer)
+
+```
+
+- 리액트-리덕스
+
+`import {Provider, useSelector, useDispatch, connect} from 'react-redux`
+Provider : 컴포넌트
+useSelector : 어떤 state 값을 쓰고 싶은지 선택
+useDispatch : state 값을 변경시킬 때 사용
+connect : 일단 패스. 재사용성에서 사용된다.
+
+Provider : state를 어떤 컴포넌트에 제공 할 것인가 지정하는 것.
+
+```
+<Provider store={리덕스의 스토어. store}>
+  <컴포넌트/>
+</Provider>
+```
+
+useSelector는 함수를 인자로 받는다.
+```
+function foo(state) {
+    return state.number
+}
+const number = useSelector((state) => {return state.number})
+```
+
+useDispatch 를 불러야 한다.
+
+useDispatch({'type': "타입이름"})
+이후 리듀서에 추가해준다.
+```
+function reducer(currentState, action) {
+    if (currentState === undefined) {
+        return {number: 1}
+    }
+    const newState = {...currentState}
+    if (action.type === "타입이름") {
+        newState.number++
+    }
+    return newState
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
