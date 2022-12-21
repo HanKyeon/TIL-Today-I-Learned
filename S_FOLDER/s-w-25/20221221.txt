@@ -1,0 +1,160 @@
+
+# 20221221
+
+useReducer
+
+- useReducer는 복잡한 state를 관리하는 데 도움을 준다.
+- state에 state가 의존적으로 갱신 되거나, state가 중첩적이거나 하는 등.
+- useReducer는 더 강력한 useState라고 보면 된다.
+- 대부분의 경우는 useState가 유용하다.
+- useReducer가 필요한 경우가 몇 있다.
+
+- useState에 콜백 함수를 넣어서 리턴하는 것은 set 함수로 해당 state만 최신임을 보장하지, 그 내부 콜백함수에서 쓰이는 변수가 최신임을 보장하지 않는다.
+- 이런 경우 useReducer가 좋다. state가 바뀌면 state를 하나로 merge하는 것이다.
+- state가 복잡한 경우, useReducer 사용하는 것이 좋다.
+
+
+`const [state, dispatchFunction] = useReducer(reducerFunction, initialState, initialFunction)`
+배열 디스트럭쳐링으로 할당 가능.
+state의 최신값이 나온다. state를 업데이트 해주는 함수 역시 얻는다. 액션을 디스패치 한다.
+- state : state
+- dispatchFunction : state의 최신값을 업데이트 해주는 함수. useState와 약간 다르게 작동. 액션을 dispatch 한다.
+- 리듀서 함수 : 최신 state를 가져오는 함수. 디스패치된 액션만을 호출한다. 리액트가 함수를 호출한다. 이 함수는 디스패치된 액션만 가져온다. 액션이 디스패치 될 때마다 리듀서를 호출한다. 그러면 이 함수가 최신 state을 가져온다. 이 리듀서 함수를 작동하게 하는 트리거 역시 가져온다. 새로 업데이트 된 state를 반환한다.
+- initialState : 초기값
+- initialFunction : 초기 함수 initial state가 복잡하다면, http request라는 등이라면 함수로 설정해야 하므로.
+
+- 리듀서 함수는 콜백함수이기에 컴포넌트 밖에서 선언한 함수로 만들 수 있다. 가독성을 위해 밖에 만들자.
+- action에서 제시한 type에 따라 reducer로 업데이트 시킬지, 호출할지를 결정하는 것 같다. dispatch로 reducer function을 호출해서 reducer 함수가 state를 가져와서 action할지, 새로 action 할지 등을 정하는 듯.
+
+- 객체 디스트럭쳐링으로 변수 할당 가능.
+`  const { isValid: passwordIsValid } = passwordState` : passwordState에 있는 isValid 값을 passwordIsValid에 할당
+- useEffect와 useReducer를 중첩해서 쓸 때, reducer의 state를 의존성으로 설정하게 되면, 변경되는 경우가 많으므로 위처럼 원하는 특정 properties를 지정하여 useEffect의 의존성에 설정해주는 것이 좋다.
+
+- useState를 사용하면 많은 일들을 사용 할 때 useReducer가 좋다
+- useState는 주요 state 관리 도구. 대부분의 경우 개별 state 및 데이터 다루기 좋고, state 업데이트가 쉽고 몇종류 안될 경우 사용하기 좋다. 케이스가 다양하지 않다면, state로써 객체나 배열이 없다면 useReducer를 쓰는 것이 좋다.
+- reducer를 쓰면 function이 좋고 최신의 state를 항상 적용 가능하고, 컴포넌트 바디에서 별도의 리듀서로 이동시킬 수 있다. 연관된 state로 이루어진 state 관련 데이터를 다루는 경우이다. 연관된. state를 묶어서 사용 할 수 있으므로.
+- 단순한 state의 경우에는 useState가 유리할 것이다.
+
+### context
+
+많은 props로 많은 data를 보내는 경우
+
+- vuex 관련 내용 같다. redux가 vuex 역할이라고 알고 있는데 context라는 것으로 사용이 가능한듯하다.
+- 그래서 react context api를 쓴다는 것 같다. 중앙 저장소를 말하는 것 같다.
+
+- state를 중앙 저장소처럼 쓸 수 있도록 만들어준다.
+- store 폴더를 src 하위에 만들어서 사용한다.
+`React.createContext()` : 기본적인 context를 만든다.
+이후 변수 설정 후, export default 변수 를 통해 state를 내려줄 수 있다.
+- 추가적으로 아래와 같이 React.Fragment 를 대체하여 시멘틱 태그처럼 사용 가능하며, 저렇게 감싸주어야 공급을 받아서 context를 쓸 수 있다.
+```js
+<AuthContext.Provider>
+    <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    <main>
+    {!isLoggedIn && <Login onLogin={loginHandler} />}
+    {isLoggedIn && <Home onLogout={logoutHandler} />}
+    </main>
+</AuthContext.Provider>
+```
+
+- 컨텍스트의 값을 변경하고 접근하기 위해서는 리스닝을 해야한다.
+- 2가지 방법으로 가능. AuthContext Consumer를 통해서 혹은 리액트 훅을 통해서 변경이 가능하다.
+- 일반적으로 리액트 훅으로 변경한다.
+- AuthContext.Consumer 사용 법은 아래와 같다. 방식은 AuthContext.Consumer 태그 내에서 return을 정해주는 것.
+```
+return (
+    <AuthContext.Consumer>
+      {(ctx) => {
+        return (
+          <nav className={classes.nav}>
+            <ul>
+              {ctx.isLoggedIn && (
+                <li>
+                  <a href="/">Users</a>
+                </li>
+              )}
+              {props.isLoggedIn && (
+                <li>
+                  <a href="/">Admin</a>
+                </li>
+              )}
+              {props.isLoggedIn && (
+                <li>
+                  <button onClick={props.onLogout}>Logout</button>
+                </li>
+              )}
+            </ul>
+          </nav>
+        )
+      }}
+    </AuthContext.Consumer>
+  )
+```
+- 추가적으로 Provider 컴포넌트에서 반드시 value props를 객체로 내려주는데, 해당 값이 바뀔 때마다 모든 리스닝 컴포넌트, 컨슈머 컴포넌트에 전달되게 된다.
+- 즉, 모든 컴포넌트에 props를 내리는 것이 아닌, Provider에게만 값을 제공함으로써 중앙저장소 흉내가 가능하다.
+
+useContext
+
+react에서 useContext를 import 한 뒤,
+리턴과 동일 위치에 변수를 이용하여 `const ctx = useContext(AuthContext)` 이런 식으로 할당해준다. 이후 ctx.로 접근하면 된다.
+- context와 props의 경우, 명확하게 하나의 일만 하는 경우 context를 통해 사용하는 것이 좋고, 이외의 기능을 실행하기 위해서는 props chain을 써주는 것이 좋을 것이다.
+- context를 사용하면 state 관리가 쉬워진다.
+
+- vs code의 자동완성을 위해 dummy 함수를 넣어서 context를 구성해도 좋다.
+- 더 많은 로직을 가져오고 싶다면, 하나의 컴포넌트를 더 만들어주면 된다.
+- 해당 컴포에서 많은 value를 props로 내려주고 {props.children}을 갖게 해준다면 더 많은 기능을 하는 Provider를 만들어 줄 수 있다. 따로 역할ㅇ르 하는.
+
+- index.js에서 root.render에 <AuthContextProvider><App/></AuthContextProvider> 이런 시긍로 return을 해준다면 전체 앱에서 Context에 접근 할 수 있도록 할 수 있다.
+
+- 이후 useEffect 역시 auth-context.js 에서 처리 할 수도 있다.
+
+- react context는 좋지만, 컴포넌트 구성을 대체 할 수는 없다.
+- 예시를 들자면 Button은 재사용이 가능하다. 로그인에도, 로그아웃에도 가능하다.
+- 변경이 잦은 경우, react context는 좋지 못하다. 매 초마다 state가 변화되는 경우.
+- 예를 들어 1초에도 여러번 변경되는 경우 react context는 적합하지 않다. 중요
+- 그 때 사용하는 것이 Redux이다.
+- Props는 컴포넌트 구성에 아주 중요하다. 모든 곳에 context를 쓰면 안된다. prop chain이 길어지더라도 쓰면 좋은 부분이 있다.
+
+#### Hook의 규칙
+useState, useEffect, useReducer, useContext 등등 리액트 훅을 배웠다.
+react hook 이란, use로 시작하는 react 함수.
+- 사용 규칙
+1. 리액트 훅은 리액트 함수에서만 호출해야 한다. 리액트 컴포넌트 함수. 혹은 커스텀 hooks에서 호출 할 수 있다.
+ - 즉, Reducer에서는 useState 등의 react hook이 들어가면 안된다.
+ - JSX를 리턴하는 함수에서는 reack hook 사용이 가능.
+2. 리액트 훅은 사용자 정의 훅 등은 함수의 최상위에서만 호출해야 한다.
+ - 중첩 함수에서 hook을 호출하지 말고, 블록 컴포넌트에서 hook을 호출하면 안된다.
+ - 즉, useEffect 내무에서 useContext를 부르면 안되고, 최상위 레벨에서 호출해야 한다.
+ - 해당 함수의 최상위에서만 호출해야 한다.
+ - if문, 다른 hook 등 어떤 블록에서도 hooks가 호출되면 안된다.
+3. useEffect 같은 경우, 항상, 참조하는 모든 항목의 의존성을 useEffect 내부에 넣어야 한다.
+ - 주변 함수에서 노출되는 데이터들. 브라우저 API 등
+ - 주변 컴포넌트의 state의 일부는 호출 가능.
+ - useReducer 또는 useState에 의해 노출된 state 업데이트 함수는 변경되지 않도록 리액트가 보장한다.
+ - 브라우저 api 등 빌트인이 아니면 의존성을 넣어야 한다.
+ - 즉, 브라우저 내장이 아니거나 컴포넌트 함수 회부에서 오는 데이터들은, useEffect에서 사용하는 모든 데이터들은 의존성 배열에 넣어줘야 한다.
+
+---
+
+useRef, React.forwoardRef, useImperativeHandle
+
+- 사용하지 않는 것이 좋긴 하다.
+- 해당 훅들을 통해 ref를 이용 가능하다.
+- Ref변수명.current.focus() 를 통해 포커싱 여부를 결정 가능하다.
+- 스크롤, 포커싱 등 프로그래밍 적으로 트리거 시킬 수 있다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
