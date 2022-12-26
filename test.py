@@ -1,11 +1,14 @@
 
+a = [1,1,2,2,2,8]
+nl = list(map(int, input().split()))
+a = list(map(lambda x: a[x]-nl[x], range(6)))
+print(*a)
 
-
-while True:
-    try:
-        print(input())
-    except:
-        break
+# while True:
+#     try:
+#         print(input())
+#     except:
+#         break
 
 # nl = list(map(lambda x: int(x)**2, input().split()))
 # print(sum(nl)%10)
