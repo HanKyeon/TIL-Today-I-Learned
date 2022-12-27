@@ -1,5 +1,8 @@
-a = {1,2,3,4}
-b = a
-b.add(5)
-print(a)
-print(b)
+n, m = int(input()), int(input())
+for i in range(m):
+    a, b = map(int, input().rstrip().split())
+    n -= a*b
+if n:
+    print("No")
+else:
+    print("Yes")
