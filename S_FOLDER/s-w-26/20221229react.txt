@@ -1,0 +1,123 @@
+
+# 20221229
+
+Redux! 드디어 진입! 가볍게 훑었던 내용을 복습하며 자세히 정리해보자.
+
+Redux Toolkit 다룰 것이다.
+리덕스는 중요한 라이브러리이다.
+
+## Redux
+- 리덕스는 cross-component or app wide state 상태 관리 시스템이다.
+- 즉, 여러 컴포넌트 간에 사용되거나 전역적 사용이 되는 State들을 관리하는 시스템이다. vuex 역할.
+
+- 강의에서 많은 state를 사용했다. state, reducer 등. 변화하는 데이터를 다룰 수 있게 해준다.
+- useState나 useReducer 등을 이용하여 맞춘다.
+- 3가지로 State를 구분 할 수 있다.
+
+
+1. Local State
+- 데이터가 변경되면 하나의 component에 영향을 주는 state
+- ex: detail 등.
+- 보통 state를 사용하며 약간 복잡하다면 useReducer를 사용한다.
+
+2. Cross-Component State
+- 여러 컴포넌트에 데이터를 사용하는 state.
+- 트리거는 컴포 밖에 있고, 컴포 내부 다른 컴포까지 영향을 끼치는.
+- useState나 useReducer를 사용해 prop chain, prop drilling을 하여 데이터를 전달한다.
+- 다양한 컴포들이 협력하며 상태를 사용한다.
+
+3. App-Wide State
+- 데이터가 모든 앱에 영향을 끼치는 것. 예시로는 로그인 여부, 위치 정보 등.
+- useState나 useReducer로 관리 할 수 있지만, 컴포넌트가 깊어질수록 번거럽고 어려워진다.
+- 그렇기에 react Context 라는 기능을 배웠고, 이것을 통해 App-Wide State를 관리해준다.
+- 리액트 컨텍스트 vs 리덕스?
+ 3-1. React Context vs Redux
+  - 리액트 컨텍스트는 잠재적 단점이 있다. 단점이 될 수도 있고 아닐 수도 있는.
+  - 하나의 앱에서 컨텍스트와 리덕스를 같이 사용 할 수 있다.
+  - 리덕스를 사용하고, 일부 다중 컴포넌트에서 컨텍스트를 사용하는 방식으로 혼합이 가능하다.
+  - 리액트 컨텍스트 단점 : 사용 시 설정이 굉장히 어려워질 수 있고, 복잡해질 수 있다. 앱에 따라 달라지겠지만, 중소형 앱의 경우 문제 될 건 없지만 대형에서는 결국 div 에너지파가 나올 것이다. 컨텍스트가 많을수록 태그가 깊게 중첩된 jsx 코드가 나오게 된다. 하나의 큰 컨텍스트와 프로바이더 하나로 할 수 있지만, 그러면 ContextProvider가 많아지고 그걸 관리하기 힘들어질 수 있다.
+  - 성능적인 단점이 있다. Context는 테마를 변경하는 등의 저변경의 경우 사용하기 좋지만, 자주 변경되는 state들 변경에는 적합하지 않다. 리액트 컨텍스트가 모든 경우를 redux 대체가 될 수 없다.
+  - 즉, 복잡한 설정 및 관리, 잠재적 성능(고빈도로 변경이 이뤄지는 state에 사용 시) 이슈로 인해 리덕스를 배우는 것이다.
+
+
+### 리덕스 작동 방식
+- 리덕스는 하나의 중앙 데이터 저장소이다.
+- 단 하나의 저장소이다.
+- 해당 저장소에 모든 state를 저장한다.
+- 인증 상태, 테마, 입력 상태, 등등 어떤 형태에 상관 없이 저장한다.
+- 중앙 저장소의 데이터를 컴포넌트에서 써야 한다.
+- 컴포넌트가 중앙 저장소를 Subscription 하고, 필요한 정보 일부를 받아오게 된다.
+- 컴포넌트는 절대로 저장된 데이터를 직접 건드리지 않는다. 직접적으로 해당 데이터를 건드리지 않고, 리듀서를 통해 건드린다.
+- 리듀서는 vuex에서 mutations를 담당한다. 이 reducer 함수는 아는 reducer와 다르다.
+- 트리거 하는 것은 컴포넌트이나, 컴포넌트가 트리거 되면 dispaatch action을 통해 변경한다. action은 js 객체이며, 무슨 일을 해야하는지 설명하고, redux가ㅓ 해석하고 원하는 작업을 실행한다.
+- 리듀서는 새 state를 뱉어내고, 기존 state를 대체하고, components릎 바꿔주게 된다.
+
+`const redux = require("redux")` : 기본 js 파일에서 third party library들을 import 하는 방법.
+
+`const store = redux.createStore()` : 현재는 createStore()를 권장하지 않기에 줄이 그어진다. 하지만 해당 함수에 reducer를 넣어서 초기 state 값을 반환하게 해야한다.
+reducer 함수는 인자로 (이전상태, action)를 받는다. 그렇기에 순수하게 작동하는 함수여야 한다. 또한 반드시 아웃풋을 출력해야 한다. 항상 새로운 객체 state를 반환해야 한다. 항상 정확히 같은 내용이 나와야 하며, 어떤 side  effect가 없어야 한다. 저장하거나 가져오거나 http request를 보내거나 하는 등, 순수하게 state object를 반환해야 한다. state는 대부분 객체로 관리된다.
+
+이후 redux.createStore() 내부에 reducer를 넣어주어야 한다. 중앙 저장소가 어떤 reducer가 자신을 관리하는지 알아야 하므로.
+
+이후 store.getState() 메서드를 통해 최신 state를 가져올 수 있다. 이전 변화가 다 끝난 state를 가져오며, 변화 될 때마다 트리거 역할을 해서 리렌더를 하게 될 것이다. 이 메서드 사용은 Subscriber 함수에서 쓴다.
+
+이후 store.subscribe() 메소드를 사용한다. 이 함수의 콜백함수 인자로 Subscriber 함수를 넣어준다.
+
+그러면 리덕스는 데이터와 저장소가 변경 될 때마다 실행해줄 것이다. Subscriber를 실행하는 것이 아니고, pointer만 해준다. 그러면 리덕스가 실행해준다.
+
+이 때, 기본 값이 필요하다. 처음 실행 할 때 필요한. 그것을 인자 내에서 직접 기본 값으로 설정을 해주는 방식으로 한다.
+
+Subscriber와 Reducer를 얻으면 action을 만든다.
+
+초기화 액션은 Subscriber를 트리거 해주지 않는다.
+
+`store.dispatch({type: "increment", })`를 통해 액션을 호출한다. 액션은 자바스크립트 객체이다. type을 정해주어 타입 별로 실행하는 함수를 정해주게 된다.
+
+이후 dispatch 된 action의 타입을 확인하고 맞춰서 reducer 함수를 실행하게 된다.
+
+이런식의 리덕스 로직은 다른 자바스크립트에서도 사용이 가능하다. 로직이 바닐라 자바스크립트이므로.
+
+## react에 적합한 redux
+
+`npm install redux react-redux`
+이렇게 하면 redux가 react임을 알아볼 수 있고, 컴포넌트와 리덕스 저장소를 subscribe 시켜준다.
+
+useSelector 가 사용하기 조금 더 편하다. useStore도 가능.
+connect의 경우, react-redux의 훅으로, 클래스 컴포넌트를 subscribe시켜준다.
+
+useSelector를 이용해 redux와 연결 시킬 경우, 자동으로 subscribe을 시켜준다. 그렇기에 redux store의 값이 변경하면 즉시즉시 반응하게 된다.
+
+useDispatch 를 react-redux에서 import 해서 사용하면, 해당 함수를 실행 했을 때 반환 값은 실행 할 수 있는 함수이다.
+즉, `const dispatch = useDispatch()` 이런식으로 할당해서 사용하는 것이 가능하다. 
+이후 dispatch는 action을 store로 대신 보내준다. dispatch({type: "", payload: {}}) 이런 식으로 보내면 action.type 으로 접근이 가능하게 된다. 자동으로 action을 보내준다.
+
+
+- 클래스 기반 컴포넌트와 리덕스
+
+connect로 연결해준다. 함수형에서도 connect로 연결이 가능하나, 클래스형에서는 connect만 가능하다.
+또한, `export default connect(리덕스 state mapStateToProps, dispatch들 mapDispatchToProps)(클래스이름)` 이런 식으로 export 해준다.
+
+- redux Reducer에서 왜 state를 덮어써야 하는가?
+redux로 할 때 state.counter++ 이런식으로 직접 기존 state를 변환해서는 안된다.
+무조건 state 객체를 새로 반환해야 한다. 왜냐면 짜스의 객체와 배열은 참조값이기 때문에 뜻하지 않게 기존의 state를 재정의하거나 실수하기 쉽다.
+# Redux로 작업 할 때는 state를 직접 변경하지 말어라! 특히 배열이나 객체가 들어있을 때 난리날 수 있다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
