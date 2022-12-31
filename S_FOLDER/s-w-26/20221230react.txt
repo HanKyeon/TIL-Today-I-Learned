@@ -1,0 +1,106 @@
+
+# 20221230
+
+`npm install @reduxjs/toolkit` : 설치
+
+## createSlice
+
+`import {createSlice} from "@reduxjs/toolkit"`
+reducer의 대안.
+
+리덕스 툴킷 관련
+https://www.youtube.com/watch?v=UKnLwVm9suY
+
+순수 리덕스
+https://www.youtube.com/watch?v=Jr9i3Lgb5Qc&list=PLuHgQVnccGMB-iGMgONoRPArZfjRuRNVc
+혹은 유데미 강의.
+
+순수 리덕스를 익히고 리덕스 툴킷을 익히면 좋다.
+
+컨텍스트는 단점이 몇개 있다. 플젝이 크면 발생하는.
+리덕스 같은 경우, 추가 코드를 추가해야하고, 모든 코드를 추가해야하므로 앱이 커지게 된다.
+
+## 고급 리덕스 개념들.
+
+- 리덕스 비동기 작업.
+- 코드 위치. 파일 트리 같은듯.
+- 리덕스 데브툴 사용.
+
+- 비동기 작업의 사이드 이펙트.
+- 리듀서 함수는 반드시 순수함수여야하며, 사이드이펙트가 없어야 하고 동기식이어야 한다.
+- useReducer도 같다. 인풋을 받아 아웃풋을 만들어내는 동기 코드이다. 이를 막는 비동기 코드도 없고 뭣도 없다.
+- 그렇다면 리덕스를 http request같은 비동기 코드와 사용 할 때 어떤식으로 사용해야 하며, 어떤 위치에 넣어야 하는가?
+- 두가지에 둘 수 있다.
+- useEffect 컴포넌트 간의 사이드 이펙트를 관리. 사이드 이펙트가 완료된 후에만 전달.
+- action creator function을 생성하여 리덕스 툴킷이 아니라 직접 action creator를 만들 수 있다. 이 작업은 reducer 함수를 바꾸지 않고도 가능하다.
+
+### 리덕스와 비동기 코드를 연결 하기
+
+1. 리듀서는 순수 함수여야 하고, 사이드 이펙트가 없는 동기함수여야 한다.
+따라서 사이드이펙트를 만드는 http request 같은 비동기 코드는 들어가서는 안된다.
+리듀서의 끝에서 axios를 보낼 수 없다. 아주 안좋은 일이다. 리듀서 내부에서는 동기, 비동기든 사이드 이펙트를 발생시키면 안된다.
+2. 컴포넌트에서 useEffect를 불러서 하거나
+3. action creators를 이용해 실행이 가능하다.
+
+- 프론트엔드와 백엔드 코드 중 어떤 곳에서 로직을 처리하냐에 따라 위치가 달라질 것이다.
+
+- 컴포넌트에서 http를 받아서 reducer로 state를 덮는 방식. => 이렇게 하면 이런 방식을 컴포넌트마다 전부 사용해야 한다. 결국 추가 변수를 이용해 할당하고 변경하고 request를 보내기에 redux가 많은 일을 하지 않게 된다. 데이터를 얻고, 저장한다. 그게 끝이다.
+
+- Fat Reducers vs Fat Components vs Fat actions 는 선택이다.
+
+- 따라서 부수효과가 있는 코드, 없는 코드를 구분해야한다.
+
+- 동기는 일반적으로 리듀서에 넣는 것을 선호하고, 비동기나 사이드이펙트가 잇는 경우, Action이나 Components에 넣고 Reducers를 안쓰게 된다. 그것은 문제가 있을 것이다.
+
+- 리듀서에서 http request를 보내려면 준비가 필요하다.
+
+- 프론트에서 먼저 작업하고 리덕스가 스토어 저장을 완료한 이후 useEffect를 하면 된다.
+- useEffect의 디펜던시는 state. useSelector를 사용하여 `useSelector((state) => state.타겟밸류)` 해당 값을 할당 받은 변수를 의존성에 넣어주면 된다. 그러면 state가 변경된 것을 보고 request를 보낼 것이므로. 또한 useEffect는 언제나 최신 값을 보장해주므로.
+- 하지만, 이럴 경우 초기에 빈 값을 가져가서 post를 실행하므로 값을 덮어버리는 문제가 생길 수 있다.
+- 이런 경우를 해결하기 위해서는 외부 변수가 하나 필요하다. `let isInitial = true` 을 App 컴포넌트와 동등한 위치에 두고, useEffect의 상단에서 isInitial이라면 false로 변경해주고 return 해주는 방식으로 해결 할 수 있다.
+- but if 위로는 실행이 되는 듯 하다.
+
+- async await를 주면 되는데, useEffect이므로 사용해서는 안된다.
+- 별도의 then으로 wrap해야 한다.
+- async를 하려면 변수에 할당해준다.
+- catch() 를 이용하여 에러를 다 잡을 수 있다. promise 객체이므로.
+
+- 또한 dispatch가 안에 들어가면, 의존성 추가 해주어야 한다. react-redux가 dispatch의 불변성을 보장하므로 1회만 실행된다.
+
+### action creators
+- 별도의 자바 스크립트 코드이다.
+
+- Thunk : 다른 작업이 완료 될 때까지 작업을 지연시키는 함수.
+- 리덕스 툴킷은 자동으로 thunk를 만들어주기에 볼 수 없다.
+- 작업 객체를 즉시 반환하지 않도록 하기 위해 thunk를 실행하고 다른 action 함수를 리턴한다.
+- 실제 작업 객체를 dispatch 하기 전에 가능하다.
+
+- slice 바깥쪽에, 최상단에서 함수를 하나 만든다.
+- 그 함수 내에서 return을 할 대 dispatch를 받아서 dispatch 할 수 잇다. redux-toolkit이 해준다. dispatch 하기 전에 다른 작업도 할 수 있다.
+- 다른 작업이란, http request와 같은 비동기 함수도 가능하다!
+- 왜냐면 아직 리듀서가 실행되기 전인 JS 함수이므로.
+- 또한 반환하는 함수를 async로 만들어줄 수 있다. 변수도 await로 가능
+- 뭔지 모르지만 실행 될 비동기 함수를 반환한다. 하지만 그 함수에서 dispatch한다.
+- 내부 함수 전체 async한다.
+- 성공 여부에 따라 에러/성공도 dispatch 할 수 있다.
+- 이것을 App.js에서 useEffect를 하지 않고, 해당 함수를 export 하여 App.js에서 dispatch(해당함수(인자)) 이런 식으로 사용해준다.
+- 그러면 자연스럽게 사용이 된다.
+
+- 왜 사용해야 하는가? 컴포넌트를 최대한 린하게 만드는 것이다.
+
+- actions creator 따로 조사해야 할듯.
+- 아마 actions를 선언한 뒤, 로직이 있는 actions 들을 비동기처리하며 로직을 만드는 action을 하나 새로 리턴하는 것 같다.
+
+- 외부 데이터를 가져오는 함수를 하나 만든다. 그 내부에서 dispatch하는 비동기 형태로 만든다.
+- 이후 해당 함수를 useEffect() 내부에서 dispatch 해주고, dispatch를 의존성으로 가지게 되면, 시작마다 정보를 가져오게 된다.
+- 근데 이 때, 해당 데이터에 useEffect 의존성을 가진 부분이 재실행 된다.
+- 그것에 대한 해결책으로 초기상태 여부 변수를 하나 넣는 것으로 해결이 된다. 초기에 가져왔을 때 false인 변수로 설정하고, post 요청마다 true로 설정하여 해당 변수로 로직이 담긴 action creator를 dispatch 하면, 초기의 false인 경우 실행되지 않는다. 요청을 보낼 때 객체에 들어가지 않도록 주의!
+- 이 때, DB가 비어있다면 에러가 날 수 있으므로, **빈 값이라면** [] 등으로 지정해 문제가 생기지 않도록 해결해야 한다.
+
+- Thunk 개념과 action creator 개념 복습 필수!
+
+
+
+
+
+
