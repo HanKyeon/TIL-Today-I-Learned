@@ -1,0 +1,59 @@
+
+# 20221231
+
+Redux persist. 리덕스를 세션 혹은 로컬 스토리지에 저장해서 사용하게 해주는 라이브러리
+
+1. request를 hooks 말고 api.js 함수 쪽에 모아둘 수도 있다.
+- 기존에야 hooks로 묶어뒀지만 그럴 필요는 없는듯. fat components가 되어도 프로젝트에서는 상관 없어 보인다.
+- Fat Reducers vs Fat Components vs Fat actions
+
+
+## 리액트, Nextjs, Gatsby 비교. CSR SSR SSG
+
+- 고려해야 하는 점
+1. 돈. 유료 라이브러리 등
+2. 개발자의 기술 스택. 협업하는 개발자의 기술 스택이다.
+3. 커뮤니티가 큰 개발 언어인지.
+
+4. 팀이냐 개인이냐. : 혼자 만들면 굳이 프레임워크 라이브러리 안써도 된다. 팀이라면 컴포넌트 베이스.
+4-1. SEO가 중요? 다음 질문 : CSR React.js
+4-2. SEO가 중요할 때 업데이트가 자주 되는가? Next.js 약간 만능이다. SSR이 디폴트이다. 각각 페이지 준비가 약간 시간이 걸리긴 해도. SSG 커버 가능, CSR도 커버 가능. 업데시 자주 일어나며 SEO가 중요하다면 Next.js가 좋다. : 정적이라면 Gatsby. Static Site Generator라 부름. 그래서 자주 업뎃되면 좋지 못함. 회사 소개, 블로그 등.
+5. 마케팅/세일즈 비개발 측에서 컨텐츠 업데이트가 많다면? CMS Content Management System. 웹사이트를 보여주는 기술인데, 거기서 컨텐츠를 업데이트 할 수 있는 사이트를 하나 만들어주는 것이다. CMS 붙여두면 좋다. contentful, sanity io, 워드프레스 등.
+
+Gatsby도 리액트 사용하니 리액트를 사용하면 좋다.
+
+- reducers를 사용하면 toolkit이 aciton creator를 자동으로 만들어 준다. 하지만 creatAsyncThunk로 만든 비동기 작업은 action creator를 자동으로 생성하지 못하기 때문에, slice의 extraReducers에 직접 action creator를 정의한다 : 아마 유데미에서 쓴게 fat reducer인듯
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
