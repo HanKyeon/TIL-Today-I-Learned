@@ -18,10 +18,16 @@ import sys
 input = sys.stdin.readline
 
 def find(x):
+    """
+    노드를 받아 부모를 찾아줍니다.
+    
+    Args:
+        `x` 부모를 찾고 싶은 노드
+    """
     if parent[x] != x:
         parent[x] = find(parent[x])
     return parent[x]
-
+find()
 def union(x, y):
     if x < y:
         parent[y] = x

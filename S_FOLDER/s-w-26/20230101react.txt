@@ -1,13 +1,144 @@
 
 # 20230101
 
-`npm install react-router-dom`
-`npm install react-router`
+`npm install react-router-dom` : 이게 맛다. 현재 6버전 강의는 5버전
+`npm install react-router` : 이게 아닌듯?
 두가지가 다른 듯? 버전에 맞게 사용하면 될듯
 
+이후 `import { Route } from "react-router-dom"` 를 통해 임포트.
+Route는 태그로써, 조건부(특성 path)로 해당 태그 내의 DOM을 렌더링 해준다.
+
+Route 사용 시 index.js에서 root Component를 `<BrowserRouter><App /></BrowserRouter>`로 감싸주어야 한다.
+```
+import ReactDOM from "react-dom/client"
+import { BrowserRouter } from "react-router-dom"
+
+import "./index.css"
+import App from "./App"
+
+const root = ReactDOM.createRoot(document.getElementById("root"))
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+)
+```
+6버전이라 따로 찾아봄. Link 태그 안에 Switch 대신 Routes를 넣어준다.
+component 프로퍼티 대신 element 프로퍼티를 가진다. Route는.
+Route 사이에 넣었는데 왜 안되는지 모르겠다. => element에 무조건 JSX 형태로 props 해줘야 한다.
+또한 Route 역시 `/>` 형태로 끝나야 하느늗ㅅ.
+```
+    <div>
+      <h2>Let's get started!</h2>
+      <nav>
+        <Link to={`/`}>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/512px-React-icon.svg.png" />
+        </Link>
+        <Link to={`/welcome`}>웰컴</Link>
+        <Link to={`/products`}>프로덕츠</Link>
+      </nav>
+      <Routes>
+        <Route path="/welcome" element={<Welcome />}></Route>
+        <Route path="/products" element={<Products />}></Route>
+      </Routes>
+    </div>
+```
+active된 링크 확인 하고 싶다면 NavLink를 쓰면 된다.
+NavLink 사용 시 자동으로 active class를 넣어준다. 근데 styled component나 .module.css를 쓸거라면 안쓰는게 맞는 듯?
+isActive 변수가 자동으로 생긴다. 해서 isActive를 파라미터로 받아서 isActive ? a:b 형태로 주어주면 원하는 active 변수를 제공 할 수 있다.
+`<NavLink to={`/`} className={({ isActive }) => (isActive ? "ok" : "")}>`
+반드시 NavLink 태그여야 하며, isActive를 객체로 감싸야 한다. object destructuring 인듯
+
+- 동적 세그먼트 라우팅
+- `path="/product-detail/:productId"` 이런 식으로 동적 라우팅을 받는다. 
+- 정확히는 /product-detail/ 해당 주소 이후 어떤 것이든 올 수 있다는 뜻이다.
+- 해당 url에 접근해서 데이터를 가져와야 한다.
+import { useParams } from "react-router-dom"
+- useParams() hook 을 이용해 가져온다.
+- `const params = useParams()`
+- params는 키 밸류 값을 갖는 객체. 키는 동적 세그먼트로 path에 연결된 변수.
+- 예를 들어 `path=/product-detail/:proId/:othID` 이런 경우 proId 와 othId가 키 값.
 
 
 
+
+
+------------------
+# react-router-dom 버전에 따른 차이
+react-router-dom 5버전 6버전 차이
+
+- 5버전에 switch exact는 사라짐.
+- 버전 6는 버전 5와 다르게 라우트의 순서도 상관이 없다!
+- 잘 찾아서 매칭해서 활성화 해준다.
+- 5버전의 activeClassName prop이 삭제. 링크 활성화를 수동 확인. `className={(navData)=>{navData.isActive? "active":""}}` 이런 시긍로 활용.
+- useParams 로 동적 라우팅 변수를 받아오는 것은 같다.
+- Redirect는 사라지고, Navigate가 생겼다. replace props도 추가하면 새로고침 등
+- nested router가 에러가 날 것이다. Route를 Routes로 감싸야 한다. 버전 5에서는 감싸지 않아도 되었지만 6에서는 nested도 감싸주어야 한다.
+- nested router의 path 관련이 변경되었다. 기존에는 welcome/asdfasf 이런식으로 다 지정했어야 하지만, 이제는 부모 router의 path를 /welcome/* 으로 해두고 내부 Route의 path는 부모 route에 상대적이다. 즉, 자식 라우트의 path는 "new-user" 이런 식으로만 적으면 된다.
+- Link 태그의 to 역시 상대적으로 설정이 된다. Route로 로드된 컴포넌트 내의 Link나 Route의 to 혹은 path는 상대적이다.
+
+- 중첩이 아니라, 메인 Routes에서 nested Route, 중첩 라우팅이 가능하다.
+- Route 태그를 열고 닫은 뒤 그 사이 chidren으로 응애 라우트를 넣어준다.
+- 중첩된 Route를 가질 때는 self closing tag를 사용하지 않아도 된다.
+- ㅇ리ㅓㅎ게 되면 nested route가 더 분명해진다. path 역시 그대로 작동된다.
+- 이 때 중첩된 컴포가 해당 element의 어디에 자리 잡아야 하는지 해당 element에서 중첩된 Routing component가 어디에 들어갈지 적어둬야 하는데, 그것은 해당 컴포넌트에서 `<Outlet/> `을 통해 위치를 잡아준다.
+
+- useHistoty hook을 통해 push나 replace룰 통해 이동했었다. 5에서는
+- 6에서는 사라지고, useNavigate hook이 생겼다.
+- `const navigate = useNavigate()`선언 후 `navigate("/welcome") ` 이런 식으로 슨다.
+- redirect의 경우 `navigate('/welcome', {replace: true})` 이런 식으로 선언. 새 라우트를 내비게이션 스택으로 푸쉬하는 대신 리디렉션 하는 것.
+- navigate(-1)은 이전 페이지 -2는 이전이전 1은 다음으로 가기 등. 숫자를 통ㅎㅐ 이동을 알려줄 수 있다.
+- 명령형 네비게이션이라 한다.
+
+- Prompt.
+- Prompt의 경우 저장하지 않은 데이터가 있을 때 막아줄 수 있었다.
+- 근데 삭제됨. 고로 이동을 막을 필요가 있다면 버전 5가 좋을 수도 있다.
+
+-----------------------
+
+
+# 독스트링
+
+뜬금없지만 파이썬 독스트링 : 구글 스타일이 좋아보여서 구글 스타일로.
+```
+def lego(a1, a2):
+    """
+    숫자 두개를 입력받아 합을 반환
+    Arg:
+        `a1` : 숫자 1
+        `a2` : 숫자 2
+    """
+    return a1+a2
+```
+
+- JSDoc
+이런 식으로 적는다.
+TS는 개발 초기에 변경 사항이 많을 경우 적합하지 않다.
+TS를 JS 변환을 해서 써야 하는데, 그러면 코드 사이즈가 커진다.
+타입스크립트로는 이후에 만들자.
+TS와 혼용이 가능하므로, 우선 JSDoc으로 쓰자.
+```
+/**
+ * 고양이 객체
+ * @todo 뭐 더 해야합니다.
+ * @see 링크 달아서 할 수도 있고
+ * @type {object}
+ */
+let kitty = {
+  haha : 'ㅎㅎ',
+}
+
+/**
+ * 키티의 haha를 출력하는 함수
+ * @version 버전명시가능
+ * @deprecated 다른 거 써주세요 할 때 사용. 사용 시 줄 그어짐
+ * @param {object} kitty 키리 객체
+ * @returns 고양이 웃음소리 반환
+ */
+function update(kitty) {
+  console.log(kitty.haha)
+}
+```
 
 
 

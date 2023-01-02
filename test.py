@@ -1,8 +1,14 @@
 
-a = [1,1,2,2,2,8]
-nl = list(map(int, input().split()))
-a = list(map(lambda x: a[x]-nl[x], range(6)))
-print(*a)
+print("       _.-;;-._")
+print("'-..-'|   ||   |")
+print("'-..-'|_.-;;-._|")
+print("'-..-'|   ||   |")
+print("'-..-'|_.-''-._|")
+
+# a = [1,1,2,2,2,8]
+# nl = list(map(int, input().split()))
+# a = list(map(lambda x: a[x]-nl[x], range(6)))
+# print(*a)
 
 # while True:
 #     try:

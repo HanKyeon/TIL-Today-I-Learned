@@ -1,0 +1,44 @@
+
+- 파이썬 독스트링 : 구글 스타일이 좋아보여서 구글 스타일로.
+```
+def lego(a1, a2):
+    """
+    숫자 두개를 입력받아 합을 반환
+    Arg:
+        `a1` : 숫자 1
+        `a2` : 숫자 2
+    """
+    return a1+a2
+```
+
+- JSDoc
+아래처럼 적는다.
+TS는 개발 초기에 변경 사항이 많을 경우 적합하지 않다.
+TS를 JS 변환을 해서 써야 하는데, 그러면 코드 사이즈가 커진다.
+타입스크립트로는 이후에 만들자.
+TS와 혼용이 가능하므로, 우선 JSDoc으로 쓰자.
+```
+/**
+ * 고양이 객체
+ * @todo 뭐 더 해야합니다.
+ * @see 링크 달아서 할 수도 있고
+ * @type {object} 내부에 뭐뭐 받습니다.
+ */
+let kitty = {
+  haha : 'ㅎㅎ',
+}
+
+/**
+ * 키티의 haha를 출력하는 함수
+ * @version 버전명시가능
+ * @deprecated 다른 거 써주세요 할 때 사용. 사용 시 줄 그어짐
+ * @param {object} kitty 키리 객체
+ * @returns 고양이 웃음소리 반환
+ */
+function update(kitty) {
+  console.log(kitty.haha)
+}
+```
+
+파일 별 인덴트 설정
+https://til.simonwillison.net/vscode/language-specific-indentation-settings
