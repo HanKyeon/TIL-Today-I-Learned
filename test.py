@@ -1,4 +1,14 @@
 
+T = int(input())
+for test_case in range(1, T + 1):
+    b = map(int, input().split())
+    a = round(sum(b)/10)
+    print(f'#{test_case} {a}')
+    print(type(a))
+
+for tc in range(1, int(input())+1):
+    print(f"#{tc} {round(sum(list(map(int, input().split())))/10)}")
+
 print("       _.-;;-._")
 print("'-..-'|   ||   |")
 print("'-..-'|_.-;;-._|")
