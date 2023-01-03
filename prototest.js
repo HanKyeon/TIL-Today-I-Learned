@@ -9,10 +9,10 @@ let cat = {
 /**
  * 고양이 객체
  * @todo 뭐 더 해야합니다.
- * @see 링크 달아서 할 수도 있고
+ * @see
  * @type {object}
  */
-let kitty = {
+export let kitty = {
   haha: "ㅎㅎ",
 }
 
@@ -23,7 +23,7 @@ let kitty = {
  * @param {object} kitty 키리 객체
  * @returns 고양이 웃음소리 반환
  */
-function update(kitty) {
+export function update(kitty) {
   console.log(kitty.haha)
 }
 update(kitty)
