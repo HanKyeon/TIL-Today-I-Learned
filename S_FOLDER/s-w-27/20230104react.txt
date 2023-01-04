@@ -1,0 +1,200 @@
+
+# 20230104
+
+야무 강사님
+
+질문은 깃헙 Issue 탭.
+
+커리큘럼이 꼴랑 7일이라 상당히 어려울 것이다.
+
+- 바닐라 짜스를 써보는 것은 좋은 경험이다. 하지만 시간상 패스한다. 바로 리액트로 간다.
+
+- next.js 등이 framework이고, react는 js library이다. UI를 빌딩하는데 쓰인다. UI를 합리적이고 효과적으로 구성하기 위해 학습한다.
+
+- 선언형 프로그래밍과 명령형 프로그래밍의 차이는 
+- 결과적으로 명령형은 하나하나 지시를 해주는 것이다. 모든 것을 하나하나 지시를 한다면, react나 vue 같은 경우는 상태를 선언하고, 사용하면 알아서 사용된다. web browser의 네이티브를 사용하지 않고 컴포넌트나 그런거를 사용 할 수 있다. 라는 장점.
+
+- 님들 이미 컴포넌트에 익숙해져 있음 뷰 해봤으니까.
+- 현재 React에 잘 적용된 docs는 react docs beta를 보는 것이 좋을 수 있다.
+- vue.js의 문서가 더 잘 되어있다고 생각한다. 리공문 순서로 공부한다.
+
+- 현재 beta 문서가 완성 되면 기존 라이브러리는 레거시가 될 것이다.
+
+- EC6 언어 활용이 중요하다. ECMAScript 문법 쓸거고 익숙치 않으면 말해라.
+
+- `digit yamoo9/typescript-starter` 이렇게 하면 .git 폴더 없이 가져온다.
+
+- `globalThis` : 윈도우.
+- `globalThis.React` : 리액트 버전을 콘솔 창에서 알 수 있다.
+
+- 빌드 시스템이 아닌, 웹 브라우저에서 리액트가 어떻게 작동하는지 확인해라.
+
+- 스크립트 코드가 해석 될 때 html의 상태에 따라 null이 반환 될 수 있다. 해결 방식은 event를 쓰거나(contentLoadedEvent나 async, type="module"을 사용하거나. 타입에 module을 주면 ECMAScript의 모듈이 되기에 접근이 가능해진다.)
+- 이렇게 돌ㅇ가ㅏ는 것은 actual html element이고, react에서 쓰이는 것은 virtual element이다. react element이다.
+- React API를 써야한다. react의 api를 create 하는 것이 필요하다.
+
+- react가 브라우저에서 생성될 때 어떤 식으로 작동하는지 아는 것에 중심을 두자.
+- createElement()
+```
+React.createElement(
+  type,
+  [props],
+  [...children]
+)
+```
+- 뷰는 하이퍼 스크립트로, react는 리액트 함수로 한다.
+- `React.createElement("h1", {className : "headline"}, "내용")` : 이런식으로 해야 헤드라인 react element 객체가 만들어진다.
+- DOM 문서 객체를 추상화한 객체가 생성된다. => $$type은 symbol이다.
+- React.createElement() 를 통해 생성도니 props들은 배열로 감싸진다. type과 props를 통해 DOM 트리가 구성된다. React에서는 가상 돔이 생성된다.
+- react, react-dom, react-native, electron 등을 사용한다.
+
+- 리액트를 한 번 배워두면 여러개를 만들 수 있다. 핵심적인 코어 기능을 구분해놨기 때문. 
+- 타입이 Symbol(react.element) 로 되어있다면 react element이다.
+- 렌더링의 영역은 리액트가 하는 것이 아니다.
+
+- `React.strict_mode` : 강한 검증. 이거 기억나네. 근데 React 내부의 strict_mode네? 엄격하게 관리.
+- React.StrictMode를 이용해 객체를 만들면 react element 심볼이다.
+- 컴포넌트를 렌더링 하기 위해서는 reactDOM API가 필요하다.
+- 17v api와 18v api가 다르다.
+- 18버전에는 새로운 api가 등장한다. vue와 비슷해지게 된다.
+- 뷰는 앱을 생성하지만, 리액트는 리액트 앱의 뭉텡이를 소환하지 앱을 소환하는 것이 아니다.
+- React DOM Root를 생성하고, createRoot 형태로 가장 최상위의 루트를 만든 후 렌더링 하기에, 뷰와는 반대의 형태이다.
+
+- React가 18버전부터 client와 server가 분리된다. ssr과 spa 비교인듯.
+- ReactDOMClient 라는 18버전에 추가된 것을 사용.
+- createRoot에 container가 들어가 있다. id가 root인 element를 만들 수 있다.
+- `const reactDomRoot = ReactDOM.createRoot(container)` 이런 형태로 루트를 선언 할 수 있다.
+
+- 그래서 react에서 사용 할 때 모든 곳에서 사용되어야 한다.
+- React와 React DOM 2가지를 사용한다.
+- vue는 웹, 데톱, 모니터 등 관리가 가능하다.
+- ReactDOMRoot에는 render 메소드가 있으며, 해당 메소드는 children을 받는다.
+- 이후 render를 통해 컴포넌트 인스턴스를 올랴 볼 수 있으나, 에러가 날 것이다.
+
+- React가 브라우저에서 어떻게 해석이 되는지에 대해 궁금해해라.
+- key 같은 경우 Reconciliation 이라는 것이 있다. 해당 부분에 있어서 key라는 props가 굉장히 중요하다.
+- Reconciliation 같은 경우 강조는 아니지만 Warn을 띄운다. 아마 el을 구분해서 다시 렌더하거나 할 때 쓰일 것.
+- development가 있고, production min? 으로 로드하면 경고하지 않는다. 배포 버전이므로, 콘솔에서 경고창을 띄우지 않는다. 배포에서는 개발자에게 경고를 제공하지 않는다. 개발 시에는 development로 확인하는 것이 좋다.
+
+- 리액트의 컴포넌트 타입은 2가지.
+- class component, functional component.
+- class는 stateful component이고, functional component는 stateless component라 불리운다.
+- class는 stateful 하기에 container라 부르고, functional은 stateless하기에 presentational 이라고 불럿다.
+- 하지만 19년부터는 class에서 functional로 넘어가게 된다.
+- 2019년에 vue가 1등을 잠깐 찍었을 때, React가 hooks API가 등장하여 다시 vue에서 뺏어온다.
+- vue에는 life cycle hooks와 다른데, react에서는 life cycle method이다.
+- 뷰로 따지면 composables 이다. 이것이 react hooks와 비슷하다.
+
+- React Component는 React element를 만드는 것에 쓰인다.
+- component의 가장 큰 사용 이유는 재사용성. 컴포넌트를 만들고 사용하는 이유는 재사용을 위해서.
+
+- react에서는 함수가 component이고, 함수가 반환하는 것이 element이다. 파스칼 케이스로 함수를 정의해야 한다. html element와 구분을 위해서.
+
+- 바닐라 js React를 쓰시나본데 존나 멋져
+- return을 React.createElement('태그', props, ...children) 형태의 컴포넌트를 만들어준다.
+- 함수형이기에 props를 받는건 똑같다.
+
+- 실제 컴파일은 html로 렌더링 된다.
+- StrictMode를 App으로 만들게 되면, 2개의 children으로 만들어지게 되고, React.StrictMode 태그로 감싸진 JSX 코드를 반환하는 것 같다.
+- 양놈 아재 강의가 좋긴 했네.
+
+- `reactDomRoot.render(React.createElement(App))` 이런 식으로 바닐라로 생성하는 듯.
+- key 역시 다 챙겨줘야 한다.
+- react의 child로 function 타입은 적합하지 않다 라는 warning이 뜰 수 있다.
+- children에는 jsx 코드 등이 와야한다. 함수째로 넣어주면 안된다.
+
+- props에는 children도 들어오게 된다.
+
+- children에서는 ' ' 공백을 까먹지 말아라! 디자이너가 빡칠 수 있다.
+- react와 react-dom은 구분되어 있다.
+
+- state.
+
+`const { React: { StrictMode, createElement: h }, ReactDOM: {createRoot}}` 이런 식으로도 가져올 수 있다. : h 는 h로 부른다는 뜻이다.
+
+- 객체 디스트럭쳐링을 중첩되게 할 수 있다.!
+
+- props는 obj이기에 디스트럭쳐링이 가능하다. 즉, const {className, ...restProps} 를 props로 받아서 props를 구분 할 수 있다.
+- spread 와 전개는 다르다. 전개는 할당하는 것 같은데
+- react에 앞서, ECMAScript6와 TypeScript를 공부하는 것이 큰 도움이 될 것이다.
+
+- react API를 잘 이해해두면 JSX 코드의 이해가 수월 할 것이다.
+
+- 나중에 스토리 북이라던가 사용해보면 Arrow func보다 일반 func 선언을 좋아할 수 있다. 난 원래 func이 좋다. Arrow 맘에 안듬.
+
+- 구조 분해 할당 굉장히 많이 썼다. 전개, spread 등등.
+
+- reduce() Array method가 있다. reduce는 더해가는 메소드!
+
+- reducer 함수는 순수 함수이며, in과 out을 처리하며 내부에는 side effect가 있어선 안된다.
+- react의 children은 하나 이상의 길이를 가질 때, array 형태 list 형태가 필요하다.
+- docs의 Lists and Keys. v-for와 비슷하다.
+- react는 결국 js 활용 능력이다. js 공부가 매우매우 중요하다.
+- 바닐라 js로 할 것이면 React.createElement() 를 이용해서 map 해서 return 하던가 해야 한다.
+
+- props는 read only이다.
+- 즉, props를 받은 값을 map 돌리는건 불법이라는듯?
+- 객체는 react의 child의 값으로 적합하지 않다.
+- react는 view에 중점을 두고 있다. 오로지 client에서 view에 집중하는 도구이다.
+
+- vue.js를 하며 MVVM을 했을테지만 react는 view에만 집중한 구조이다.
+- 그래서 사용이 다른가보구나.
+
+- Browser에서 React가 어떻게 동작하는가? 라는 물음.
+- 개론적인 측면을 익숙하게 익혔으면 좋겠다.
+- createElement() 할 때 버튼 같은 경우, typeㅇ르 명시해야 한다.
+- SyntheticEvent. native 이벤트를 안쓴다. 이벤트를 핸들링 하기 위해서는 제공된 방법을 따라야 한다.
+- onClick 이런 식으로 리액티브하게 props를 내려주어야 한다.
+- Accessibility 접근성의 경우, react에서 난해하다. 접근성을 높이기 위해 react를 쓰는 것이기에 염두에 두어야 한다. 지원하지 않는다면 만들면 된다.
+- vue는 directive를 사용하여 v-on 혹은 @를 하지만, react는 다르다!
+
+- component가 아니면 react dev tools에 안뜨는듯. 바닐라 html의 경우.
+- role htmlProperty? 뭐지? role은?
+- 리액트가 사용하는 event 방식은 이벤트 전파 형태이다. element event listener를 보면 root element에서 event가 전파되는 것을 확인 할 수 있다. 즉, event는 흐름의 구조를 갖고 있기 때문에, event bubbling에 대해 알고 있다면 이해가 잘 될 것인데 암튼 전파형이라 잘 퍼진다.
+- 그래서 app마다 관리 하기가 좋다고 함. 리액트 17버전부터.
+
+- 리액트의 내부적인 이야기가 중요하다. state 변경의 경우 vue와 다르게 전부 immutable이다. FLUX 아키텍쳐를 따르기 때문. one-way data flow가 중요하다. 단방향 흐름. 불변성을 지켜주어야 한다.
+- 그래서 Redux 사이트를 가보면 예측 가능한, 중앙 집중 형태, 추적해서 디버깅이 가능하고, redux를 확장해서 사용 할 수 있는 장점을 어필하고 있다.
+- 상태를 update하기 위해 React Hooks API를 사용해야한다. state 관리, side effect, dom reference, context, reducer 등등.
+- vue3의 composables는 react hook으로부터 영향을 받았다.
+- Hook은 똑같이 useState를 쓴다.
+- docs의 Using the State Hook 참고.
+- useState의 경우, state, setState를 array 형태로 반환한다. setState의 경우 해당 함수로만 데이터가 변경 가능하다는 것을 보장해준다.
+- 대부분 구조 분해 할당으로 받는다.
+- React에서는 mutable이 허용이 안되고, setState가 허용된다. 갱신이 아니라, 덮어쓰게 된다.
+- 덮어쓰기이기에, ECMAScript의 spread operator를 이용해 덮어써주어야 한다. `...state` 를 사용해서.
+
+- state가 변경되면 Reconciliation을 한다.
+
+- 컴포넌트가 렌더링 되었다는 것은 state가 변경되거나 props가 변경되었기에 재조정이 된다는 것이다.
+- 그렇기에 업데이트가 된 부분만 JS가 실제 DOM에 접근해서 변경해주는 것이다.
+- Components and Props 를 docs에서 확인. Extracting Components 개념이 있다. 컴포넌트가 커지면 안되기에 컴포를 가능한 한 작은 단위로 쪼개야 한다는 것.
+- React 데이터를 추출해서 관리해주게 된다면, 해당 데이터를 요구하는 컴포넌트 갱신을 최소화 할 수 있다.
+- 성능 저하 문제를 해결하기 위해서도 컴포넌트 최소화를 지향해야겠다.
+
+- 핵심은 React라는 도구가 Browser에 의해 어떻게 해석되는가? 라는 것이 큰 주제이다.
+- 버튼 분리 가능. style을 잘 조정하면 재사용이 가능하게 될 것이다.
+- React 컴포넌트 재사용...
+- React나 vue를 사용하는 현재 실질적인 이유는 바뀌는 곳만 바뀌어서이다. 바뀌는 것만 새로 rerendering 되어야 하는데, 모든 거시 다 새로 rerendering이 되는 경우가 있다.
+- 컴포넌트가 왜 불필요하게 rerendering이 되는지 원인을 알아야 하고, 그런 부분을 어떻게 고치는가가 중요하다.
+- state는 일종의 캡슐화가 되어있다. JSX 없이 리액트 개발 가능.
+- jsx 코드는 브라우저가 해석 불가능. jsx는 js 확장이고, ecma 확장이며, xml과 비슷한 문법을 쓴다.
+- 모두 html을 쓰지 않는다. element를 보다 쓰기 쉽게 해주는 추가 신택스이다. ecma 문법 형태이다.
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
