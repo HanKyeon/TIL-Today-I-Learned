@@ -1,136 +1,298 @@
 
 # 20230106
 
+## TypeScript, React 할 것이다.
 
+지난 번 학습했던 저장소를 main을 확인 했을 수 있는데, main에는 지난 번 학습한 내용이 하나도 없을 수 있다. 브랜치를 나눠둬서 그렇다.
 
+js extension. JSX 라는 XML 문법을 지원해서 편하게 리턴하거나 반환 할 수 있는 코드를 만작성하여 완성 할 수 있다.
 
+근데 JSX가 기술 문서인냥 안이뻐져서 표준인 듯 얘기 되는데 표준이 아니다.
+JSX에 대한 소개는 facebook의 github에 가보면 확인이 가능하다. : http://facebook.github.io/jsx/
 
+JSX 문서를 보며 익숙하지 않을 수도 있다.
 
+리액트에서 JSX 없이 쓸 수도 있지만 불편했다. 그걸 해결하기 위해 JSX를 사용한다.
 
+JSX는 React Argument를 만드는거다. React.createElement를 JSX 코드로 만드는 것이다.
 
+`npm run dev:es` 이런 식으로 chrome 안에서 코드 치고 할 수 있는 명령어인듯.
 
+React를 넣을 때, 스크립트 태그 안에 cdn을 넣어서 가져와도 된다.
 
+타입을 모듈로 하고 src를 js 파일로 설정해도 된다.
 
-
-
-
-
-
-
-
-------
-스피너 코드
-
-
-Certainly! Here is a basic implementation of a spinner component in React:
-
-import React from 'react';
-
-const Spinner = () => {
-  return (
-    <div className="spinner-container">
-      <div className="spinner">
-        <div className="double-bounce1"></div>
-        <div className="double-bounce2"></div>
-      </div>
+```
+container = document.getElementById("root")
+ReactDom.createRoot(
+  container
+).render(
+  <React.StrictMode>
+    <div className="App" len="en">
+      <h1></h1>
     </div>
-  );
-};
+  </React.StrictMode>
+)
+```
+위와 비슷한 형태로 App Root elemet 호출 가능.
 
-export default Spinner;
-This component will render a div with a class of "spinner-container" and within that, it will render a div with a class of "spinner". Within the "spinner" div, it will render two more divs with classes of "double-bounce1" and "double-bounce2".
+바벨 사이트에서 JSX를 해석해준 모습을 확인 할 수 있다. 어떤 식으로 해석이 되는지 설명과 함께. : https://babeljs.io/docs/en/babel-standalone
 
-You will need to add some CSS styles to these classes in order to actually see the spinner. You can use the following styles as a starting point:
+바벨 cdn의 경우 겁나게 길다. script code를 통해 넣을 수 있다.
 
-.spinner-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+이후 바벨이 모든 script code를 해석하려면 시간이 오래 걸리기 때문ㅇㅔ 해당 태그만 바벨로 해석해달라고 알려줘야 하기 때문ㅇㅔ type="text/babel"을 넣어주면 해당 문서 요소에 접근 해야 할 ㄸㅐ defer 혹은 async 속성을 이용해 dom에 mount 된 다음에 붙어야 하는데 text/babel 타입이 붙으면 추후에 렌더링 된 다음 babel에 의해 처리됨을 알릴 수 있다.
+
+문제는 캡슐화 부분. 접근 자체는 되어서 모든 코드가 노출되는 경우가 생긴다. 안티 패턴.
+
+그래서 블록 스코프를 통해 일시 해결이 가능하긴 하다.
+
+html5 부터는 data-type="module" 속성을 넣어주게 되면 type 속성을 넣어준 것 처럼 omdule 형태로 처리해준다.
+
+바벨에는 패키지와 플러그인이 있다. 패키지가 모여있는 것인 프리셋.
+
+바벨에 React를 체크하면 실시간 해석을 해준다.
+
+바벨이란 도구는 compiler가 아니라 transpiler이다. 컴파일링이 아니라 다른 언어가 특정 파일로 변환되는거다.
+
+즉, Babel은 js를 본래 js에서 쓰이도록 변환해주는 것이다. 
+
+JSX는 XML과 유사한 문법이므로 self-closing을 해주는 것이 좋다.
+Arrow fucntion 혹은 function, class로 컴포넌트 생성 가능.
+
+오늘은 class 사용.
+
+React.Component를 extends 받아야 컴포넌트가 된다. 그렇기에 constructor에서 super()를 선언하면 된다. Component에는 LifeCycleHhook등 여러 기능이 있다.
+
+컴포넌트의 주 목적은 createElement이다.
+즉, React의 Element를 생성해줘야 한다. => JSX 문법으로 가능.
+
+클래스에서는 this를 써줘야 한다. this.props 등.
+interpolation을 통해 보관 처리를 한다. vue.js는 template을 쓰기에 {{}} 이거 쓴다.
+React는 중괄호 하나롸 처리.
+
+defaultProps를 정해줄 수 있다. 초기값 설정 가능.
+App.defaultProps = {} 객체로 선언해줄 수 있다! => 바닐라 자스의 함수 default value를 넣어주는 것처럼 해준다.
+
+`React.Fragment` 는 하나로 묶어주는 역할을 한다.
+
+vue처럼 <template></template> 로 묶기에 표준을 따르지 않는다. 그래서 고체 컴포넌트. HOF high order fragment 로 감싸주면 rendering 될 때 나오지 않는다.
+
+사실 그냥 `<></>` 빈 태그 써줘도 됨. React가 빈 태그를 React.Fragment 라고 해석해줌. 축약형 자주 쓴다. 빈 태그.
+
+이 아재는 children도 구조분해 할당 받아서 넣어주는 것 같다.
+
+vue3는 뷰바인딩 할 때 :bind 이런거 쓰지만 react는 순수 js이므로 재사용이 가능하다.
+```
+const Headline = ({className, children}) => {
+  return <h1 className={`Headline ${className}`}>{children}</h1>
+}
+```
+이런 식으로 destructuring 해서 받아올 수 있다!
+
+router v6 의 경우 element={JSX etc...} 이런 식으로 썼어야 했었다. 기억하자.
+
+두 개의 컴포넌트는 고유한 키 값이 필요하다.
+
+class에서 state를 정의 할 때는 state = {} 를 내부에 말해줘야 한다. public class field 이런식으로 쓰면 된다.
+
+render를 할 때 배열을 반환하기에 key property가 필요하다.
+
+vue.js는 v-for를 사용하지만 react는 map method를 쓴다.
+
+# 리액트에서 중요한 것은 불변 데이터!
+
+그래서 주로 map 등을 사용한다.
+
+React의 interpolation의 경우, ${}가 아니라 {}이다!
+
+list rendering 의 경우 js와 같이 .map()으로 쓴다.
+
+key 값은 동일하면 안된다 !
+
+index를 key 값으로 쓰지 않는 것을 추천. shuffle 등을 쓸 때 원하는 방식으로 동작하지 않을 수 있음. 그렇기에 data 자체가 id를 가지고 있는 것이 좋음.
+
+구조분해 할당을 진짜 잘쓴다.
+
+Arrow fnction을 쓸 때 주로 jsx 코드는 괄호로 감싸준다.
+
+퍼블리셔는 vue를 선호 할 수 있다.
+
+html properties의 경우 카멜케이스여도 잘 된다.
+
+tabIndex 등 원래의 html properties의 경우 camelcase로 사용하며 className으로 쓴다.
+
+TS로 바꿔보겟다.
+
+---
+
+# TypeScript
+
+ECMA를 벗어나지 않으면서 Type적인 부분에서 추가 기능을 사용하는 것.
+
+TypeScript Handbook을 보면 좋다.
+
+ts-browser는 스킵.
+
+react랑 dom이랑 ts를 가져와서 loadModule을 이용해 jsx 코드를 ts.JsxEmit.REact로 바꿔주면 좋다.
+
+- .ts와 .tsx는 다르다. 타입 스크립트 파일과 타입스크립트 + JSX 코드.
+
+- typeScript의 개념은 annotate이다.
+
+- ts는 그렇게 강하게 강하게 막아주지 않는다.    
+
+ts에서도 파이프라인 써서 타아ㅣㅂ, 반환을 설정 가능.
+
+js에서의 그것과 다르게 렌더링이 바로 되지는 않는다.
+
+`npm install typescript`
+`npx tsc --version`
+`npx tsc --help`
+등등 확인 가능.
+help로 확인해보면 --jsx에서 jsx를 어떻게 볼 것인지, js를 허용할지 체크할지 등 여러 설정이 있다.
+
+tsc CLI options 라고 칭하므로 그런 것을 확인해보도록 하자.
+
+`npx tsc -t es6 --outDir` : es6 버전으로 확인하겟다. 현재 디렉토리에서.
+`npx tsc -t es6 --outDir ./sample.ts` : es6 버전으로 확인하겟다. 현재 디렉토리에서.
+
+보통 tsconfig.json 파일을 만들어서 해결 가능하게 만들어준다.
+
+쉘 줄임말은 sh인듯.
+
+### tsconfig.json 파일.
+
+`npx tsc --help`ㄹㄹ 치면 --init 명령어가 있다. init을 치면 tsconfig.json 파일을 만들어준다. --target es6 형태로 타겟으 정해줄 수 있다.
+
+tsconfig.json에서 여러 설정을 조정해줄 수 있다. module을 어떤 식으로 해석하는지 rootDir가 어디인지, emit은 어떤 식으로 할지, outDir 확인 등등 가능하다. 내보낸다는 걸 보니 export 느낌이려나
+
+ts 파일의 경우 어느정도 추론을 해준다. 하지만 type에 대한 annotation을 사용해도 좋다.
+
+js는 타입이 동적으로 변경되는 언어이다보니 let으로 기본 선언하면 any로 들어가게 된다.
+
+Ts 같은 경ㅇ 타입 가드를 해준다.
+
+React는 props를 받아주고 object이고, obj이기에 그 내부에 뭐가 올 지 모를 수 있다.
+
+Headline.propTypes = {
+    className(propName, props, componentName) {
+        if (a !== b)
+    }
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  position: relative;
+*propTypes* : JS 환경에서 사용하는 것이다. 자바스크립트의 함수들이다. prop-types ㄹ이브러리를 빼서 하면 좋다.
+prop-types 패키지를 설치해서 모듈을 연결시키는 방식으로 사용.
+propTypes의 경우 children: Node.require 등.
+`// @ts-nocheck` 하면 ts 체킹을 하지 않는듯.
+`//ts-ignore` : import 등을 무시하도록 만들어주는 것이다.
+
+`타입을 arrayOf()` 등등으로 설정 가능하다.
+
+strict는 엄한 체크 여부이다. ts를 쓴다면 뭊건 true를 통해 첫 타입을 만들어준다.
+
+Custom Type / Interface 입출력, 삭제 등에 사용.
+위 두가지 가 중요하다. location 관련.
+
+타입을 string, React.ReactNode 등의 타입 지정이 된다.
+-> 핸드북에 Proptypes.Node로 되어있는듯
+
+function foo({className, children} : {children:React.Node, className: string})
+이런 식으로 하는데 기술을 해줄 수도 있다.
+
+
+```ts
+interface Props {
+    className?: string,
+    children: React.ReactNode
 }
 
-.double-bounce1, .double-bounce2 {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: #333;
-  opacity: 0.6;
-  position: absolute;
-  top: 0;
-  left: 0;
-  
-  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-  animation: sk-bounce 2.0s infinite ease-in-out;
+function foo({className, children} : Props)
+```
+위에서 옵셔널 체인저는 className : string || undefined 의 뜻이다.
+
+
+인터페이스
+```
+interface User {
+    id:string,
+    name: string,
+    age: number,
+    job?: Array<string> // or string[]
 }
 
-.double-bounce2 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
+interface Props {
+    className?: string,
+    children: React.ReactNode,
+    users: Array<User> // or User[]
 }
+```
+이런 식으로 js에 C#의 개념을 더해준 것이다.
+string[] 는 배열에 string만 들어갈 수 있는.
+`(string|number)[]`의 경우 string이나 number로 이루어진 배열.
 
-@-webkit-keyframes sk-bounce {
-  0%, 100% { -webkit-transform: scale(0.0) }
-  50% { -webkit-transform: scale(1.0) }
-}
+optional changer를 넣어주면 옵션을 줄 수 있다.
 
-@keyframes sk-bounce {
-  0%, 100% { 
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 50% { 
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-  }
-}
-This will create a spinner with two bouncing balls. You can customize the appearance of the spinner by modifying the CSS styles to your liking.
+propTypes + shape + 기타 등등
+Custom type
+interface
 
+세가지가 있는 듯 하다.
 
+interface를 쓰는 것이 좋을까?
+export를 이용해 외부로 공유 할 수 있다. 타입들을.
 
+커스텀 타입
+```
+type TypeCheck = string | number | null | React.ReatElement
+// 이렇게 any를 쓸 바에는 strict 모드를 꺼서 실행하고 확인해봐라.
 
+type CustomType = TypeCheck & User // 양쪽 형태 다 만족해야 함.
+type CustomType = TypeCheck | User // 양쪽 형태 중 하나면 됨
 
-
-
-
-
-
-
+```
 
 
+#### ReactNode vs any
+
+JS는 타입 시스템이 없다. 타입 검사가 없다. 전부 다 any이다.
+TS에서 any를 쓴다는 것은 타입 검사 무효호. JS를 쓰겠다는 말이다.
+any를 남용 할 것이라면 그냥 맘 편하게 JS를 쓰는 것이 나을 것이다.
+TS에서는 그냥 TS compiler한테 이거 검사하지 말아요~ 라는 뜻이다.
+React가 선언해둔 ReactNode 외에는 받지 않는다 라는 뜻.
 
 
+`enum`을 설정 할 수 있다. action의 type을 정할 수 잇는데, 보통 상수로 설정한다.
 
+enum을 만든 뒤 export하여 enum 변수에 닷`.`으로만 접근 할 수 있기에 오타를 줄일 수 있다.
 
+let a = document.getElementById("root")
+이런 코드는 해석 될 떄 알 수 있는 것이다. 하지만 TypeScript는 이런 부분ㄴ에서 추론을 한다.
+document에 root가 있을 수도 있고 없을 수도 있다는 뜻으로 TS에선 type을 해당 타비 | null 이런 식으로 해준다.
+JS에선 console.log(a.target) 은 에러가 안뜨나 TS에서는 뜬다. null 일 가능성이 있으므로.
+그래서 if (a) 이런 식으로 하여 걷어낼 수 있다. 그래서 assertion 이라 한다. 확실하고 분명하다 라고 알려주는 것.
 
+assertion은 `!.` 을 통해 null이 아님을 확신해준다. 혹은 ECMASctipt의 `?.`를 이용하여 처리 해준다.
 
+또한 (a as HTMLDivElement).target 이런 식으로 확신시켜줄 수 있다.
 
+import 되지 않은 라이브러리들은 any로 처리된다.
 
+채용 시장에서 typeScript가 필수인 이유가 무엇일까? 타입스크립트를 쓰는 이유는 무엇일까 등등에 대해 중심을 두면 좋다.
 
+branch가 있다!
 
+issue가 생길 경우 확인해서 답변 해주겠다.
 
+compile 환경에서 쓰려면 tsc를 사용한다.
+명령어로 사용 가능한데 tsconfig.json 을 통해 tsc 관련 실행을 만들어준다.
+tsc docs는 한국어 독스가 있다.
+React에서 TS를 쓰려면 JSX 같은 것들을 명시하고 설정해주어야 하는 것이 필수적이다.
 
+참고하면 좋은 문서에 React 툴체인 에서 Webpack 을 통해 typescript 로더 구성 등등을 설정 할 수 있다.
 
+여러 세팅들이 있고, 세부 목록마다 전부 공부해야 한다.
 
+특강의 목표가 공부하는 방법을 알려주는 것이다...
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+에디터 테마 : Halcyon
 
