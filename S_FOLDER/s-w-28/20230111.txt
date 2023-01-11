@@ -1,0 +1,139 @@
+
+# 20230111
+
+## WebRTC 구현
+
+### 1:1 P2P 방식. Mesh / P2P
+
+#### 1. MediaStream(getUserMedia)
+- 사용자의 카메라와 마이크 같은 곳의 데이터 스트림에 접근한다.
+- navigator.mediaDevices.getUserMedia()에서 생성된 입력과 video 태그 또는 RTCPeerConnection으로 넘겨주는 출력을 갖는다.
+- navigator.mediaDevices.getUserMedia()가 받는 3개의 매개변수
+  - 제약 오브젝트(video 사용 여부 또는 해상도, audio 사용 여부 등)
+  - 성공 시 콜백(MediaStream)
+  - 실패 시 콜백(error)
+- getUserMedia()는 반드시 로컬 파일 시스템이 아닌 서버에서 사용되어야 하며, 이외의 경우에는 PERMISSION_DENIED:1 에러가 발생한다.
+
+#### 2. RTCPeerConnection
+- 암호화 및 대역폭 관리를 하는 기능을 가지고 있고, 오디오 또는 비디오 연결을 한다.
+- Peer들 간의 데이터를 안정적이고 효율적으로 통신하게 처리하는 WebRTC 컴포넌트이다.
+- 아래는 RTCPeerConnection의 역할을 보여주는 WebRTC 아키텍쳐 다이어그램이다. RTCPeerConnection이 뒤에 숨겨진 녹색 부분은 매우 복잡하지만 웹 개발자들이 처리하지 않아도 되는 부분이다.
+  - packet loss concealment
+  - echo cancellation
+  - bandwidth adaptivity
+  - dynamic jitter buffering
+  - automatic gain control
+  - noise reduction and suppression
+  - image "cleaning"
+- 사실 RTCDataChannel이라는 실시간 데이터를 전송하는 방식이 있는데 실시간 영상 송수신과는 별도의 기술이다.
+
+
+### 구현 방식
+
+#### 간략한 연결 구조
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+- 데이터베이스에 대한 사용자 요구사항을 수집하고 분석해서 요구사항 명세서를 작성해야 함.
+- 요구사항에서 개체Entity는 대부분 명사로 이뤄져 있지만, 속성Attribute과 구별하여 추출한다.
+- ERD를 ERD Cloud?? 를 사용해서 만들면 된다.
+
+- 반 정규화 역 정규화 등
+- 정규화 : 데이터 모델의 중복을 최소화 하고, 데이터의 일관성, 유연성을 확보하기 위한 목적으로 데이터를 분해하는 과정. 1정규화 2정규화 3정규화 BCNF 4정규화 5정규화 등. 통상적으로 3정규화까지 함.
+- 역 정규화 : 정규화된 엔티티타입, 속성, 관계를 시스템의 성능 향상, 개발과 운영의 단순화를 위해 모델을 통합하는 프로세스.
+- 정규화의 단점은 테이블이 복잡하고 JOIN이 과도하게 발생 할 확률이 높다. 리소스를 많이 씀. 그래서 일부 합치는 반 정규화를 하는 것임. 적당한 수준에서 타협해야 한다.
+
+- 컬럼 반 정규화 : 중복 컬럼 추가, 파생 컬ㄹ머 추가, PK에 의한 컬럼 추가, 응용 시스템 오작동을 위한 컬럼 추가.
+- 관계 반 정규화 : 중복 관계 추가(이미 A에서 C까지 읽을 수 있는 관계가 있음에도 관계를 중복하여 조회 경로를 단축)
+
+- 정규화 vs 반정규화 : 케바케.
+
+- 서브1 평가 안내
+  - 수행 / 상호 / 발표 중 수/상만 진행.개인 점수. ㅛㅇ구사항 분석, SW개발, 의사소통 협업/참여. 기여도, 학습 테도. 수행 평가는 컨설턴트님이 평가하신다. 상호 평가는 팀원 간 실행.
+
+  - 평가 진행 할 때 반드시 평가 근거 제시.. 모든 평가는 ㅈ러대 수정이 안된다.
+
+- Sub2 평가엔 발표 평가가 팀의 의견을 종합하여 팀 대 팀으로 평가. 주제/아이디어, 기획/설계. 1/13
+- Sub3 평가는 팀 평가와 상호 평가. 2/3
+- 최종 평가는 창의성 실용성 사용성 산출물. 2/17
+
+- 13일까지 피그마 / ERD 설계 완료. 화면 기초 css 적용하기.
+- 2/3까지 CSS 통합해서 보여줘야함.
+- 2/17까지 완성.
+
+
+## 공통적인 부분
+0. 기본적인 React 학습
+0. 페이지 및 디자인 UI UX
+0. Jira & git & Figma
+0. 배포 및 CI CD 설명은 알아들어야 함
+
+## 프론트 단 3가지.
+1. OpenVidu & WebRTC & WebSocket + SockJS
+2. Tailwind & sass(scss) + styled Component
+3. BFF BackEnd For FrontEnd & RTK Redux Toolkit & Hooks + Reducer
++ 각종 라이브러리들
+
+## git branch 전략
+- 추후에 할 지 모르나 , git과 jira를 연동해야 할 수 있기에 jira issue number를 등록하면 좋다.
+
+- git branch flow
+1. main : 메인 최종 배포 브랜치
+2. release : 버전 올리는 브랜치.
+3. develop : 개발 브랜치.
+  ㄴ feature/front/기능 이름
+  ㄴ feature/back/기능 이름
+4. hotfix : 핫픽스 브랜치
+
+- 커밋 메시지는 `<info> <type>: <message> (jira issue code)`
+```
+info = {
+  FE : front-end,
+  BE : back-end
+}
+type = {
+  ADD : 기능 추가,
+  UPDATE : 기능 업데이트,
+  DELETE : 기능 삭제,
+  CHORE : 기타 수정,
+  DOC : 문서 및 명세서 작업,
+  BUILD : 빌드 관련 파일,
+  CI : CI 관련 설정,
+  REFACTOR : 코드 리팩토링,
+  TEST : 테스트 코드 수정
+}
+```
+
+
+
+
+
+
+
+
+
+
+

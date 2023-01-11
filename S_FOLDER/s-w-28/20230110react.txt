@@ -1,0 +1,82 @@
+
+macos와 windows의 ts 설치 방법은 다르다.
+
+vite는 차세대 프론트엔드 모듈이다. ECMA Script가 있어야 한다. rollup.js 가 필요하다. 배포된 결과를 테스팅 할 수 있다.
+
+Scaffolding 안내 보기.
+
+패키지 매니저로는 
+`npm create vite@latest`
+이후 플젝 이름, 프레임워크 선택, 사용 언어는 일반 JS나 TS는 esbuild가 필요하다. swc는 rust 기반이다. 수업은 일반이고, swc로 해도 된다.
+그러면 플러그인들이 설치가 된다. TypeScript 사용 할 것.
+
+tsc를 쓰게 된다. 비트는 타입 변경 및 그런게 적용이 안되겡 build를 할 때 tsv && vite build 로 된다. common.js일 수도 있지만 기본 설정은 module이다. ecma Script module이다.
+
+빌드 커맨드는 dev build preview 3가지이다.
+
+호스트 옵션 플래그, 포트 오픈 설정. 
+
+package.json으로 단축 설정이 가능한듯.
+
+title은 seo에서 굉장히 중요하다.
+
+비트 같은 경우, ts 파일들이 만들어지고 글로벌하게 쓸 수 있도록 해준다.
+
+index.css의 경우 css를 모아서 관리하게 된다.
+
+resolve.alias : 별칭에 대해 정해주는 것이다. webpack에 대해 공부했다면 알 것이다.
+
+비트에서 절대경로 @/ 같은 것을 쓰려면 vite.config.ts를 수정해줘야 한다.
+
+또한 target 을 전체로 해준다거나 해야한다.
+
+rel을 설정해서 막는다.
+
+html 태그 몇몇에 title을 붙이면 hoverㅎ 했을 때 뜬다. a태그 같은 듯.
+
+aria-label이란 것이 있다. 비트 홈 공식 애니메이션.
+
+테일윈드 : 유틸리티 우선 css 라이브러리.
+
+테일 윈드 문서를 올린게 있으니 열심히 봐라.
+
+테일윈드.css의 경우 create-react-app에서는 `https://tailwindcss.com/docs/guides/create-react-app` 참고.
+
+비트는 프리티어 설정이 안되어 있다.
+
+플러그인 설치 헀을 때 자동으로 위치 조정을 해준다.
+
+--- 다시보기2가 없어요 ㅠㅠ
+
+ux ui도 캡슐화 모듈화가 중요하다.
+
+flex grid, subgrid 등 뭔가 많다.
+
+color 대비 광범위한 색을 지원한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
