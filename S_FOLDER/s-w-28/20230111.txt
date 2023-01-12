@@ -97,6 +97,11 @@
 3. BFF BackEnd For FrontEnd & RTK Redux Toolkit & Hooks + Reducer
 + 각종 라이브러리들
 
+
+
+
+
+
 ## git branch 전략
 - 추후에 할 지 모르나 , git과 jira를 연동해야 할 수 있기에 jira issue number를 등록하면 좋다.
 
