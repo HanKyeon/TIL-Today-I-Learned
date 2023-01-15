@@ -19,7 +19,6 @@ import sys
 input = sys.stdin.readline
 n, m = int(input()), int(input())
 g = [[0]*n for _ in range(n)]
-
 for _ in range(m):
     a, b = map(int, input().rstrip().split())
     g[a-1][b-1] = 1
