@@ -1,0 +1,21 @@
+
+# 20230120
+
+## 어제 배운 것
+1. validation 관련 정규 표현식 사용이 편하더라.
+2. css 의 @keyframes. transform을 객체나 함수처럼 만들어둘 수 있다.
+3. book flip 을 css로 구현 할거라면 z-index 조정을 잘 해야 한다는 점.
+4. Git 복습.
+
+
+
+
+
+
+
+
+
+
+
+
+
