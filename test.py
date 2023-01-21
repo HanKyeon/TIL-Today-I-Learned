@@ -1,19 +1,23 @@
 
-T = int(input())
-for test_case in range(1, T + 1):
-    b = map(int, input().split())
-    a = round(sum(b)/10)
-    print(f'#{test_case} {a}')
-    print(type(a))
+print(".  .   .")
+print("|  | _ | _. _ ._ _  _")
+print("|/\|(/.|(_.(_)[ | )(/.")
 
-for tc in range(1, int(input())+1):
-    print(f"#{tc} {round(sum(list(map(int, input().split())))/10)}")
+# T = int(input())
+# for test_case in range(1, T + 1):
+#     b = map(int, input().split())
+#     a = round(sum(b)/10)
+#     print(f'#{test_case} {a}')
+#     print(type(a))
 
-print("       _.-;;-._")
-print("'-..-'|   ||   |")
-print("'-..-'|_.-;;-._|")
-print("'-..-'|   ||   |")
-print("'-..-'|_.-''-._|")
+# for tc in range(1, int(input())+1):
+#     print(f"#{tc} {round(sum(list(map(int, input().split())))/10)}")
+
+# print("       _.-;;-._")
+# print("'-..-'|   ||   |")
+# print("'-..-'|_.-;;-._|")
+# print("'-..-'|   ||   |")
+# print("'-..-'|_.-''-._|")
 
 # a = [1,1,2,2,2,8]
 # nl = list(map(int, input().split()))
