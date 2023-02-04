@@ -1,7 +1,13 @@
 
-print(".  .   .")
-print("|  | _ | _. _ ._ _  _")
-print("|/\|(/.|(_.(_)[ | )(/.")
+n, m = map(int, input().split())
+print(n//m)
+print(n%m)
+
+
+
+# print(".  .   .")
+# print("|  | _ | _. _ ._ _  _")
+# print("|/\|(/.|(_.(_)[ | )(/.")
 
 # T = int(input())
 # for test_case in range(1, T + 1):
