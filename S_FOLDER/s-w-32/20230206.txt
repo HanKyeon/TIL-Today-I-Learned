@@ -1,0 +1,48 @@
+
+# 20230206
+
+주말 간
+1. useClasses에 대한 아이디어 생각 및 코드로 옮기기.
+2. useClasses를 필요한 곳에 사용 할 예정.
+
+---
+
+어떤 기술이 비싼 기술일까? => 수요가 있는데 공급이 없을 때. 스마트폰 나왔을 때, ios 개발자 부족 했을 때. 새로운 기술일 때, 오래되서 사람이 없을 때.
+
+
+
+### useAnimation hook 사용하기
+
+1. 현재 나는 useClasses와 함께 useAnimation 훅을 사용하려 하고 있었음.
+2. useClasses는 styles와 기본 클래스 명을 받아서 hover와 select의 classes를 적용해주는 hook임.
+3. useAnimation은 open 상태를 받고, onTransitionEnd가 실행 되었을 때 실행 할 transitionEndHalder와 transition이 진행중인지 알려주는 isRender, Trigger 역할을 하는 변수를 반환해준다.
+
+4. 이 때 사용을 하기 위해서는
+ -1. isRender와 컴포넌트를 묶어주고
+ -2. onClick 시 (닫기 트리거 시) open 여부를 false로 바꿔주고, classes를 바꿔주는 함수를 실행
+ -3. transition이 끝났을 때, transitionEndHandler를 실행시켜주고, transitionTrigger에 따라서 원하는 함수를 실행하면 된다. transitionTrigger가 false일 때, 실행 시켜줘야 한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
