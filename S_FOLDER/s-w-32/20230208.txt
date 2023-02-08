@@ -1,0 +1,28 @@
+
+# 20230208
+
+어제 배운 것.
+
+1. modal을 redux를 이용해 만들 것이라면 그냥 setting 자체를 바깥에서 해주고 들어가는 것이 아니라, 하나의 action creator로 만드는 것이 좋다.
+2. action creator도 dispatch 안에 넣어주는데 안넣고 사용 할 수는 없을까?
+3. axios의 defaults로 headers를 설정해주고 싶다면 `axios.defaults.header.common["키"] = 값` 이런 식으로 설정해주면 된다.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
