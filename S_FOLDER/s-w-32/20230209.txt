@@ -1,0 +1,43 @@
+
+# 20230209
+
+어제 배운 것
+1. canvas 복습.
+ - canvas 태그의 html element를 return하며, 해당 canvas에 ref를 연결해서, ref의 2d context를 받아서 함수에 넣어준다.
+ - 그 context를 사용해서 포인터로 그림을 그리면 된다.
+ - 포인터에 사진 연결 가능.
+ - 현재의 canvas에서 requestAnimation을 return 받아오면 ref와 animation 실행을 받을 수 있을 것 같다.
+ - request animation의 잔상을 남기는 값을 받아와서 사용할 수 있게 만들면 더 좋을 것 같다.
+2. 컴포넌트에 필요한 애니메이션을 하나로 묶고 싶다는 hook을 하나 만들고 싶다는 생각...
+3. 모듈형 css의 필요성. 완성도를 위해.
+4. Drag and Drop hook을 따로 만들어봐야 할 것 같다는 생각. react의 경우 ondrag등의 온갖 속성을 더 지원해주니 만들어두면 좋을 것 같다.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
