@@ -18,107 +18,80 @@ R개 줄에 C의 문자열 제시. .은 물, X는 빙판, L은 백조.
 '''
 백조 bfs 할 것 / 얼음 bfs 할 것 나눠서 한 줄씩 실행.
 '''
-from collections import deque
 import sys
+from collections import deque
 input=sys.stdin.readline
 
-dh = [-1, 1, 0, 0]
-dw = [0, 0, -1, 1]
+mov = [(-1,0),(0,1),(1,0),(0,-1)]
 
-r, c = map(int, input().rstrip().split())
-g = [list(input().rstrip()) for _ in range(r)]
-bj = []
-
-for i in range(r):
-    for j in range(c):
-        if g[i][j] == 'L':
-            bj.append((i, j))
-            g[i][j] = '.'
-        if len(bj) == 2:
-            break
-    if len(bj) == 2:
-        break
-
-
-ans = -1
-bv = [[0]*c for _ in range(r)] # 백조 방문 처리
-bq = deque([bj[0]])
-nbq = deque()
-while bq:
-    h, w = bq.popleft()
-    for k in range(4):
-        nh, nw = h + dh[k], w + dw[k]
-        if 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == '.':
-            bv[nh][nw] = 1
-            bq.append((nh, nw))
-        elif 0<=nh<r and 0<=nw<c and nh==bj[1][0] and nw==bj[1][1]:
-            ans = 0
-            break
-        elif 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == 'X':
-            bv[nh][nw] = 1
-            nbq.append((nh, nw))
-bq = nbq
-v = [[0]*c for _ in range(r)] # 얼음들 방문처리용 
-ice = deque()
-# ice 만들기.
-for i in range(r):
-    for j in range(c):
-        if v[i][j] == 0 and (g[i][j] == '.' or g[i][j] == 'L'):
-            q = deque()
-            q.append((i, j))
-            v[i][j] = 1
-            while q:
-                h, w = q.popleft()
-                for k in range(4):
-                    nh, nw = h + dh[k], w + dw[k]
-                    if 0<=nh<r and 0<=nw<c and v[nh][nw] == 0 and g[nh][nw] == '.':
-                        v[nh][nw] = 1
-                        q.append((nh, nw))
-                    elif 0<=nh<r and 0<=nw<c and v[nh][nw] == 0 and g[nh][nw] == 'X':
-                        g[nh][nw] = '.'
-                        v[nh][nw] = 1
-                        ice.append((nh, nw))
-
-def bjbfs(idx):
-    global bq, ans
-    nbq = deque()
-    while bq:
-        h, w = bq.popleft()
-        for k in range(4):
-            nh, nw = h + dh[k], w + dw[k]
-            if 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == '.':
-                bv[nh][nw] = 1
-                bq.append((nh, nw))
-            elif 0<=nh<r and 0<=nw<c and nh==bj[1][0] and nw==bj[1][1]:
-                ans = idx+1
-                return
-            elif 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == 'X':
-                bv[nh][nw] = 1
-                nbq.append((nh, nw))
-    bq = nbq
-
-def icebfs():
-    global ice, ans
-    nice =deque()
-    while ice:
-        h, w = ice.popleft()
-        for k in range(4):
-            nh, nw = h + dh[k], w + dw[k]
-            if 0<=nh<r and 0<=nw<c and v[nh][nw] == 0 and g[nh][nw] == 'X':
+def melt():
+    global n, m, eh, ew
+    ret = deque()
+    while meltPlace:
+        h, w = meltPlace.popleft()
+        for dh, dw in mov:
+            nh, nw = h+dh, w+dw
+            if 0<=nh<n and 0<=nw<m and not v[nh][nw] and g[nh][nw]:
+                g[nh][nw] = 0
                 v[nh][nw] = 1
-                g[nh][nw] = '.'
-                nice.append((nh, nw))
-    ice = nice
+                ret.append((nh, nw))
+    return ret
 
-if ans >= 0:
-    pass
-else:
-    i = 0
-    while ans == -1:
-        i += 1
-        icebfs()
-        bjbfs(i)
+def lego():
+    global n, m, eh, ew
+    ret = deque()
+    while nextLine:
+        h, w = nextLine.popleft()
+        for dh, dw in mov:
+            nh, nw = h+dh, w+dw
+            if 0<=nh<n and 0<=nw<m and not v[nh][nw]:
+                if not g[nh][nw]:
+                    if nh == eh and nw == ew:
+                        return True
+                    v[nh][nw] = 1
+                    nextLine.append((nh, nw))
+                    continue
+                ret.append((nh, nw))
+    return ret
 
+n, m = map(int, input().rstrip().split())
+g, v = [], [[0]*m for _ in range(n)]
+bj = []
+for i in range(n):
+    s = list(input().rstrip())
+    for j in range(m):
+        if s[j] == "L":
+            bj.append((i, j))
+            s[j] = 0
+        elif s[j] == "X":
+            s[j] = 1
+        else:
+            s[j] = 0
+    g.append(s)
+sh, sw = bj.pop()
+eh, ew = bj.pop()
+meltPlace = deque()
+nextLine = deque([(sh, sw)])
+nextLine = lego()
+if nextLine == True:
+    print(0)
+    exit()
+v = [[0]*m for _ in range(n)]
+for i in range(n):
+    for j in range(m):
+        if g[i][j]:
+            for dh, dw in mov:
+                nh, nw = i+dh, j+dw
+                if 0<=nh<n and 0<=nw<m and not v[nh][nw]:
+                    meltPlace.append((nh, nw))
+
+ans = 1
+while True:
+    nextLine = lego()
+    if nextLine == True:
+        break
+    meltPlace = melt()
+    ans += 1
 print(ans)
 
 
@@ -179,8 +152,6 @@ while True:
     q = n_q
     if Map[target[0]][target[1]] == 2:
         break
-
-
     ######얼음 녹이기
     n_melt = []
     while melt:
@@ -194,9 +165,7 @@ while True:
                 Map[nx][ny] = 0
                 n_melt.append((nx, ny))
     melt = n_melt
-
     day += 1
-
 print(day)
 '''
 
@@ -304,7 +273,108 @@ while ans == -1:
 print(ans)
 '''
 
+'''
+재채점
 
+dh = [-1, 1, 0, 0]
+dw = [0, 0, -1, 1]
+
+r, c = map(int, input().rstrip().split())
+g = [list(input().rstrip()) for _ in range(r)]
+bj = []
+
+for i in range(r):
+    for j in range(c):
+        if g[i][j] == 'L':
+            bj.append((i, j))
+            g[i][j] = '.'
+        if len(bj) == 2:
+            break
+    if len(bj) == 2:
+        break
+
+
+ans = -1
+bv = [[0]*c for _ in range(r)] # 백조 방문 처리
+bq = deque([bj[0]])
+nbq = deque()
+while bq:
+    h, w = bq.popleft()
+    for k in range(4):
+        nh, nw = h + dh[k], w + dw[k]
+        if 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == '.':
+            bv[nh][nw] = 1
+            bq.append((nh, nw))
+        elif 0<=nh<r and 0<=nw<c and nh==bj[1][0] and nw==bj[1][1]:
+            ans = 0
+            break
+        elif 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == 'X':
+            bv[nh][nw] = 1
+            nbq.append((nh, nw))
+bq = nbq
+v = [[0]*c for _ in range(r)] # 얼음들 방문처리용 
+ice = deque()
+# ice 만들기.
+for i in range(r):
+    for j in range(c):
+        if v[i][j] == 0 and (g[i][j] == '.' or g[i][j] == 'L'):
+            q = deque()
+            q.append((i, j))
+            v[i][j] = 1
+            while q:
+                h, w = q.popleft()
+                for k in range(4):
+                    nh, nw = h + dh[k], w + dw[k]
+                    if 0<=nh<r and 0<=nw<c and v[nh][nw] == 0 and g[nh][nw] == '.':
+                        v[nh][nw] = 1
+                        q.append((nh, nw))
+                    elif 0<=nh<r and 0<=nw<c and v[nh][nw] == 0 and g[nh][nw] == 'X':
+                        g[nh][nw] = '.'
+                        v[nh][nw] = 1
+                        ice.append((nh, nw))
+
+def bjbfs(idx):
+    global bq, ans
+    nbq = deque()
+    while bq:
+        h, w = bq.popleft()
+        for k in range(4):
+            nh, nw = h + dh[k], w + dw[k]
+            if 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == '.':
+                bv[nh][nw] = 1
+                bq.append((nh, nw))
+            elif 0<=nh<r and 0<=nw<c and nh==bj[1][0] and nw==bj[1][1]:
+                ans = idx+1
+                return
+            elif 0<=nh<r and 0<=nw<c and bv[nh][nw] == 0 and g[nh][nw] == 'X':
+                bv[nh][nw] = 1
+                nbq.append((nh, nw))
+    bq = nbq
+
+def icebfs():
+    global ice, ans
+    nice =deque()
+    while ice:
+        h, w = ice.popleft()
+        for k in range(4):
+            nh, nw = h + dh[k], w + dw[k]
+            if 0<=nh<r and 0<=nw<c and v[nh][nw] == 0 and g[nh][nw] == 'X':
+                v[nh][nw] = 1
+                g[nh][nw] = '.'
+                nice.append((nh, nw))
+    ice = nice
+
+if ans >= 0:
+    pass
+else:
+    i = 0
+    while ans == -1:
+        i += 1
+        icebfs()
+        bjbfs(i)
+
+print(ans)
+'''
 
 
 
