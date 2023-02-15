@@ -1,0 +1,28 @@
+
+# 20230215
+
+어제 배운 것
+
+- meta 태그의 og 속성들. 링크 보냈을 떄 숏컷이다.
+- 애니메이션 수작업으로 하는게 맞나? 모르겠다.
+- 웹gl 3js 재밌을듯.
+- async await 공부 좀 다시 하자.
+- useEffect라던가 useCallback, Closure 등 여러 개념들에 대해 익숙해지자.
+- html canvas에 대해 간단히 책을 보는 것만으로도 이해도가 늘었다. 정리를 해두자.
+
+- useEffect의 경우, 컴포넌트에 대한 의존성이 무조건 적으로 있다. 그래서 빈 배열이어도 mount, unmount 시 실행 시킬 수 있다. componentDidUpdate 느낌. 의존성이 없다면 업데이트 마다 실행.
+
+- 버튼의 경우 유행이라고 한다. 클릭 했을 때 블러 함수들을 호출해주면 좋을 것 같다.
+
+---
+
+https://developer.mozilla.org/ko/docs/Web/API
+
+mdn web api를 여러가지 써보자!
+
+1. notification은 이번에 useNotification 훅을 만들었따!
+
+
+
+
+
