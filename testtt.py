@@ -1,3 +1,9 @@
+ans = [0]*26
+s = input()
+for i in s:
+    ans[ord(i)-97] += 1
+print(*ans)
+
 '''
 arr = [2, 3, 4]
 subsets = [[]]
