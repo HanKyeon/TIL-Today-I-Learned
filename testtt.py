@@ -1,3 +1,6 @@
+n = int(input())
+for i in range(n):print(" "*i + "*"*(n-i))
+
 ans = [0]*26
 s = input()
 for i in s:
