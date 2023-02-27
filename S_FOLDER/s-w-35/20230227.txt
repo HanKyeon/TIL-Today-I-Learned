@@ -1,0 +1,117 @@
+
+# 20230227
+
+주말 간 배운 것
+1. 충분한 휴식
+2. scss 개략적인 초기 내용 및 TS 개략적 내용.
+
+---
+
+테일윈드 참고 블로그
+https://heokknkn.tistory.com/7
+
+테일윈드 설치 방법. 데브로 설치.
+`npm install -D tailwindcss postcss autoprefixer`
+`npx tailwindcss init -p`
+
+이후 tailwind.config.js 에서 적용 폴더 지정.
+```
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}", // 아래 부분 포함해서 두 부분에 적용.
+    "./node_modules/tw-elements/dist/js/**/*.js", //
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/defaultConfig.stub.js
+
+테일윈드 기본 제공 클래스들 설명
+
+theme, plugins 이외의 값 설정들
+https://tailwindcss.com/docs/theme
+
+1. screens
+- 반응형 웹을 만들 때 사용한다.
+- 예시로, 부트스랩에서 사용한 sm, md, lg, xl, 2xl 등 breakpoints 설정이 가능하다.
+- 예시로 'sm': '640px', 'md': '768px' 등이 있다. 
+
+2. colors
+- colors key allows you to customize the global color palette for my pjt. 컬러즈는 글로벌 빠레트 설정이 가능. backgroundColor, borderColor, textColor 등 색상과 관련지어질 수 있음.
+- 또한, 컬러이름 이후 100, 200, 300 등 강도를 통해 세부 색상 설정이 가능하다. 남들 테일윈드 config 파일 참고.
+
+3. spacing
+- spacing key allows you to customize the global spacing and sizing scale for your pjt. 내 플젝의 글로벌 스페이싱을 바꿔줄 수 있다는 것 같음.
+- 숫자: 숫자rem 설정, px: 1px 등 설정을 통해 padding, margin, width, height, maxHeight, flex-basis, gap, inset, space, translate, scrollMargin, scrollPadding, textIndent 등 코어 플러그인에도 적용이 된다고 한다.
+
+4. Core plugins
+- https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/defaultConfig.stub.js
+- 위 링크 참조 필수인듯.
+- 내가 이해한 대로라면 각 css 속성(borderRadius, keyeframes, animation 등) 별로 단축을 지정해줄 수 있다는 내용 같음.
+- 예시로는
+```
+module.exports = {
+  theme: {
+    borderRadius: {
+      'none': '0',
+      'sm': '.125rem',
+      DEFAULT: '.25rem',
+      'lg': '.5rem',
+      'full': '9999px',
+    },
+  }
+}
+```
+- 위의 예시가 제시되어 있는데, className을 rounded나 rounded-none rounded-sm 등을 통해 사용한다.
+
+5. extend
+- 기본 테마에 추가를 하고 싶을 경우 사용하는 값인 것 같음. 사실 css 쪽 태그에 달아줄 때도 사용 가능.
+- 아니 그냥 theme에다가 적어도 오버라이딩 된다는데?
+
+---
+테일윈드 css px 직접 만들기. 및 기본 테마 관련
+https://velog.io/@rrrrrrrrrrrocky/tailwindcss-rem%EB%8C%80%EC%8B%A0-px-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+https://defineall.tistory.com/833
+
+
+##### 궁금증
+- 그냥 theme에 적는 것과 extend에 적는 것의 차이는 뭐지?
+
+- 스토리북 with react 링크
+https://storybook.js.org/tutorials/intro-to-storybook/react/ko/get-started/
+
+- cra with typeScript
+`npx create-react-app frontend --template typescript`
+
+- RTK 설치
+`npm install @reduxjs/toolkit react-redux`
+`cd frontend/`
+
+- redux-persist 설치
+`npm install redux-persist`
+
+- React router dom 설치
+`npm install react-router-dom`
+
+- 테일윈드 설치 방법. 데브로 설치.
+`npm install -D tailwindcss postcss autoprefixer`
+`npx tailwindcss init -p`
+
+
+redux-persist 사용법 블로그 : https://kyounghwan01.github.io/blog/React/redux/redux-persist/#persist-store-%E1%84%89%E1%85%A1%E1%84%8B%E1%85%AD%E1%86%BC
+
+- reduxjs/toolkit with redux-persist : https://velog.io/@hongdol/redux-toolkit%EC%A0%81%EC%9A%A9%EA%B3%BC-persist-%EC%A0%81%EC%9A%A9
+
+
+
+
+
+
+
+
+
