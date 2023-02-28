@@ -1,0 +1,61 @@
+
+# 20230228
+
+어제 배운 것
+1. 테일 윈드 진짜 편해보인다.
+2. redux-persist 관련된 사항. 세션 혹은 로컬을 자동으로 관리해준다.
+
+-----
+
+스토리북 설정
+`npx sb@latest init`
+
+스토리북 : 컴포넌트 개별 정돈이 편리하고, 재사용성을 고려한 디자인/개발 가능하고, 테스트가 용이하다.
+`npx sb@latest init` 하면 스토리북 세팅이 된다.
+세팅을 하면 package.json에 스토리북 파일들이 설치된다. -D로 해서 될 듯? 부가적으로 설치 할 디펜던시도 추가하면 된다.
+`npm run storybook` : 스토리북 실행.
+```
+# Storybook 구동
+npm run storybook
+
+# Storybook 빌드
+npm run build-storybook
+```
+`npm i -D @storybook/react` : react 프로젝트에 매뉴얼 설치
+
+스토리북 에러나서 잠시 패스
+------
+
+TS 관련
+`npm i -D typescript @types/react @types/react-dom @types/node @types/jest`
+사용중이던 cra 앱에서 ts를 사용하고 싶을 때 사용.
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom'; 
+```
+```
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+```
+전자보다 후자로 개발해라. 19버전 혹은 20버전에서 막힌단다.
+
+
+# useRef with TS
+참고 : https://velog.io/@rkio/Typescript-useRef%EC%99%80-Typescript%EB%A5%BC-%EA%B0%99%EC%9D%B4-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0
+참고 : https://poiemaweb.com/typescript-interface
+- useRef의 경우, 3가지 속성이 있음.
+1. MutableRefObject<타입>
+2. React.RefObject<타입 | null>
+3. MutableRefObject<타입 | undefined>
+
+1번의 경우, current 그 자체를 바꿀 수 있다. 아마 변수 처럼 사용하는 경우에 current가 지정되므로 그렇게 쓰는 듯.
+2번의 경우, current 자체는 바꿀 수 없고, current 내부의 값은 변경이 가능하다.
+3번의 경우 1번과 같지만 타입이 약간 다름.
+
+컴포넌트 참조하기위한 ref에는 RefObject만 사용이 가능하므로, 무조건 2번으로 가는 것 같다.
+
+- JSX.Element 및 FC 관련해서도 공부해야 한다.
+
+
+
