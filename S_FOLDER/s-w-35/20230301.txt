@@ -1,0 +1,23 @@
+
+# 20230301
+
+어제 배운 것
+1. tailwind 사용법
+2. 커스텀 훅에서 컴포넌트를 뱉는 것.
+3. 컴포 리턴 할 때, type이 지멋대로라는것
+
+---
+
+animation 속성 작성 순서
+
+https://blogpack.tistory.com/882
+`name, duration, timing-function, delay, direction, iteration-count, fill-mode, play-state`
+
+- 테일윈드 애니메이션 실행법
+https://tailwindcss.com/docs/animation
+
+- 테일윈드 기타 메서드 땜빵
+https://tailwindcss.com/docs/hover-focus-and-other-states
+
+- 야무 아재 타입 스크립트
+https://yamoo9.gitbook.io/typescript/interface/function-types
