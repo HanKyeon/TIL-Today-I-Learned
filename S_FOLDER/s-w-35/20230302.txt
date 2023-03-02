@@ -1,0 +1,120 @@
+
+# 20230302
+
+어제 배운 것
+1. tw 써보니 좋긴 한데 바닐라 css랑 고민을 해도 될 것 같다. 그냥 python으로 css file을 write 해주는 거도 좋을 것 같음.
+2. 근데 고려하지 못하는 부분까지도 사용 할 수 있으므로, 바닐라 css와 tw를 함께 쓰면 좋을 것 같음.
+3. 클로저 / 제네릭 개념 공부해보자. 야무아재 블로그 글 찾았으니 그거로 해보자.
+
+---
+
+- 타입스크립트 참고할만한 글 : https://kschoi.github.io/typescript/typescript/
+
+TS에서의 튜플 타입 : 그냥 간단히 말해서 배열인데 내부에 타입이 상세하게 선언된 것.
+TS에서의 enum 타입 : 조금 신기하게 생겼는데 어떻게 써야하나 잘 모르겠음. 아래와 같이 사용함.
+```
+enum Team {
+  Manager,
+  Planner,
+  Developer,
+  Designer
+}
+// 위와 같이 선언하면 자동으로 배열처럼 0,1,2,3이 할당된다.
+enum Team {
+  Manager = 123,
+  Planner = 321,
+  Developer = 404,
+  Designer // 405 자동 할당
+}
+// 위와 같이 지정해서 선언하면 값이 할당된다.
+```
+enum 값은 Team.Manager로 123을 호출 할 수 있으며, Team[123]으로 "Manager"를 호출 할 수 있다.
+또한, 숫자가 아닌 문자도 할당이 가능한 것으로 보인다.
+
+유니온 타입의 경우 그냥 string | number 이런 식으로 union 해주는 것.
+
+함수 리턴 타입 : 함수에서 그냥 선언해도 되고, type으로 만들어서 선언해도 되고, interface로 선언해서 사용해도 된다.
+
+인터페이스는 인터페이스 상속 가능.
+type으로 선언하는 타입 얼라이어스(앨리어스 alias)는 원시값, 유니온 타입, 튜플 등도 타입으로 지정이 가능하다. 직접 값을 지정 할 수 있다는 것은 좋은거야~
+```
+// 문자열 리터럴로 타입 지정
+type Str = "Lee";
+
+// 유니온 타입으로 타입 지정
+type Union = string | null;
+
+// 문자열 유니온 타입으로 타입 지정
+type Name = "Lee" | "Kim";
+
+// 숫자 리터럴 유니온 타입으로 타입 지정
+type Num = 1 | 2 | 3 | 4 | 5;
+
+// 객체 리터럴 유니온 타입으로 타입 지정
+type Obj = { a: 1 } | { b: 2 };
+
+// 함수 유니온 타입으로 타입 지정
+type Func = (() => string) | (() => void);
+
+// 인터페이스 유니온 타입으로 타입 지정
+type Shape = Square | Rectangle | Circle;
+
+// 튜플로 타입 지정
+type Tuple = [string, boolean];
+const t: Tuple = ["", ""]; // Error
+```
+
+## 제네릭
+
+- 주로 한 가지 타입보다 여러가지 타입에서 동작하는 컴포넌트를 생성하는데 사용된다.
+
+
+---
+
+아!
+https://ui.toast.com/weekly-pick/ko_20210521
+여기서 ctrl + f 해서 모호하다 검색하면 여는 꺾새를 왜 못잡았는지 대충 설명이 되는 것 같음.
+아마 화살표 함수에서 여는 꺾새를 잘 확인하지 못해서 생긴 것 같다.
+
+- axios에서는 AxiosResponse 타입을 제공한다. `import {AxiosResponse} from "axios`
+
+- og tag 참고 링크 : https://velog.io/@byeol4001/Meta-Tag-OG%EC%98%A4%ED%94%88%EA%B7%B8%EB%9E%98%ED%94%84-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+
+
+## redux-persist
+
+#### persistReducer(config, reducer)
+- reducer를 반환하는 API. 인자로 받은 config 객체를 reducer 함수에 적용하여 enhanced reducer를 반환한다.
+- config는 key와 스토리지를 필수로 하며 화이트리스트, 블랙 리스트 값을 지정 가능하다.
+- 화이트리스트는 유지하고 싶은 값, 블랙 리스트는 유지하고 싶지 않은 값을 배열로 전달한다.
+- 파라미터 reducer는 하나로 합쳐진 rootReducer를 넣어준다.
+
+#### combineReducer
+- redux API로 여러 리듀서를 하나로 합쳐준다. 합쳐준 rootReducer를 넣어줌.
+
+#### persistStore(store)
+- 유지하고 싶은 redux store를 인자로 넣으면 persistor 객체를 반환.
+#### persistGate
+- 유지되는 store의 값이 다시금 redux 에 저장 될 때까지 app의 UI 렌더링을 지연시킨다.
+- loading property는 로딩 과정에서 보여 줄 컴포넌트이고
+- persistor는 로컬 스토리지에 저장 할 store 이다.
+
+### redux-persist 관련 글
+
+https://velog.io/@beberiche/220813-%EA%B3%B5%ED%86%B5-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80
+- 이 글에 따르면 redux에는 serialize 된 정보만 저장해야 하는데 redux persist는 serialize된 데이터가 아니라서 저장 안됩니다! 라고 하는 것 같다.
+- 따라서, serializaleCheck을 false로 해주면 된다.
+- (참고) 혹은 middleware를 [thunk] 로 설정해주면 되는데 이 부분은 더 조사하고 공부 해봐야 할 듯 ㅎ다ㅏ.
+
+
+
+
+
+
+
+
+
+
+
+
+
