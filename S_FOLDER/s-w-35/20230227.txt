@@ -85,7 +85,7 @@ https://defineall.tistory.com/833
 - 스토리북 with react 링크
 https://storybook.js.org/tutorials/intro-to-storybook/react/ko/get-started/
 
-- cra with typeScript
+- cra with typeScript / pjt name frontend
 `npx create-react-app frontend --template typescript`
 
 - RTK 설치
@@ -107,7 +107,7 @@ redux-persist 사용법 블로그 : https://kyounghwan01.github.io/blog/React/re
 
 - reduxjs/toolkit with redux-persist : https://velog.io/@hongdol/redux-toolkit%EC%A0%81%EC%9A%A9%EA%B3%BC-persist-%EC%A0%81%EC%9A%A9
 
-
+- axios에서는 AxiosResponse 타입을 제공한다. `import {AxiosResponse} from "axios`
 
 
 
