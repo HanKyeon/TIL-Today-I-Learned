@@ -1,11 +1,17 @@
 
-import sys
-input = sys.stdin.readline
-# print = sys.stdout.writelines
-for _ in range(int(input())):
-    a, b = map(int, input().rstrip().split())
-    ans = a+b
-    print(ans)
+n, m = map(int, input().rstrip().split())
+if m or not 12<=n<=16:
+    print(280)
+else:
+    print(320)
+
+# import sys
+# input = sys.stdin.readline
+# # print = sys.stdout.writelines
+# for _ in range(int(input())):
+#     a, b = map(int, input().rstrip().split())
+#     ans = a+b
+#     print(ans)
     # print("\n")
 
 # n, m = map(int, input().split())
