@@ -1,9 +1,21 @@
 
-n, m = map(int, input().rstrip().split())
-if m or not 12<=n<=16:
-    print(280)
-else:
-    print(320)
+print("     /~\\")
+print("    ( oo|")
+print("    _\\=/_")
+print("   /  _  \\")
+print("  //|/.\\|\\\\")
+print(" ||  \\ /  ||")
+print("============")
+print("|          |")
+print("|          |")
+print("|          |")
+
+
+# n, m = map(int, input().rstrip().split())
+# if m or not 12<=n<=16:
+#     print(280)
+# else:
+#     print(320)
 
 # import sys
 # input = sys.stdin.readline
