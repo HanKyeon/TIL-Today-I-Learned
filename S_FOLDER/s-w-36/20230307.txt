@@ -1,0 +1,17 @@
+
+# 20230307
+
+어제 배운 것
+1. grid, flex의 gap 속성
+2. tailwindcss 실제 활용법 및 tw 깃헙 보면서 사용하기.
+3. flux pattern. MVC 패턴은 유저의 입력이 많아질 수록 모델이 많아져서 꼬이기에, 저장소 하나에서 모든 action을 받아서 dispatching 하는 패턴.
+4. 목표는 리액트 쿼리 사용.
+
+Figma to React에 사용하는 teleportHQ 사용법 블록 ㅡ링크
+https://velog.io/@crow/figma%EC%97%90-%EC%9E%91%EC%84%B1%ED%95%9C-UI-HTML%EB%A1%9C-%EC%A0%84%ED%99%98
+
+
+     
+
+
+
