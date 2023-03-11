@@ -1,0 +1,126 @@
+
+# 20230311
+
+어제 배운 것
+
+- 토스트를 slice로 해서 dispatch 형태로 띄우는건 내가 생각했지만 참 기발하다.
+- 거기에 애니메이션 박스 로직으로 지난번 모달처럼 계속 띄워두고 교체하는 것이 아닌, 실제로 뜯고 붙이고를 하는거라 더 좋은 것 같다... 단, 토스트가 하나로 고정되는건 아쉬운거 같긴 하다.
+- 토스트를 스택처럼 쌓아두고 하나씩 pop하면서 실행해도 좋을 것 같다.
+
+---
+
+JS 노드 콘솔창 입력 받기.
+- 참고 : https://lakelouise.tistory.com/140
+- 참고2 : https://yoon-dumbo.tistory.com/entry/NODEJS-%EA%B8%B0%EB%B0%98%EC%9C%BC%EB%A1%9C-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%ED%92%80%EB%95%8C-%EC%9E%85%EB%A0%A5%EB%B0%9B%EB%8A%94-%EB%B0%A9%EB%B2%95
+- readline 모듈을 통해 콘솔로 입력 값을 받는다.
+- 한 줄 입력 받기
+```
+const readline = require("readline");
+ 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+ 
+rl.on("line", (line) => {
+    console.log("input: ", line);
+    rl.close();
+});
+ 
+rl.on('close', () => {
+        process.exit();
+})
+```
+- 공백 입력
+```
+const readline = require("readline");
+ 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+ 
+let input = []
+ 
+rl.on("line", (line) => {
+    input = line.split(' ').map(el => parseInt(el)); // 1 2 3 4
+    rl.close();
+});
+ 
+rl.on('close', () => {
+    input.forEach(el => {
+        console.log(el);
+    })
+    process.exit();
+})
+ 
+// 입력
+// 1 2 3
+ 
+// 출력
+// 1
+// 2
+// 3
+```
+- 여러 줄 입력
+```
+const readline = require("readline");
+ 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+ 
+let input = []
+ 
+rl.on("line", (line) => {
+    input.push(line);
+});
+ 
+rl.on('close', () => {
+    console.log(input);
+    process.exit();
+})
+ 
+// 입력
+// 1
+// 2
+// a
+// b
+ 
+ 
+// 출력 
+// ['1', '2', 'a', 'b']
+```
+- 공백이 포함 된 문자 여러줄 입력
+```
+const readline = require("readline");
+ 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+ 
+let input = []
+ 
+rl.on("line", (line) => {
+    input.push(line.split(' ').map(el => parseInt(el)));
+});
+ 
+rl.on('close', () => {
+    console.log(input);
+    process.exit();
+})
+ 
+// 입력
+// 1 2 3
+// 4 5 6
+ 
+// 출력 
+// [[1, 2, 3], [4, 5, 6]]
+```
+
+
+
+
+

@@ -1,3 +1,10 @@
+console.log(`         ,r'"7`)
+console.log("r`-_   ,'  ,/")
+console.log(` \\. ". L_r'`)
+console.log("   `~\\/")
+console.log(`      |`)
+console.log(`      |`)
+
 const test = async function () {
   console.log("async 함수 처리")
   return { data: "반환 값 /" }
