@@ -52,6 +52,7 @@ rl.on("line", (line) => {
   }
   console.log(`<${ans}>`)
 })
+<<<<<<< HEAD
 
 /*
 짱빠른 코드
@@ -70,3 +71,5 @@ while(x.length > 0) {
 }
 console.log('<' + a.join(', ') + '>');
 */
+=======
+>>>>>>> d660f3c (a)
