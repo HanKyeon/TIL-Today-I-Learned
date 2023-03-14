@@ -1,0 +1,19 @@
+
+# 20230314
+
+https://wonyoung2257.tistory.com/36 => 백준에 맞는 input 조작 js
+
+어제 배운 것
+
+1. input 재사용성을 어떻게 높여야 하나 고민.
+2. custom hook을 최소화 하고 싶은데 참 어려운 것 같음.
+3. 비밀번호 찾기, 아이디 찾기 기능은 생각보다 오래 걸린다.
+
+---
+
+- https://velog.io/@arthur/Tailwind-CSS-%EC%97%90%EC%84%9C-%EB%8F%99%EC%A0%81%EC%9C%BC%EB%A1%9C-%ED%81%B4%EB%9E%98%EC%8A%A4-%ED%95%A0%EB%8B%B9%ED%95%98%EA%B8%B0
+- Tailwind CSS에서는 렌더링 될 때 필요 없는 class들을 다 지워버린다.
+- 따라서 위 링크 참조해서 실행하면 된다.
+
+
+
