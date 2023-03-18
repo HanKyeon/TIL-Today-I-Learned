@@ -17,6 +17,7 @@ import sys
 input = sys.stdin.readline
 
 def bf():
+    global n
     for i in range(1, n+1):
         for co, nod, nnod in g:
             if dst[nod] != int(10e9) and dst[nnod] > dst[nod]+co:
@@ -39,7 +40,34 @@ else:
     for i in range(2, n+1):
         print(dst[i]) if dst[i] != int(10e9) else print(-1)
 
-
+'''
+from sys import stdin
+input = stdin.readline
+INF = 7000000000
+n,m = map(int, input().split())
+g = []; cycle = False
+for z in range(m):
+    a,b,c = map(int, input().split())
+    g.append((a,b,c))
+dist = [INF]*(n+1); dist[1] = 0
+for z in range(n-1):
+    updated = False
+    for i in g:
+        if dist[i[1]] > dist[i[0]] + i[2] and dist[i[0]] != INF:
+            if i[1] == 1:
+                cycle = True
+                break
+            dist[i[1]] = dist[i[0]] + i[2]
+            updated = True
+    if not updated: break
+# checking for negative cycle
+for i in g:
+    if dist[i[1]] > dist[i[0]] + i[2] and dist[i[0]] != INF:
+        cycle = True
+if cycle: print(-1)
+else:
+    for i in dist[2:]: print(i if i != INF else -1)
+'''
 
 
 
