@@ -1,0 +1,67 @@
+
+# 20230321
+
+- 어제 배운 것
+
+1. 리액트 쿼리. 리액트 쿼리는 서버 state를 자동으로 관리해준다.
+2. 리액트 쿼리를 할 때, useQuery와 useMutation 두가지를 일단 배웠음.
+3. QueryClient에 세팅을 해둘 수 있음. 내가 쓸 때는 useQuery와 useMutation에 onSuccess와 onError 세팅을 하는 것만 쓰면 될 듯 하다.
+4. 리액트 쿼리를 쓰는 이유? => 개인적으로는 모든 API마다 간단히 보일러 플레이트를 작성해서 관리가 가능한 것이 강점 같음. api docs나 명세서가 더 잘 쓰여져 있을수록 좋아지는 것 같다.
+5. 이번 플젝 같은 경우에는 user, tale, profile 등으로 나눠져 있는데 그걸 파일 하나마다, api 하나마다 만들어서 관리가 가능해서 좋은 것 같음.
+6. 리액트 쿼리 + 리덕스를 통해 전역 상태로도 관리가 가능해보이긴 함. 혹은 리액트 쿼리에서 작업해서 리덕스의 뭐를 하는게 좋아보임.
+
+아 react query를 사용 할 때, index.tsx에서 queryClient를 선언해서, 속성 client에 queryClient를 넣어준 QueryClientProvider 컴포넌트로 App을 감싸 주어야 한다.
+그래야 같은 QueryClient를 바라보는 것으로 추측함.
+부분부분의 QueryClient를 사용하고 싶다면 부분부분 감싸주어도 되는 것으로 보인다.
+
+즉, react-query의 사용법은
+1. 지역적으로 사용 할 QueryClient 객체 생성
+2. QueryClientProvider를 통해 QueryClient를 사용 할 지역 선언
+3. useQuery 및 useMutation을 통한 QueryClient의 server state 및 cache 관리.
+    - useQuery의 경우, isLoading은 캐싱된 데이터가 있다면 로딩이 뜨지 않음. 평소 사용하는 isLoading을 쓰고 싶다면 isFetching을 쓴다.
+    - useMutation의 경우, mutate와 mutateAsync 두가지로 사용하는데, mutate를 사용하는 것이 좋아보인다. mutateAsync의 경우, 결과인 Promise를 반환하는데 onSuccess 혹은 그냥 Callback 함수 자체로도 관리가 가능하기 때문이다.
+    - useQueries가 존재한다. 이후 부분들은 Docs를 참고해가면서 사용하면 좋을 것으로 보인다.
+
+
+### React Query 정리
+
+#### WHY?
+- 기존 redux의 경우, 비동기 통신을 위한 상태 관리 툴이 아니다.
+- 그래서 비동기 통신을 위한 boiler plate가 두껍고, 실제로 비동기 통신이 이루어졌을 때 state의 예측 가능성이 높지 않았다.
+- 그것을 해결하기 위해 등장함.
+
+#### WHAT?
+- 상태를 server state와 client state로 구분하괴, server state의 관리를 도와주는 라이브러리
+- unique key를 통해 QueryClientProvider 내부에서 같은 unique key를 가진다면 굳이 모아서 선언하지 않아도 알아서 캐싱해주고 데이터를 fetching 해줌.
+
+#### HOW?
+- useQuery와 useMutation을 Hook으로 모아서 API마다 관리를 하는 것으로 보인다.
+- API 정리가 깔끔할수록 작동하기 좋아보인다.
+
+#### WHAT IF?
+- 상태를 Client / Server로 나누어 관리하기 편해진다. 그래서 Redux의 경우, 전역적인 상태가 아니라 지역적으로 사용하기 더욱 편해지고 비동기로부터 자유로워진다.
+- Server State의 캐싱과 최신화를 쉽게 해주며, server state의 최신화 데이터를 라이브러리가 보장해준다.
+- 카카오 페이 테크에서는 불필요한 코드의 감소, 업무와 협업의 효율성을 위한 규격화된 방식 제공, 사용자 경험 향상을 위한 다양한 빌트인 기능 세가지의 강점을 꼽았다. 또한 Concurrent UI Pattern의 개념을 도입 할 때 도우밍 되었다고 한다. (https://tech.kakaopay.com/post/react-query-2/)
+
+
+#### 참고 자료
+https://react-query-v3.tanstack.com/overview => ReactQuery Docs
+https://tech.kakaopay.com/post/react-query-1/ => 카카오 테크 블로그 글
+https://tech.kakaopay.com/post/react-query-2/ => 카카오 테크 블로그 글 2
+https://tech.kakao.com/2022/06/13/react-query/ => Concurrent UI Pattern에 React Query를 사용했다고 해서 참고 예정
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
