@@ -156,3 +156,8 @@ https://react-query-v3.tanstack.com/overview => ReactQuery Docs
 https://tech.kakaopay.com/post/react-query-1/ => 카카오 테크 블로그 글
 https://tech.kakaopay.com/post/react-query-2/ => 카카오 테크 블로그 글 2
 https://tech.kakao.com/2022/06/13/react-query/ => Concurrent UI Pattern에 React Query를 사용했다고 해서 참고 예정
+
+### 나는 어떻게 써야 할까?
+
+1. get 요청 같은 경우, hook으로써 불러오기.
+2. post, put, delete 등 mutation도 훅으로 쓰고 싶긴 한데 한 번 값을 조정해서 사용해보기.

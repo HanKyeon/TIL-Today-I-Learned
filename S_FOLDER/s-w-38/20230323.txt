@@ -1,0 +1,22 @@
+
+# 20230323
+
+- 어제 배운 것
+
+1. 카카오페이 단건 결제 관련해서 사용해봤음. 카카오 dev 어드민 키가 필요하다.
+2. canvas의 경우, toDataURL이라는 메서드가 있어서 해당 메서드로 base 64로 인코딩 된 이미지의 string을 받을 수 있다.
+3. video => canvas => toDataURL 순으로 했는데 비효율적으로 보이는데 효율적인게 없을지 모르곘ㅇ므.
+4. useMedia 뭐시기로 사용자의 미디어에 접근이 가능하다.
+5. 각종 결제들은 제휴가 어려운 것이고, api 자체는 굉장히 친절하게 되어있다. test id 들도 잘 제공된다.
+
+---
+
+## 오늘 에러
+`React Hook "useQuery" is called conditionally. React Hooks must be called in the exact same order in every component render`
+
+정말, 자증나게도 조건부로 선언되었다는 말이다. react hook 보다 위쪽에서 바로 리턴을 해줘서 에러가 발생했다.
+스크립트 언어이고, react hook의 규칙은 react hook이 선언되기 전에 return을 해서 끊으면 안된다.
+
+
+
+
