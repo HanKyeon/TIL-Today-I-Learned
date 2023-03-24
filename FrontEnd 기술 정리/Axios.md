@@ -81,6 +81,7 @@ myRequest({
   httpAgent: new http.Agent({ keepAlive: true }),
   httpsAgent: new https.Agent({ keepAlive: true }),
   proxy: {
+    // 프록시로, url을 스틸해서 세팅해준다 보면 됨. 프로토콜 방식과 호스트, 포트를 설정해서 url을 꽂아준다. baseURL 말고 프록시 방식으로 지정해도 좋을 듯.
     protocol: "https",
     host: "127.0.0.1",
     port: 9000,
@@ -89,12 +90,15 @@ myRequest({
       password: "rapunz3l",
     },
   },
-  cancelToken: new CancelToken(function (cancel) {}),
+  cancelToken: new CancelToken(function (cancel) {}), // axios 요청을 cleanup 할 때 쓰이는 cancelToken
   decompress: true,
 })
 ```
 
 ## WHAT IF?
+
+- 간단히, 데이터를 직렬화하고 데이터를 풀어 헤치는 과정이 빠지는 것만 해도 좋다고 생각한다.
+- 하지만 인터셉터 기능, 간편한 timeout 세팅, 디버깅, cancel token을 통한 캔슬링 등 굉장히 강력한 이점이 크다고 생각했다.
 
 ## 참고
 

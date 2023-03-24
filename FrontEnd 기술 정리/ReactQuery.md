@@ -6,6 +6,18 @@
 
 ---
 
+세팅
+
+설치
+`npm install react-query`
+이후 index.tsx
+`const queryClient = new QueryClient({defaultOptions: {queries: {}, mutations" {}}})`
+사용 할 쿼리 클라이언트 객체 생성
+`<QueryClientProvider client={queryClient}></QueryClientProvider>`
+위의 컴포넌트로 App 컴포넌트를 둘러싸 App에서 사용 할 쿼리 클라이언트를 알려주면 세팅 끝.
+
+---
+
 ### WHY?
 
 - 기존 redux의 경우, 비동기 통신을 위한 상태 관리 툴이 아니다.
@@ -24,10 +36,15 @@
 
 ### HOW?
 
-- useQuery의 경우, get 처럼 server state에 변화가 없을 때 사용.
+- useQuery의 경우, get 처럼 server state에 변화가 없을 때 사용. 타입 지정은 useQuery<데이터타입>() 형태로 지정.
 - useMutation의 경우, post put delete 등 server state에 변화가 있을 때 사용.
 - useQuery와 useMutation을 Hook으로 모아서 API마다 관리를 하는 것으로 보인다.
 - API 정리가 깔끔할수록 작동하기 좋아보인다.
+
+- useMutation은 mutate와 mutateAsync를 반환하는데, 데이터 통신 및 invalidate만 할 것이라면 mutate를 한 뒤 접근을 Query로 하는 것이 좋아보인다. mutateAsync를 사용한다면, 훅에서 onSuccess를 달아주는 것이 아닌, 내부에서 직접적으로 처리를 해야 할 경우 사용하면 될 것 같다.
+- 즉, mutateAsync는 useMutation을 규격화 한 경우에 성공/실패 등에서 실행 할 함수를 결정하는 방식으로 사용하고, mutate를 기본으로 쓸 때 쓰면 될 것 같다.
+- mutateAsync는 Promise 객체를 내보낸다.
+
 - 아래는 내가 사용하는 형태이다. React Hook의 형태로 queries를 관리한다.
 
 ```js
@@ -123,6 +140,77 @@ const queries = useQueries(
 )
 ```
 
+- setQueryData 및 setQueriesData
+
+쿼리 값을 임의로 정하겠다면 setQueryData 혹은 setQueryKey 등을 사용하면 된다.
+
+```js
+const queryClient = useQueryClient()
+
+// data는 저장 할 정보
+queryClient.setQueryData([`user`, `list`], { filter: `me` }, data)
+// 내 아이디와 같은 모든 목록 업데이트.
+queryClient.setQueriesData([`user`, `list`], (prev) =>
+  prev.map((user) => (user.id === me.id ? data : user))
+)
+// 모든 유저 리스트 invalidate
+queryClient.invalidateQueries([`user`, `list`])
+
+// 현재 사용중인 값을 즉시 업데이트
+queryClient.setQueryData(["todos", "detail", newTodo.id], newTodo)
+
+// 현재 사용중인 값이 담긴 리스트를 즉시 업데이트.
+queryClient.setQueryData(["user", "list", { filter }], (previous) =>
+  previous.map((user) => (user.id === newTodo.id ? newtodo : user))
+)
+// 리스트를 invalidate 시키지만 refetch 하지 않음
+queryClient.invalidateQueries({
+  queryKey: ["user", "list"],
+  refetchActive: false,
+})
+```
+
+- 쿼리 키 관련
+
+1. 쿼리 키는 어차피 내부적으로 배열로 관리되기에, `["user", "list", {filter: "me"}]` 이런 형태로 키를 작성하는 것이 좋다.
+2. 쿼리 키를 종속적으로 한 번에 invalidtate 시킬 때, 편리하다.
+3. 쿼리 키를 객체 형태로 관리하면 좋을 것이다. 수동으로, 하드코딩으로 작성하면 유지보수가 어렵기 때문.
+4. 그렇기에 하나의 기능 당 하나의 key를 객체 형태로 관리하길 권장한다.
+
+```js
+{
+  ['user', 'list', { filter: 'me' }],
+  ['user', 'list', { filter: 'you' }],
+  ['user', 'profile', 1],
+  ['user', 'profile', 2],
+}
+```
+
+참고한 글에는 아래처럼 작성되어 있다.
+
+```js
+const todoKeys = {
+  all: ['todos'] as const,
+  lists: () => [...todoKeys.all, 'list'] as const, // todoKeys.lists() 하면 [`todos`, `list`] 반환
+  list: (filters: string) => [...todoKeys.lists(), { filters }] as const, // todoKeys.list(필터) 하면 [`todos`, `list`, {필터: 필터}] 반환.
+  details: () => [...todoKeys.all, 'detail'] as const, // todoKeys.details() 하면 [`todos`, `detail`] 반환
+  detail: (id: number) => [...todoKeys.details(), id] as const, // todoKeys.detail(필터) 하면 [`todos`, `detail`, {필터: 필터}] 반환.
+}
+```
+
+위를 이용하면 아래와 같이 사용이 가능하다.
+
+```js
+// 🕺 모든 todos 삭제
+queryClient.removeQueries(todoKeys.all)
+
+// 🚀 모든 리스트 invalidate
+queryClient.invalidateQueries(todoKeys.lists())
+
+// 🙌 prefetch 하나의 todo
+queryClient.prefetchQueries(todoKeys.detail(id), () => fetchTodo(id))
+```
+
 ---
 
 ### WHAT IF?
@@ -157,7 +245,61 @@ https://tech.kakaopay.com/post/react-query-1/ => 카카오 테크 블로그 글
 https://tech.kakaopay.com/post/react-query-2/ => 카카오 테크 블로그 글 2
 https://tech.kakao.com/2022/06/13/react-query/ => Concurrent UI Pattern에 React Query를 사용했다고 해서 참고 예정
 
+https://velog.io/@familyman80/React-Query-%ED%95%9C%EA%B8%80-%EB%A9%94%EB%89%B4%EC%96%BC
+https://www.zigae.com/react-query-key/
+https://velog.io/@dev_jazziron/react-query-querykey
+https://velog.io/@kerem119/React-Query
+
+https://pebblepark.tistory.com/29
+https://github.com/ssi02014/react-query-tutorial
+
 ### 나는 어떻게 써야 할까?
 
 1. get 요청 같은 경우, hook으로써 불러오기.
 2. post, put, delete 등 mutation도 훅으로 쓰고 싶긴 한데 한 번 값을 조정해서 사용해보기.
+3. query key들을 모아서 관리하면 좋을 것 같다. 그래서 API가 깔끔하면 query key가 겹치는 경우가 적을 것이고, 이점이 많을 것이다.
+
+### 쿼리 키 관리 형태
+
+쿼리 키 관리
+
+```js
+const queryKeys = {
+  ////////////
+  /* 최상단 */
+  ////////////
+  user: () => [`user`],
+  scene: (taleId, sceneOrder) => [...queryKeys.user(), taleId, sceneOrder], // 최상단
+
+  ///////////////
+  /* user 하위 */
+  ///////////////
+  game: () => [...queryKeys.user(), `game`],
+  store: () => [...queryKeys.user(), `store`],
+
+  ///////////////
+  /* game 하위 */
+  ///////////////
+  progress: () => [...queryKeys.game(), `progress`],
+  play: () => [...queryKeys.game(), `play`],
+
+  ///////////////////
+  /* progress 하위 */
+  ///////////////////
+  progressList: () => [...queryKeys.progress(), `list`],
+  progressDetail: (taleId) => [...queryKeys.progress(), `detail`, taleId],
+
+  ///////////////////
+  /* play 하위 */
+  ///////////////////
+  playList: () => [...queryKeys.play(), `list`],
+  playDetail: (taleId) => [...queryKeys.play(), `detail`, taleId],
+
+  ////////////////
+  /* store 하위 */
+  ////////////////
+  storeList: () => [...queryKeys.store(), `list`],
+  storeDetail: (taleId) => [...queryKeys.store(), `detail`, taleId],
+  reviewList: (taleId) => [...queryKeys.storeDetail(taleId), `reviews`],
+}
+```

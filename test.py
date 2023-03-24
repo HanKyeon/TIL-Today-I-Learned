@@ -1,8 +1,16 @@
 
-n, m = int(input()), int(input())
-if n==2 and m==18:print("Special")
-elif n > 2 or (n==2 and m>18): print("After")
-else : print("Before")
+print("SHIP NAME      CLASS          DEPLOYMENT IN SERVICE")
+print("N2 Bomber      Heavy Fighter  Limited    21        ")
+print("J-Type 327     Light Combat   Unlimited  1         ")
+print("NX Cruiser     Medium Fighter Limited    18        ")
+print("N1 Starfighter Medium Fighter Unlimited  25        ")
+print("Royal Cruiser  Light Combat   Limited    4         ")
+
+
+# n, m = int(input()), int(input())
+# if n==2 and m==18:print("Special")
+# elif n > 2 or (n==2 and m>18): print("After")
+# else : print("Before")
 
 # print("     /~\\")
 # print("    ( oo|")
