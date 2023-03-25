@@ -2,14 +2,22 @@
 
 - 학습 후기
   **리액트 쿼리 진짜 좋은 듯!!! 이전 프로젝트에서 servserState의 상태 관리를 redux로 했을 때, 꼬이는 경험을 했는데 React Query를 사용하게 되면 그럴 일이 없어질 것이다.**
-- 학습 진행 버전 : 3.39.3
+- 학습 진행 버전 : 3.39.3 => 4.28.0
+
+- 3버전에서 4버전으로 가며 바뀌는 것
+
+1. import 위치가 react-query에서 @tanstack/react-query로 변경
+2. isLoading이 isInitialLoading으로 변경되었음.
+3. onSuccess가 캐싱된 데이터를 가져오더라도 실행되도록 변경. 기존 3버전에서 캐시에서 data를 가져오는 것은 데이터의 변경으로 보지 않았기에, 이제 data의 변경에 따라 무언갈 행하고 싶다면 useEffect를 사용하고 배열에 data를 넣어주면 된다고 함. (기존에는 onSuccess가 실제 data를 가져올 때만 실행되었기에, data가 변경 될 때 실행되는게 확실헀으나, 이제는 캐싱에도 작동을 하기에 달라진 부분 같음.)
+4. SSR의 경우, 데이터 캐싱 유효성 기간을 무제한으로 기본 세팅.
+5. QueryClientProvider의 import 폴더 명이 react-query에서 react-queryjs로 변경.
 
 ---
 
 세팅
 
 설치
-`npm install react-query`
+`npm install react-query` => `npm install @tanstack/react-query @tanstack/react-query-devtools`
 이후 index.tsx
 `const queryClient = new QueryClient({defaultOptions: {queries: {}, mutations" {}}})`
 사용 할 쿼리 클라이언트 객체 생성
