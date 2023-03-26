@@ -1,4 +1,8 @@
 
+a,b,c=map(int,input().split())
+a=a*b-c
+print(a if a>0 else 0)
+
 print("SHIP NAME      CLASS          DEPLOYMENT IN SERVICE")
 print("N2 Bomber      Heavy Fighter  Limited    21        ")
 print("J-Type 327     Light Combat   Unlimited  1         ")
