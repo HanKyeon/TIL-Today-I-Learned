@@ -6,6 +6,10 @@
 
 ## WHAT?
 
+- 클로저
+- 일급 객체
+- async await vs then chaining
+
 ## HOW?
 
 ## WHAT IF?
