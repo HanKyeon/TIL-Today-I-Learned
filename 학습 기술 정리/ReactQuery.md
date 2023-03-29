@@ -11,6 +11,7 @@
 3. onSuccess가 캐싱된 데이터를 가져오더라도 실행되도록 변경. 기존 3버전에서 캐시에서 data를 가져오는 것은 데이터의 변경으로 보지 않았기에, 이제 data의 변경에 따라 무언갈 행하고 싶다면 useEffect를 사용하고 배열에 data를 넣어주면 된다고 함. (기존에는 onSuccess가 실제 data를 가져올 때만 실행되었기에, data가 변경 될 때 실행되는게 확실헀으나, 이제는 캐싱에도 작동을 하기에 달라진 부분 같음.)
 4. SSR의 경우, 데이터 캐싱 유효성 기간을 무제한으로 기본 세팅.
 5. QueryClientProvider의 import 폴더 명이 react-query에서 react-queryjs로 변경.
+6. useMutation의 경우, 인자가 바로 옵션으로 변경. 옵션의 `mutationFn` 으로 `function() {return axios({...})}` promise를 반환하는 함수를 넣어준다.
 
 ---
 
@@ -243,6 +244,7 @@ queryClient.prefetchQueries(todoKeys.detail(id), () => fetchTodo(id))
 8. 쿼리 클라이언트에 setQueryData 속성으로 쿼리 캐싱이 가능한듯. 그래서 mutation에 달아줄 수 있음.
 9. 쿼리 캔슬도 가능함.
 10. filter, testing, suspence, scroll, ssr 등 다양한 기능이 많다! Docs를 보자!
+11. mutate나 mutateAsync나 옵션값이 실행된다. mutateAsync로 데이털르 건드리지 말고, 이후 옵션적으로 실행 될 onSuccess 옵션이나 그런걸 적어주는 형태로도 사용이 가능하다.
 
 ---
 

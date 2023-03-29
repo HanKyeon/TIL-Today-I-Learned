@@ -43,9 +43,9 @@
 
 - 현재 사용하는 git flow 전략 및 commit message convention
 
-![git1](./assets/git1.png)
-![git2](./assets/git2.png)
-![git3](./assets/git3.png)
+![git1](./assets/git/git1.png)
+![git2](./assets/git/git2.png)
+![git3](./assets/git/git3.png)
 
 - `git init` : 레포지토리를 git으로 관리하겠다는 명령어.
 - `git add .` : 파일의 변경 사항을 Staging Area로 올린다. 예시로 모든 파일을 올리는 CLI이다.
