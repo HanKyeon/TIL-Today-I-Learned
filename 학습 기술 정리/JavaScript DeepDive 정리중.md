@@ -9,6 +9,9 @@
 - 클로저
 - 일급 객체
 - async await vs then chaining
+- this
+- 상속
+- 프로토타입
 
 ## HOW?
 
