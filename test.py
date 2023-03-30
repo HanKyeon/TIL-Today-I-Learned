@@ -1,14 +1,21 @@
 
-a,b,c=map(int,input().split())
-a=a*b-c
-print(a if a>0 else 0)
+a,b,c = map(int, input().split())
+if a==b==c:print(10000+a*1000)
+elif a==b or c==a:print(1000+100*a)
+elif b==c:print(1000+100*b)
+else:print(max(a,b,c)*100)
 
-print("SHIP NAME      CLASS          DEPLOYMENT IN SERVICE")
-print("N2 Bomber      Heavy Fighter  Limited    21        ")
-print("J-Type 327     Light Combat   Unlimited  1         ")
-print("NX Cruiser     Medium Fighter Limited    18        ")
-print("N1 Starfighter Medium Fighter Unlimited  25        ")
-print("Royal Cruiser  Light Combat   Limited    4         ")
+
+# a,b,c=map(int,input().split())
+# a=a*b-c
+# print(a if a>0 else 0)
+
+# print("SHIP NAME      CLASS          DEPLOYMENT IN SERVICE")
+# print("N2 Bomber      Heavy Fighter  Limited    21        ")
+# print("J-Type 327     Light Combat   Unlimited  1         ")
+# print("NX Cruiser     Medium Fighter Limited    18        ")
+# print("N1 Starfighter Medium Fighter Unlimited  25        ")
+# print("Royal Cruiser  Light Combat   Limited    4         ")
 
 
 # n, m = int(input()), int(input())
