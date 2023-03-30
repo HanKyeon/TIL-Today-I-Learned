@@ -9,3 +9,10 @@
 ## HOW?
 
 ## WHAT IF?
+
+## 에러 핸들링
+
+1. Redux Toolkit의 initialState는 lazyLoading된다.
+   참고 : https://redux-toolkit.js.org/api/createSlice#initialstate
+   해결책 : https://stackoverflow.com/questions/72677169/argument-of-type-any-is-not-assignable-to-parameter-of-type-never-array-pa
+   해결책 설명 : TS로는 타입을 지정해주면 된다. JS는 if로 에러 잡으면 될 듯.

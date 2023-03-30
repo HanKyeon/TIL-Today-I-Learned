@@ -6,9 +6,33 @@
 - 리액트 쿼리의 useMutation이 변경됐다는 것. 왜지?
 - 리액트 쿼리 invalidate 할 때, 객체에 queryKey 를 담아서 쏘고 exact로 예외처리 가능.
 
+---
 
+initialState는 lazy loading이 된다. 그렇기에 Array같은 경우 타입을 선언해두어야 한다.
 
-
+1. stream 끄는 법은 stream을 받아서 stream.getVideoTracks()해서 합니다.
+- 참고 : https://shifeed.tistory.com/entry/react-%EC%B9%B4%EB%A9%94%EB%9D%BC-onoff-%EB%AC%B8%EC%A0%9C
+```
+const [localStream, setLocalStream] = useState<MediaStream>();
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user" }, //전면
+      // video: { facingMode: { exact: "environment" } }, //후면
+    })
+      .then(stream => {
+        console.log(stream);
+        setLocalStream(stream);
+      })
+    return () => {
+      if (localStream) {
+          const vidTrack = localStream.getVideoTracks();
+          vidTrack.forEach(track => {
+            localStream.removeTrack(track);
+          });
+      }
+    }
+  }, []);
+```
 
 
 
