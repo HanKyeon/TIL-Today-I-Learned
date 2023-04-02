@@ -6,9 +6,10 @@
 
 - 3버전에서 4버전으로 가며 바뀌는 것
 
+0. QueryKey의 형태가 문자열도 가능 => 오직 배열만 가능으로 변경.
 1. import 위치가 react-query에서 @tanstack/react-query로 변경
 2. isLoading이 isInitialLoading으로 변경되었음.
-3. onSuccess가 캐싱된 데이터를 가져오더라도 실행되도록 변경. 기존 3버전에서 캐시에서 data를 가져오는 것은 데이터의 변경으로 보지 않았기에, 이제 data의 변경에 따라 무언갈 행하고 싶다면 useEffect를 사용하고 배열에 data를 넣어주면 된다고 함. (기존에는 onSuccess가 실제 data를 가져올 때만 실행되었기에, data가 변경 될 때 실행되는게 확실헀으나, 이제는 캐싱에도 작동을 하기에 달라진 부분 같음.)
+3. onSuccess가 캐싱된 데이터를 가져오더라도 실행되도록 변경. 기존 3버전에서 캐시에서 data를 가져오는 것은 데이터의 변경으로 보지 않았기에(캐싱 데이터의 변경이 일어나지 않음), 이제 data의 변경에 따라 무언갈 행하고 싶다면 useEffect를 사용하고 배열에 data를 넣어주면 된다고 함. (기존에는 onSuccess가 실제 data를 가져올 때만 실행되었기에, data가 변경 될 때 실행되는게 확실헀으나, 이제는 캐싱에도 작동을 하기에 달라진 부분 같음.)
 4. SSR의 경우, 데이터 캐싱 유효성 기간을 무제한으로 기본 세팅.
 5. QueryClientProvider의 import 폴더 명이 react-query에서 react-queryjs로 변경.
 6. useMutation의 경우, 인자가 바로 옵션으로 변경. 옵션의 `mutationFn` 으로 `function() {return axios({...})}` promise를 반환하는 함수를 넣어준다.
@@ -118,7 +119,7 @@ const usePutUserData = function (/* 필요한 정적인 값 */) {
     },
     {
       onSuccess: function () {
-        queryClient.invalidateQueries(`user`) // user를 unique key로 가진 쿼리에 변경이 생겨 invalid 시켜줌.
+        queryClient.invalidateQueries([`user`]) // user를 unique key로 가진 쿼리에 변경이 생겨 invalid 시켜줌.
       },
       onError: function () {
         console.log("하이요 실패에요")
