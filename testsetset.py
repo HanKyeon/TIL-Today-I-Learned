@@ -1,7 +1,12 @@
 
-a = list(map(int, input().split()))
-a.sort()
-print(a[1])
+n = int(input())
+for i in range(n):
+    print(" "* (n-i-1), end="")
+    print("*"*(i*2+1))
+
+# a = list(map(int, input().split()))
+# a.sort()
+# print(a[1])
 
 
 
