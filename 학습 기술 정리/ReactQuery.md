@@ -19,10 +19,13 @@
 
 설치
 `npm install react-query` => `npm install @tanstack/react-query @tanstack/react-query-devtools`
+
 이후 index.tsx
 `const queryClient = new QueryClient({defaultOptions: {queries: {}, mutations" {}}})`
+
 사용 할 쿼리 클라이언트 객체 생성
 `<QueryClientProvider client={queryClient}></QueryClientProvider>`
+
 위의 컴포넌트로 App 컴포넌트를 둘러싸 App에서 사용 할 쿼리 클라이언트를 알려주면 세팅 끝.
 
 ---
@@ -48,19 +51,43 @@
 - useQuery의 경우, get 처럼 server state에 변화가 없을 때 사용. 타입 지정은 useQuery<데이터타입>() 형태로 지정.
 - useMutation의 경우, post put delete 등 server state에 변화가 있을 때 사용.
 - useQuery와 useMutation을 Hook으로 모아서 API마다 관리를 하는 것으로 보인다.
-- API 정리가 깔끔할수록 작동하기 좋아보인다.
+- API 정리가 깔끔할수록 작동하기 좋아보인다. => 쿼리 키 설계를 통해 해결.
 
 - useMutation은 mutate와 mutateAsync를 반환하는데, 데이터 통신 및 invalidate만 할 것이라면 mutate를 한 뒤 접근을 Query로 하는 것이 좋아보인다. mutateAsync를 사용한다면, 훅에서 onSuccess를 달아주는 것이 아닌, 내부에서 직접적으로 처리를 해야 할 경우 사용하면 될 것 같다.
-- 즉, mutateAsync는 useMutation을 규격화 한 경우에 성공/실패 등에서 실행 할 함수를 결정하는 방식으로 사용하고, mutate를 기본으로 쓸 때 쓰면 될 것 같다.
+- 즉, mutateAsync는 useMutation을 규격화 한 경우에 성공/실패 등에서 실행 할 함수를 결정하는 방식으로 사용하고, mutate를 기본으로 쓸 때 쓰면 될 것 같다. 직접 데이터 가공은 좋지 못하다 생각한다.
 - mutateAsync는 Promise 객체를 내보낸다.
+- mutation의 onSuccess는 약간 proxy 개념인 것 같음. onSuccess에 달아둔 쿼리invlidate는 mutateAsync에서나 mutate에서나 실행됨.
 
 - 아래는 내가 사용하는 형태이다. React Hook의 형태로 queries를 관리한다.
+
+```ts
+// 현재 사용하고 있는 형태.
+// options 객체에 queryKey와 queryFn을 통해 사용한다.
+
+// 반환되는 Data 타입
+interface User = {}
+
+// useQuery를 규격화 한 CustomHook
+const useUserData = function () {
+  return (
+    useQuery <User>{
+      queryKey: queryKeys.user(),
+      queryFn: async function () {
+        return apiRequest({
+          method: `get`,
+          url: `/api/member`,
+        }).then((res) => res.data)
+      },
+    }
+  )
+}
+```
 
 ```js
 const useGetUserData = function (/* 필요한 정적인 파라미터 */) {
   return useQuery(
     /* unique key 값. 이 값으로 QueryClientProvider에서 server state를 관리하는 것으로 보인다. */
-    `user`, // 특정 값(id 등)으로 캐싱을 원할 때는 배열 형태로 사용. [`user`, 15] 이런 식으로.
+    [`user`], // 특정 값(id 등)으로 캐싱을 원할 때는 배열 형태로 사용. [`user`, 15] 이런 식으로.
     /* async는 선택. 대다수 찾아본 글에서는 사용하지 않았음. */ function () {
       return /* await는 선택. 대다수 찾아본 글에서는 사용하지 않았음. */ axios({
         method: `get`,
@@ -108,7 +135,7 @@ const usePutUserData = function (/* 필요한 정적인 값 */) {
 // 이렇게 되면 `user` key로 get 해오는게 자동으로 된다. 기존에는 useEffect를 통해 데이터를 가져와서 redux || state에 저장하고 사용해야 하지만, data 자체가 data가 된다.
 const { isLoading, error, data } = useGetUserData() // isFetching 등 다양한 값이 있으니 필요한 것을 쓰면 됨.
 // 훅을 사용하지 않는다면, 아래와 같이 작성.
-const { isLoading, error, data } = useQuery(`user`, function () {
+const { isLoading, error, data } = useQuery([`user`], function () {
   return (
     axios({
       /* AxiosRequestConfig */
