@@ -10,9 +10,29 @@
 
 ## WHAT IF?
 
-## 에러 핸들링
+## 에러 핸들링 및 경험
 
 1. Redux Toolkit의 initialState는 lazyLoading된다.
    참고 : https://redux-toolkit.js.org/api/createSlice#initialstate
    해결책 : https://stackoverflow.com/questions/72677169/argument-of-type-any-is-not-assignable-to-parameter-of-type-never-array-pa
    해결책 설명 : TS로는 타입을 지정해주면 된다. JS는 if로 에러 잡으면 될 듯.
+
+2. ReduxToolkit 역시 서버 상태, 즉 비동기 상태를 전문적으로 처리하는 라이브러리가 아니다.
+3. TypeScript에서 일일이 타입 선언이 귀찮다면 아래처럼 선언해주면 된다.
+
+```js
+// Store의 index에서 선언해주는 타입. store는 configureStore로 묶어준 Store.
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+
+export const useStoreSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useStoreDispatch = function () {
+  return useDispatch<AppDispatch>()
+}
+
+// 아래는 dispatch와 selector 둘 다 해당하는 내용이다.
+// 커스텀 훅 사용 시 타입 선언 필요 없음.
+const example = useStoreSelector((state) => state.example)
+// 일반 useSelector 사용 시 RootState 타입 선언 필요.
+const example2 = useSelector((state: RootState) => state.example)
+```
