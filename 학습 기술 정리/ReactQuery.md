@@ -341,3 +341,20 @@ const queryKeys = {
   reviewList: (taleId) => [...queryKeys.storeDetail(taleId), `reviews`],
 }
 ```
+
+## 추가 내용
+
+### 캐싱 관련
+
+https://darrengwon.tistory.com/1517
+
+- 언제 데이터가 cache되는가? => query를 보내고 데이터를 받아오자마자 cache된다. 그러나 cacheTime은 이 때 발동하지 않는다.
+- 그렇다면 cacheTime은 언제부터 시작인가? => unmount된 시점부터. 즉, inactive된 시점부터 시작한다.
+- cacheTime이 지나기 전에 다시 쿼리가 발동되면 어떻게 되는가? => cache된 값을 사용하고 background에서 다시 fetching된다.
+- cacheTime이 지나면 어떻게 되는가? => 메모리에 존재하는 데이터가 GC에 의해 삭제. 따라서 다시 active되면 hard loading한다.
+- cacheTime이 0이라면 어떻게 되는가? => 매번 GC 당하므로 매번 hard loading을 하게 된다.
+
+### 에러 핸들링
+
+- invalidate 되더라도 에러가 뜨면 캐싱된 값을 가져온다.
+- removeQueries를 통해 캐싱된 값도 지워주면 된다. 특히, 로그아웃.

@@ -1,9 +1,14 @@
+import sys
+input = sys.stdin.readline
+n = int(input())
+nl = list(map(int, input().rstrip().split()))
+print(sum(nl)/max(nl)*100/n)
 
-a,b,c = map(int, input().split())
-if a==b==c:print(10000+a*1000)
-elif a==b or c==a:print(1000+100*a)
-elif b==c:print(1000+100*b)
-else:print(max(a,b,c)*100)
+# a,b,c = map(int, input().split())
+# if a==b==c:print(10000+a*1000)
+# elif a==b or c==a:print(1000+100*a)
+# elif b==c:print(1000+100*b)
+# else:print(max(a,b,c)*100)
 
 
 # a,b,c=map(int,input().split())

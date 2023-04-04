@@ -1,0 +1,25 @@
+
+# 20230404
+
+어제 배운 것
+
+1. 논리가 중요하다.
+2. absolute relative absolute는 뭔가 이상하게 잡히는 것 같음. HTML DOM을 찾아봐야 할 것 같음.
+
+---
+
+https://velog.io/@chltjdrhd777/React-Query-%EC%BA%90%EC%8B%B1%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B5%AC%ED%98%84
+
+RQ에서 cacheTime과 staleTime으로 캐싱이 이뤄진다.
+cache time은 언마운트 이후부터 지나간다.
+staleTime은 신선한 상태가 ㅇ너제까지 유지되는지 말해준다.
+
+https://stackoverflow.com/questions/40032592/typescript-workaround-for-rest-props-in-react
+react.FC로 Rest 받는 방법 같음.
+
+
+
+
+
+
+
