@@ -82,6 +82,7 @@ myRequest({
   httpsAgent: new https.Agent({ keepAlive: true }),
   proxy: {
     // 프록시로, url을 스틸해서 세팅해준다 보면 됨. 프로토콜 방식과 호스트, 포트를 설정해서 url을 꽂아준다. baseURL 말고 프록시 방식으로 지정해도 좋을 듯.
+    // 보통 호스트 네임을 window에서 콜 할 수 있으므로, 여기서 hostname을 사용해주면 좋을 것 같다.
     protocol: "https",
     host: "127.0.0.1",
     port: 9000,
