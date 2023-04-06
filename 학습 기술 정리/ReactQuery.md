@@ -30,6 +30,15 @@
 
 위의 컴포넌트로 App 컴포넌트를 둘러싸 App에서 사용 할 쿼리 클라이언트를 알려주면 세팅 끝.
 
+테스팅
+
+`npm install @testing-library/react-hooks react-test-renderer --save-dev`
+테스트에 testing-library 디펜던시를 가진다.
+retry를 false로 해야 진행이 가능하다.
+QueryClient의 Network error logging을 꺼야한다.
+
+Jest와 함께 쓰려면 cacheTime을 Infinity로 설정한다.
+
 ---
 
 ### WHY?
@@ -359,3 +368,18 @@ https://darrengwon.tistory.com/1517
 
 - invalidate 되더라도 에러가 뜨면 캐싱된 값을 가져온다.
 - removeQueries를 통해 캐싱된 값도 지워주면 된다. 특히, 로그아웃.
+
+### Docs 읽기
+
+- React Query Kit이 있는데 아무래도 보니 ssr쪽에 잘 쓰일거 같음. 예시가 page의 캐싱을 쿼리해둔다.
+- useQueries에서 인자로 배열을 받아서 여러개의 쿼리를 받았으나, 새롭게 options에 queries에 배열을 넣어주면 된다.
+
+### 프로젝트하면서 써본 경험
+
+1. 개발자 도구 되게 잘 되어있었음. 단, 화면이 깨질 수 있었음.
+2. 리액트 쿼리는 에러가 없다..... 뜨면 isError나 error로 알려줌. 뭔가 잘못되면 내 탓임
+3. useIsFetching 훅을 사용하면 글로벌에서 페칭을 걸어줄 수 있다.
+4. window focus refetching은 useQuery의 options에 refetchOnWindowFocus라는 값을 false로 변경해주면 된다.
+5. setData로 쿼리키에 값을 직접 캐싱이 가능하다.
+6. enabled를 통한 lazy query를 사용해보고 싶다. 일반적으로 filter에 !!filter를 enabled로 넣어 처리하는 것 같음. 로딩이 되고 나서 쿼리로 받아오게 하려고.
+7.
