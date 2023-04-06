@@ -36,3 +36,18 @@ const example = useStoreSelector((state) => state.example)
 // 일반 useSelector 사용 시 RootState 타입 선언 필요.
 const example2 = useSelector((state: RootState) => state.example)
 ```
+
+- Action Creator의 경우, index에 모아서 관리하는 것이 좋다고 생각함.
+  Action Creator 예시
+
+```js
+const FeatureExampleAction = function () {
+  return function (dispatch: AppDispatch) {
+    dispatch(ex1Actions.resetState({}))
+    dispatch(ex2Actions.resetState({}))
+    dispatch(ex3Actions.resetState({}))
+  }
+}
+```
+
+이런식으로 **기능** 별로 실행해줄 Action들을 한 곳에 모아서 관리를 하면 해당 기능 디스패치를 사용 하였을 때, index에서 관리하면 되기에 관리가 편해진다.

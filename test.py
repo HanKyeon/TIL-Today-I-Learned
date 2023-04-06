@@ -1,8 +1,16 @@
-import sys
-input = sys.stdin.readline
-n = int(input())
-nl = list(map(int, input().rstrip().split()))
-print(sum(nl)/max(nl)*100/n)
+
+n, m = map(int, input().split())
+nl = list(range(n+1))
+for _ in range(m):
+    a, b = map(int, input().split())
+    nl[a], nl[b] = nl[b], nl[a]
+nl.pop(0)
+print(*nl)
+# import sys
+# input = sys.stdin.readline
+# n = int(input())
+# nl = list(map(int, input().rstrip().split()))
+# print(sum(nl)/max(nl)*100/n)
 
 # a,b,c = map(int, input().split())
 # if a==b==c:print(10000+a*1000)
