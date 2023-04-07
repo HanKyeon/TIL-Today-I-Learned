@@ -374,7 +374,7 @@ https://darrengwon.tistory.com/1517
 - React Query Kit이 있는데 아무래도 보니 ssr쪽에 잘 쓰일거 같음. 예시가 page의 캐싱을 쿼리해둔다.
 - useQueries에서 인자로 배열을 받아서 여러개의 쿼리를 받았으나, 새롭게 options에 queries에 배열을 넣어주면 된다.
 
-### 프로젝트하면서 써본 경험
+### Docs를 보며 정리 및 사용 경험 연관 정리 - 추후에 사용해보고 재정립 하자.
 
 1. 개발자 도구 되게 잘 되어있었음. 단, 화면이 깨질 수 있었음.
 2. 리액트 쿼리는 에러가 없다..... 뜨면 isError나 error로 알려줌. 뭔가 잘못되면 내 탓임
@@ -382,4 +382,17 @@ https://darrengwon.tistory.com/1517
 4. window focus refetching은 useQuery의 options에 refetchOnWindowFocus라는 값을 false로 변경해주면 된다.
 5. setData로 쿼리키에 값을 직접 캐싱이 가능하다.
 6. enabled를 통한 lazy query를 사용해보고 싶다. 일반적으로 filter에 !!filter를 enabled로 넣어 처리하는 것 같음. 로딩이 되고 나서 쿼리로 받아오게 하려고.
-7.
+7. pause Queries가 가능하다. 쿼리를 자동으로 허갈하지 않기 위해서는 enabled 값을 false로 주면 된다. 그렇게 되면 state가 success가 되거나 isSuccess state가 완료된다. 캐싱 데이터가 없을 경우, status는 쭉 로딩이 되고, fetchStateus는 idle이 된다.
+8. enabled값이 false라면 쿼리가 마운트 될 때 자동 fetch 되지 않는다. background에서 자동으로 refetch되지 않는다.
+9. enabled 값이 false라면 일반적으로 선언되는 invalidateQueries와 refetchQueries를 무시한다.
+10. useQuery에서 리턴하는 refetch는 쿼리를 fetch하는 트리거로 사용된다.
+11. retry 옵션은 false라면 재시도하지 않고, 숫자라면 해당 횟수만큼하고, true라면 무한히 요청한다. (failureCount, error) => {} 형태라면 실패 했을 때 retry를 해당 함수로 진행한다.
+12. retryDelay 옵션은 30초 이내의 숫자로 사용이 가능하다. 단위는 ms.
+13. paginated Queries & Lagged Queries => 각각의 쿼리는 완전히 새로운 쿼리로 취급되며, success와 loading의 status를 왔다갔다 한다.
+14. paginatedQueries는 아무래도 ssr에서 사용하는 것 같은데...
+
+### 정리 해야 할 내용들
+
+1. useQuery의 options에 대한 정리.
+2. useMutation의 option 정리.
+3. QueryClient에 대한 option 정리.
