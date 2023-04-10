@@ -391,8 +391,111 @@ https://darrengwon.tistory.com/1517
 13. paginated Queries & Lagged Queries => 각각의 쿼리는 완전히 새로운 쿼리로 취급되며, success와 loading의 status를 왔다갔다 한다.
 14. paginatedQueries는 아무래도 ssr에서 사용하는 것 같은데...
 
+```js
+// docs의 예시로 들어가 있는 페이지네이션 코드.
+const queryClient = useQueryClient()
+const [page, setPage] = React.useState(0) // 페이지네이션 시작은 0
+
+// 이후 페이지네이션의 쿼리
+const { status, data, error, isFetching, isPreviousData } = useQuery({
+  queryKey: ["projects", page], // 쿼리키
+  queryFn: () => fetchProjects(page), // fetch  함수
+  keepPreviousData: true, // 쿼리 키가 변경되어서 새로운 데이터를 요청하는 동안에도 마지막 data 값을 유지한다.
+  staleTime: 5000, // 유지 시간
+})
+
+// Prefetch the next page!
+React.useEffect(() => {
+  if (!isPreviousData && data?.hasMore) {
+    queryClient.prefetchQuery({
+      queryKey: ["projects", page + 1],
+      queryFn: () => fetchProjects(page + 1),
+    })
+  }
+}, [data, isPreviousData, page, queryClient])
+```
+
 ### 정리 해야 할 내용들
 
 1. useQuery의 options에 대한 정리.
 2. useMutation의 option 정리.
 3. QueryClient에 대한 option 정리.
+
+### 쿼리 옵션들
+
+- cacheTime : unused 혹은 inactive 캐시 데이터가 메모리에서 유지 될 시간. 기본 시간은 5분이며, SSR에서는 Infinity로 설정하면 쿼리 데이터는 캐시에서 제거되지 않는다.
+- staleTime : 신선도를 의미하며, 쿼리 데이터가 fresh에서 stale로 전환되는데 걸리는 시간. 기본 값은 0이다. Infinity로 설정 시 직접 캐시를 무효화 할 때까지 fresh 상태 유지. 캐시는 메모리에서 관리되므로 브라우저 새로고침 후에는 다시 가져온다.
+- onSuccess : 데이터를 성공적으로 가져왔을 때 실행되는 함수.
+- onError : 쿼리 함수에서 오류가 발생 했을 때 실행.
+- onSettled : 쿼리 함수의 성공, 실패 두 경우에 모두 실행.
+- keepPreviousData : 쿼리 키의 변수가 변경 되었을 때, 쿼리 데이터를 유지 할지 안할지 정하는 것.
+- isPreviousData : 현재 데이터 값이 현재 쿼리 키의 값에 해당되는 값인지 확인 할 수 있다.
+- refetchOnWindowFocus : 윈도우가 다시 포커싱 될 때 데이터 호출 여부. 기본 값은 true.
+
+### Next.js에서의 React Query
+
+- 참조해서 정리 예정
+
+1. DOCS : https://tanstack.com/query/latest/docs/react/guides/ssr
+2. 블로그 : https://velog.io/@arthur/React-Query-with-Next.js-%EC%84%9C%EB%B2%84-%EC%82%AC%EC%9D%B4%EB%93%9C-%EB%A0%8C%EB%8D%94%EB%A7%81
+3. 블로그 : https://kir93.tistory.com/entry/NextJS%EC%97%90%EC%84%9C-react-query-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+
+- 주로 initialData를 통해 교통정리를 해서 시작하는 것 같다.
+
+- SSG (Static Generation) 방식, SSR (Server-Side Rendering) 방식 두가지 형태의 pre-rendering 형태가 있다.
+- React Query는 두가지 형태의 pre-rendering을 이용 할 수 있도록 지원한다.
+- `/app` 폴더를 통해 Next.js를 intefrate 하는 경우, 아래 코드를 따라하세요 라고 나와있다.
+
+1. Using initialData
+
+- Neext.js는 `getStaticProps` 혹은 `getServerSideProps` 속성을 가지고 있다.
+- useQuery의 initialData 옵션을 통해 내려줄 수 있다.
+- ReactQuery의 입장에서는 같은 방식으로 통합이 가능하다. 아래는 getStaticProps를 통한 방식.
+
+```js
+// docs의 코드를 그대로 가져옴.
+export async function getStaticProps() {
+  const posts = await getPosts()
+  return { props: { posts } }
+}
+
+function Posts(props) {
+  const { data } = useQuery({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+    initialData: props.posts,
+  })
+
+  // ...
+}
+```
+
+2. Using Hydration -- 이부분 docs 보면서 정리 중
+
+- 리액트 쿼리는 동시에 여러 쿼리를 prefetching 할 수 있는 기능을 제공하고 있다. Next.js에서도 가능.
+- 가져온 이후, 해당 쿼리들을 QueryClient에서 dehydrating한다.
+- 서버의 사전 렌더링 작업 시 페이지 로드 혹은 JS가 동작 할 때 마크업 할 수 있으며, 리액트 쿼리가 다시 해당 쿼리들을 hydrate하여 전부 라이브러리로 사용 가능하다?
+- 이는 서버가 페이지 로드 시 즉시 사용 할 수 있는 마크업을 pre-rendering 할 수 있고, JS를 사용 할 수 있는 즉시 React Query가 라이브러리의 전체 기능으로 해당 queryClient를 업그레이드 하거나 functionallity하게 할 수 있다.
+- 해당 쿼리들이 렌더링 된 이후 staleTime이 지난 후에 클라에서 해당 쿼리를 다시 가져오는 작업이 포함된다.
+- 아래는 hydration을 통한 SSR 구현이다.
+
+```js
+// _app.jsx
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query"
+
+export default function MyApp({ Component, pageProps }) {
+  const [queryClient] = React.useState(() => new QueryClient())
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
+    </QueryClientProvider>
+  )
+}
+```
