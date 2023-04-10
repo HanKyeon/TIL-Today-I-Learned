@@ -89,7 +89,23 @@ Next.js 관련 학습
 
 
 - 컴포넌트에 작성되는 것은 React Component이다. pages folder에 들어가 있지 않음.
+- props를 받는다면 반드시 맞아야 한다.
+- 페이지 컴포넌트와 다른 점은, components에 저장되는 컴포넌트는 페이지처럼 자동으로 불러와지지 않는다. 하지만 페이지 컴포넌트에서 간편히 불러와서 사용 할 수 있다.
 
+
+- `_app.ts`를 감싸 일반 레이아웃이나 메뉴 설정이 가능하다. 내비게이션 바 등등.
+- 음 _app.ts가 아니라 Layout 컴포넌트를 선언하고 children을 받아서 렌더링 해주는 것 같다.
+- 아니다. 그냥 _app.js는 스페셜 파일이다. 최상위 컴포넌트 같은 것이다.
+- _app.ts의 Component와 pageProps는 Next.js가 알아서 destructuring해서 받아서 반환하는데, 자동으로 MyApp에 보내고, NextJS가 이 컴포넌트를 쓰고, Component는 렌더링 될 실제 페이지 컨텐츠를 저장하고 있는 프로퍼티이다.
+- 전환 할 때마다 변한다. pageProps는 페이지가 props 받는 값들이다.
+- _app.ts에서 있는 <Component {...pageProps}/>가 실제로 렌더링 된다.
+- 그러므로 전체적으로 적용을 하고 싶다면 _app.ts 파일을 이용해 Component를 다 감싸거나 안에 넣어서 공용 적용이 가능하다.
+
+- function으로 페이지 이동하기.
+- `import { useRouter } from "next/router`
+- `const router = useRouter()`
+- `router.push("/")`
+- 라우터의 push를 이용하면 Link 방식과 같다. 템플릿 리터럴을 이용해서 push 역시 가능하다.
 
 - 데이터 fetching 하기.
 
