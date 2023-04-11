@@ -1,0 +1,26 @@
+
+# 20230411
+
+- 어제 배운 것
+
+1. Next.js 관련 학습.
+2. ReactQuery의 options에 대한 추가적인 정보 수집
+3. ReactQuery Docs 학습
+
+---
+
+- 파일 베이스 라우팅은 재밌고, 폴더 구조 수정을 통해 쉽게 접근이 가능하기에 라우터의 보일러 플레이트가 필요 없음.
+- api 같은 경우 api 폴더를 만들어서 api 라우터를 만들어서 받아오는데 이게 맞나? initialData를 api폴더 페이지에서 설정하고 받아오면 되려나?
+- 참고할 nextjs 파일 구조 : https://velog.io/@jodmsoluth/nextjs-%ED%8C%8C%EC%9D%BC%EA%B5%AC%EC%A1%B0
+- nextjs with src folder : https://nextjs.org/docs/advanced-features/src-directory
+- withour src folder : https://velog.io/@angel_eugnen/NextJS-%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0
+
+
+---
+
+기획자나 사용자의 요구사항을 성능 좋게 개발하는 것이 FE에 중요하다.
+
+
+
+
+
