@@ -1,0 +1,27 @@
+
+# 20230412
+
+- 어제 배운 내용
+
+1. 테스트 코드 관련 학습. 엔자임, react-test-library 코드 등.
+2. figma API가 있다. 파일 관련.
+
+---
+
+1. Figma API
+
+- accounts settings에서 accessToken generate하기.
+- 이후 파일을 링크로 복사해서 붙여넣으면 pjt의 id와 team의 아이디가 나온다.
+- pjt의 id는 `https://api.figma.com/v1/files/pjt의ID`로 보내고, 팀 아이디는 params로 t: `팀ID`를 보내준다.
+- 그러면 document의 children에 최상단의 children을 보내준다.
+
+
+
+
+
+
+
+
+
+
+
