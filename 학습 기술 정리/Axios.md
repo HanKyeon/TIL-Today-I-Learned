@@ -22,9 +22,9 @@
 - 사용법 : `axios.get()` 이런 식으로 사용하는 방법이 있지만 나는 AxiosRequestConfig를 날리는 형태로 쓴다.
 
 ```js
-import axios from "axios"
+import axios from 'axios';
 
-const myRequest = axios.create({ baseURL: ``, timeout: 3000 }) // 나만의 axios 객체 생성
+const myRequest = axios.create({ baseURL: ``, timeout: 3000 }); // 나만의 axios 객체 생성
 
 myRequest({
   url: ``, // 보낼 url. baseURL + url 형태로 간다.
@@ -32,20 +32,20 @@ myRequest({
   transformRequest: [
     function (data, headers) {
       // Do whatever you want to transform the data
-      return data
+      return data;
     },
   ], // request 보내는 걸 낚아채서 배열에 있는 함수를 실행한 뒤 보내주는 함수. interceptor인데 put, post patch delete 요청만 낚아챈다.
   transformResponse: [
     function (data) {
       // Do whatever you want to transform the data
-      return data
+      return data;
     },
   ], // then이나 catch로 잡히기 전의 response를
-  headers: { "X-Requested-With": "XMLHttpRequest" }, // custom header를 설정 할 수는 없는 것 같다... common에서 무슨 세팅을 하면 될 것 같은데 잘 모르겠고, 그냥 고정된 헤더를 사용한다 나는...
+  headers: { 'X-Requested-With': 'XMLHttpRequest' }, // custom header를 설정 할 수는 없는 것 같다... common에서 무슨 세팅을 하면 될 것 같은데 잘 모르겠고, 그냥 고정된 헤더를 사용한다 나는...
   params: {}, // ?= 쿼리 파라미터로 가는 값
   paramsSerializer: function (params) {
     // 사실 이건 잘 모르겠음.
-    return Qs.stringify(params, { arrayFormat: "brackets" })
+    return Qs.stringify(params, { arrayFormat: 'brackets' });
   },
   data: {}, // 보내줄 데이터
   timeout: 1000, // 최대 응답 대기 시간. ms단위.
@@ -59,10 +59,10 @@ myRequest({
     username: ``,
     password: ``,
   },
-  responseType: "json", // 응답 받는 값. arraybuffer, document, text, stream 등 여러 설정 가능.
-  responseEncoding: "utf8", // 아마 인코딩 형태일거고, 자세히는 잘 모르겠음. 건드리지 않아본 값.
-  xsrfCookieName: "XSRF-TOKEN", // 건드리지 않아본 값.
-  xsrfHeaderName: "X-XSRF-TOKEN", // 건드리지 않아본 값
+  responseType: 'json', // 응답 받는 값. arraybuffer, document, text, stream 등 여러 설정 가능.
+  responseEncoding: 'utf8', // 아마 인코딩 형태일거고, 자세히는 잘 모르겠음. 건드리지 않아본 값.
+  xsrfCookieName: 'XSRF-TOKEN', // 건드리지 않아본 값.
+  xsrfHeaderName: 'X-XSRF-TOKEN', // 건드리지 않아본 값
   onUploadProgress: function (progressEvent) {
     // 뭔지 잘 모르겠어서 docs 내용 담았음.
     // Do whatever you want with the native progress event
@@ -74,7 +74,7 @@ myRequest({
   maxContentLength: 2000, // Response의 최대 길이. in bytes allowed in nod
   maxBodyLength: 2000, //
   validateStatus: function (status) {
-    return status >= 200 && status < 300 // default
+    return status >= 200 && status < 300; // default
   },
   maxRedirects: 5, // default
   socketPath: null,
@@ -83,17 +83,17 @@ myRequest({
   proxy: {
     // 프록시로, url을 스틸해서 세팅해준다 보면 됨. 프로토콜 방식과 호스트, 포트를 설정해서 url을 꽂아준다. baseURL 말고 프록시 방식으로 지정해도 좋을 듯.
     // 보통 호스트 네임을 window에서 콜 할 수 있으므로, 여기서 hostname을 사용해주면 좋을 것 같다.
-    protocol: "https",
-    host: "127.0.0.1",
+    protocol: 'https',
+    host: '127.0.0.1',
     port: 9000,
     auth: {
-      username: "mikeymike",
-      password: "rapunz3l",
+      username: 'mikeymike',
+      password: 'rapunz3l',
     },
   },
   cancelToken: new CancelToken(function (cancel) {}), // axios 요청을 cleanup 할 때 쓰이는 cancelToken
   decompress: true,
-})
+});
 ```
 
 ## WHAT IF?
@@ -112,107 +112,106 @@ myRequest({
 - 아마도 로그인의 경우, 틀릴 경우 401 에러를 응답하게 되는데 해당 부분을 분리하기 위해서라고 추측.
 
 ```js
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import store, { DispatchToast } from "store/index"
-import { tokenActions } from "store/tokenSlice"
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import store, { DispatchToast } from 'store/index';
+import { tokenActions } from 'store/tokenSlice';
 
 // 해당 인터셉터 인스턴스는 header에 원하는 변수로 설정하는 방법을 defaults로 넣는 방법밖에 몰라서 사용했음.
 // Authorization 이외의 값을 넣고 싶었기에 사용하는 인스턴스.
 const interceptorRequest = axios.create({
-  baseURL: "https://", // base 서버 주소
+  baseURL: 'https://', // base 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
   timeout: 10000, // 10초까지만 대기
-})
+});
 
 /*
   서버에 요청을 날리는 axios instance
   https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1
   */
 const apiRequest = axios.create({
-  baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
-  // baseURL: "http://70.12.246.176:8200", // 서버 주소
+  baseURL: 'https://j8a601.p.ssafy.io', // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
   timeout: 10000, // 10초까지만 대기
-})
+});
 
 // request 인터셉터
 apiRequest.interceptors.request.use(
   (config) => {
-    const state = store.getState() // 리덕스 상태 가져오기
-    const accessToken = state.token.accessToken // 리덕스 accessToken 읽기
+    const state = store.getState(); // 리덕스 상태 가져오기
+    const accessToken = state.token.accessToken; // 리덕스 accessToken 읽기
     // const refreshToken = state.token.refreshToken
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}` // 리덕스에 accessToken이 있을 경우 Authorization 헤더 추가
+      config.headers.Authorization = `Bearer ${accessToken}`; // 리덕스에 accessToken이 있을 경우 Authorization 헤더 추가
     }
     // if (refreshToken) {
     //   config.headers.common[`refreshtoken`] = `Bearer ${refreshToken}`
     // }
-    return config
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
 // response 인터셉터
 apiRequest.interceptors.response.use(
   (res: AxiosResponse) => {
-    const newAccessToken = res.headers["accesstoken"] || res.data?.accesstoken
+    const newAccessToken = res.headers['accesstoken'] || res.data?.accesstoken;
     const newRefreshToken =
-      res.headers["refreshtoken"] || res.data?.refreshtoken
+      res.headers['refreshtoken'] || res.data?.refreshtoken;
     if (newAccessToken) {
       store.dispatch(
         tokenActions.setAccessToken({ accessToken: newAccessToken })
-      ) // 리덕스 accessToken 갱신
+      ); // 리덕스 accessToken 갱신
     }
     if (newRefreshToken) {
       store.dispatch(
         tokenActions.setRefreshToken({ refreshToken: newRefreshToken })
-      )
+      );
     }
     // console.log("response", res)
-    return res
+    return res;
   },
   async (error) => {
-    console.log("error", error)
-    console.log(`errorStatusCode: ${error.response.status}`)
+    console.log('error', error);
+    console.log(`errorStatusCode: ${error.response.status}`);
 
-    const state = store.getState() // 리덕스 상태 가져오기
-    const accessToken = state.token.accessToken // 리덕스 accessToken 읽기
-    const refreshToken = state.token.refreshToken
+    const state = store.getState(); // 리덕스 상태 가져오기
+    const accessToken = state.token.accessToken; // 리덕스 accessToken 읽기
+    const refreshToken = state.token.refreshToken;
 
-    const originalConfig = error.config // 기존 요청 정보 저장 (accessToken 요청 후 재발급을 위해)
-    const response = error.response // 에러 정보
+    const originalConfig = error.config; // 기존 요청 정보 저장 (accessToken 요청 후 재발급을 위해)
+    const response = error.response; // 에러 정보
 
     if (response.status === 401) {
       // access Token 재발급
       const config: AxiosRequestConfig = {
         method: `post`,
-        baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+        baseURL: 'https://j8a601.p.ssafy.io', // 서버 주소
         // baseURL: "http://70.12.246.176:8200", // 서버 주소
         url: `/api/auth/reissue`,
-      } // accessToken 재발급 관련 설정
+      }; // accessToken 재발급 관련 설정
       if (accessToken) {
-        interceptorRequest.defaults.headers.common[`accesstoken`] = accessToken
+        interceptorRequest.defaults.headers.common[`accesstoken`] = accessToken;
       }
       if (refreshToken) {
         interceptorRequest.defaults.headers.common[`refreshtoken`] =
-          refreshToken
+          refreshToken;
       }
       await interceptorRequest(config)
         .then((res) => {
-          console.log("토큰 재발급 응답:")
-          console.log(res)
+          console.log('토큰 재발급 응답:');
+          console.log(res);
           const newAccessToken =
-            res.headers["accesstoken"] || res.data?.accesstoken
+            res.headers['accesstoken'] || res.data?.accesstoken;
           // const newRefreshToken =
           //   res.headers["refreshtoken"] || res.data?.refreshtoken
           if (newAccessToken) {
             store.dispatch(
               tokenActions.setAccessToken({ accessToken: newAccessToken })
-            ) // 리덕스 accessToken 갱신
+            ); // 리덕스 accessToken 갱신
             // originalConfig.headers.common["accesstoken"] = `${newAccessToken}`
-            originalConfig.headers.Authorization = `Bearer ${newAccessToken}`
+            originalConfig.headers.Authorization = `Bearer ${newAccessToken}`;
           }
           // if (newRefreshToken) {
           //   store.dispatch(
@@ -220,28 +219,28 @@ apiRequest.interceptors.response.use(
           //   )
           //   originalConfig.headers.common["refreshtoken"] = `${newRefreshToken}`
           // }
-          return apiRequest(originalConfig) // 기존 요청 새로운 token으로 재시도
+          return apiRequest(originalConfig); // 기존 요청 새로운 token으로 재시도
         })
         .catch((err) => {
-          console.log("토큰 재발급 에러 : ", err)
+          console.log('토큰 재발급 에러 : ', err);
           // store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
-          return Promise.reject(err)
-        })
+          return Promise.reject(err);
+        });
     } else if (response.status === 403) {
       store.dispatch(
-        DispatchToast("토큰이 만료되었습니다. 다시 로그인 해주세요.", false)
-      )
-      store.dispatch(tokenActions.deleteTokens({}))
+        DispatchToast('토큰이 만료되었습니다. 다시 로그인 해주세요.', false)
+      );
+      store.dispatch(tokenActions.deleteTokens({}));
     } else if (response.status >= 500) {
       store.dispatch(
-        DispatchToast("서버와의 통신에 문제가 발생하였습니다.", false)
-      )
+        DispatchToast('서버와의 통신에 문제가 발생하였습니다.', false)
+      );
     }
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
-export default apiRequest
+export default apiRequest;
 ```
 
 ## 참고

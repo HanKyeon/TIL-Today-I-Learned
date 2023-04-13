@@ -26,11 +26,11 @@
 - 이 때 해당 라우팅의 쿼리 파라미터나 다이나믹 라우팅을 받아오고 싶은 경우에는 `useRouter()` 훅을 이용한다.
 
 ```js
-import Link from "next/link"
-import { useRouter } from "next/router"
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function Home() {
-  const router = useRouter()
+  const router = useRouter();
   // => router.query.pid 등으로 읽을 수 있음.
   // 초기에는 undefined 이지만, 렌더링이 된 후에 파라미터의 값이 읽어진다.
   // 이후 데이터를 fetching 하는 등  데이터를 받아온 이후 해당 값을 이용 할 수 있음.
@@ -57,10 +57,10 @@ function Home() {
         </Link>
       </li>
     </ul>
-  )
+  );
 }
 
-export default Home
+export default Home;
 ```
 
 ## WHAT IF?

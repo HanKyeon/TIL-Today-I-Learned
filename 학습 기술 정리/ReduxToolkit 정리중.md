@@ -43,11 +43,11 @@ const example2 = useSelector((state: RootState) => state.example)
 ```js
 const FeatureExampleAction = function () {
   return function (dispatch: AppDispatch) {
-    dispatch(ex1Actions.resetState({}))
-    dispatch(ex2Actions.resetState({}))
-    dispatch(ex3Actions.resetState({}))
-  }
-}
+    dispatch(ex1Actions.resetState({}));
+    dispatch(ex2Actions.resetState({}));
+    dispatch(ex3Actions.resetState({}));
+  };
+};
 ```
 
 이런식으로 **기능** 별로 실행해줄 Action들을 한 곳에 모아서 관리를 하면 해당 기능 디스패치를 사용 하였을 때, index에서 관리하면 되기에 관리가 편해진다.

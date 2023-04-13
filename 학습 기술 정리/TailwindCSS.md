@@ -82,14 +82,14 @@ module.exports = {
 module.exports = {
   theme: {
     borderRadius: {
-      none: "0",
-      sm: ".125rem",
-      DEFAULT: ".25rem",
-      lg: ".5rem",
-      full: "9999px",
+      none: '0',
+      sm: '.125rem',
+      DEFAULT: '.25rem',
+      lg: '.5rem',
+      full: '9999px',
     },
   },
-}
+};
 ```
 
 - 위의 예시가 제시되어 있는데, className을 rounded나 rounded-none rounded-sm 등을 통해 사용한다.
@@ -117,12 +117,12 @@ module.exports = {
 
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./src/**/**/*.{js,jsx,ts,tsx}",
-    "./src/**/**/**/*.{js,jsx,ts,tsx}",
-    "./src/**/**/**/**/*.{js,jsx,ts,tsx}",
-    "./src/**/**/**/**/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/tw-elements/dist/js/**/*.js",
+    './src/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/**/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/**/**/**/*.{js,jsx,ts,tsx}',
+    './node_modules/tw-elements/dist/js/**/*.js',
   ],
   // safelist: [
   //   {
@@ -134,40 +134,40 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        mobile: "400px",
+        mobile: '400px',
       },
       colors: {
         primary: {
-          50: "#FFF5EB",
-          100: "#FFE6CE",
-          200: "#FFD2A7",
+          50: '#FFF5EB',
+          100: '#FFE6CE',
+          200: '#FFD2A7',
         },
       },
       fontFamily: {
-        "hongcha-nemo": ["nemo", "ui-sans-serif"],
+        'hongcha-nemo': ['nemo', 'ui-sans-serif'],
       },
       backgroundImage: {
-        "tale-nav-logo": "url('/src/assets/images/TaleNavLogo.png')",
+        'tale-nav-logo': "url('/src/assets/images/TaleNavLogo.png')",
       },
       animation: {
-        "ppyong-super-fast": "ppyong 0.11s both",
+        'ppyong-super-fast': 'ppyong 0.11s both',
       },
       spacing: {
-        vh: "1vh",
-        vw: "1vw",
-        pc: "1%",
+        vh: '1vh',
+        vw: '1vw',
+        pc: '1%',
       },
       keyframes: {
         ppyong: {
-          "0%": { transform: "scale(0%)" },
-          "95%": { transform: "scale(107%)" },
-          "100%": { transform: "scale(100%)" },
+          '0%': { transform: 'scale(0%)' },
+          '95%': { transform: 'scale(107%)' },
+          '100%': { transform: 'scale(100%)' },
         },
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
-}
+  plugins: [require('@tailwindcss/typography')],
+};
 ```
 
 ## WHAT IF?

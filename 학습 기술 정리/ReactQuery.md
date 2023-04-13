@@ -105,40 +105,40 @@ const useGetUserData = function (/* 필요한 정적인 파라미터 */) {
       return /* await는 선택. 대다수 찾아본 글에서는 사용하지 않았음. */ axios({
         method: `get`,
         url: `asdfaf`,
-      }).then((res) => res.data) // res를 반환해도 좋고 res.data를 반환해도 좋음. but 디스트럭쳐링으로 받을 때 data 라는 이름으로 받아지며, res를 반환할 경우 data.data로 접근해야하기에 바로 data로 반환해줌.
+      }).then((res) => res.data); // res를 반환해도 좋고 res.data를 반환해도 좋음. but 디스트럭쳐링으로 받을 때 data 라는 이름으로 받아지며, res를 반환할 경우 data.data로 접근해야하기에 바로 data로 반환해줌.
     },
     {
       // 옵셔널 데이터들이 들어가면 됨.
       onSuccess: function (data) {
         // 성공 시 처리 할 함수
-        console.log(data)
+        console.log(data);
       },
       onError: function (err) {
         // 실패 시 처리 할 함수
-        console.log(data)
+        console.log(data);
       },
     }
-  )
-}
+  );
+};
 ```
 
 ```js
 const usePutUserData = function (/* 필요한 정적인 값 */) {
-  const queryClient = useQueryClient() // 현재 사용중인 queryClient 객체를 가져오는 것 같음!
+  const queryClient = useQueryClient(); // 현재 사용중인 queryClient 객체를 가져오는 것 같음!
   return useMutation(
     function (/* 객체를 받고 싶다면 여기에 넣으면 될 듯. */) {
-      return axios({ 객체 })
+      return axios({ 객체 });
     },
     {
       onSuccess: function () {
-        queryClient.invalidateQueries([`user`]) // user를 unique key로 가진 쿼리에 변경이 생겨 invalid 시켜줌.
+        queryClient.invalidateQueries([`user`]); // user를 unique key로 가진 쿼리에 변경이 생겨 invalid 시켜줌.
       },
       onError: function () {
-        console.log("하이요 실패에요")
+        console.log('하이요 실패에요');
       },
     }
-  )
-}
+  );
+};
 ```
 
 ```js
@@ -146,7 +146,7 @@ const usePutUserData = function (/* 필요한 정적인 값 */) {
 
 // get을 쓰는 useQuery의 경우, hook으로 선언되었기에 이런식으로 선언만 하면 사용 가능.
 // 이렇게 되면 `user` key로 get 해오는게 자동으로 된다. 기존에는 useEffect를 통해 데이터를 가져와서 redux || state에 저장하고 사용해야 하지만, data 자체가 data가 된다.
-const { isLoading, error, data } = useGetUserData() // isFetching 등 다양한 값이 있으니 필요한 것을 쓰면 됨.
+const { isLoading, error, data } = useGetUserData(); // isFetching 등 다양한 값이 있으니 필요한 것을 쓰면 됨.
 // 훅을 사용하지 않는다면, 아래와 같이 작성.
 const { isLoading, error, data } = useQuery([`user`], function () {
   return (
@@ -154,29 +154,29 @@ const { isLoading, error, data } = useQuery([`user`], function () {
       /* AxiosRequestConfig */
     }).then((res) => res.data),
     { onSuccess: function () {}, onError: function () {} }
-  )
-})
+  );
+});
 
 // put post delete 등 server state에 변화를 주는 경우, useMuation을 사용한다.
 // 훅을 선언한 경우, 아래와 같이 작성해서 쓰면 됨.
-const { mutate, mutateAsync } = usePutUserData() // 이 둘 외에도 많은 것들이 있음.
-mutate() // 함수의 인자 값을 받았다면 여기서 넣어주면 된다.
-const a = mutateAsync() // Promise 객체를 반환하는 mutateAsync. 하지만 data를 가공 했을 때 server state에 적용이 안되므로, 사용을 지양하는 것이 좋아보인다.
+const { mutate, mutateAsync } = usePutUserData(); // 이 둘 외에도 많은 것들이 있음.
+mutate(); // 함수의 인자 값을 받았다면 여기서 넣어주면 된다.
+const a = mutateAsync(); // Promise 객체를 반환하는 mutateAsync. 하지만 data를 가공 했을 때 server state에 적용이 안되므로, 사용을 지양하는 것이 좋아보인다.
 // hook을 사용하지 않는 경우
-const queryClient = useQueryClient()
+const queryClient = useQueryClient();
 const { mutate, mutateAsync } = useMutation(
   function () {
     return axios({
       /* AxiosRequestConfig */
-    })
+    });
   },
   {
     /* 옵션 객체+ */
     onSuccess: function () {
-      queryClient.invalidateQueries("user")
+      queryClient.invalidateQueries('user');
     },
   }
-)
+);
 
 // useQueries
 const queries = useQueries(
@@ -184,9 +184,9 @@ const queries = useQueries(
     return {
       queryKey: [`book`, book.id],
       queryFn: () => axios({}),
-    }
+    };
   })
-)
+);
 ```
 
 - setQueryData 및 setQueriesData
@@ -194,29 +194,29 @@ const queries = useQueries(
 쿼리 값을 임의로 정하겠다면 setQueryData 혹은 setQueryKey 등을 사용하면 된다.
 
 ```js
-const queryClient = useQueryClient()
+const queryClient = useQueryClient();
 
 // data는 저장 할 정보
-queryClient.setQueryData([`user`, `list`], { filter: `me` }, data)
+queryClient.setQueryData([`user`, `list`], { filter: `me` }, data);
 // 내 아이디와 같은 모든 목록 업데이트.
 queryClient.setQueriesData([`user`, `list`], (prev) =>
   prev.map((user) => (user.id === me.id ? data : user))
-)
+);
 // 모든 유저 리스트 invalidate
-queryClient.invalidateQueries([`user`, `list`])
+queryClient.invalidateQueries([`user`, `list`]);
 
 // 현재 사용중인 값을 즉시 업데이트
-queryClient.setQueryData(["todos", "detail", newTodo.id], newTodo)
+queryClient.setQueryData(['todos', 'detail', newTodo.id], newTodo);
 
 // 현재 사용중인 값이 담긴 리스트를 즉시 업데이트.
-queryClient.setQueryData(["user", "list", { filter }], (previous) =>
+queryClient.setQueryData(['user', 'list', { filter }], (previous) =>
   previous.map((user) => (user.id === newTodo.id ? newtodo : user))
-)
+);
 // 리스트를 invalidate 시키지만 refetch 하지 않음
 queryClient.invalidateQueries({
-  queryKey: ["user", "list"],
+  queryKey: ['user', 'list'],
   refetchActive: false,
-})
+});
 ```
 
 - 쿼리 키 관련
@@ -251,13 +251,13 @@ const todoKeys = {
 
 ```js
 // 🕺 모든 todos 삭제
-queryClient.removeQueries(todoKeys.all)
+queryClient.removeQueries(todoKeys.all);
 
 // 🚀 모든 리스트 invalidate
-queryClient.invalidateQueries(todoKeys.lists())
+queryClient.invalidateQueries(todoKeys.lists());
 
 // 🙌 prefetch 하나의 todo
-queryClient.prefetchQueries(todoKeys.detail(id), () => fetchTodo(id))
+queryClient.prefetchQueries(todoKeys.detail(id), () => fetchTodo(id));
 ```
 
 ---
@@ -351,7 +351,7 @@ const queryKeys = {
   storeList: () => [...queryKeys.store(), `list`],
   storeDetail: (taleId) => [...queryKeys.store(), `detail`, taleId],
   reviewList: (taleId) => [...queryKeys.storeDetail(taleId), `reviews`],
-}
+};
 ```
 
 ## 추가 내용
@@ -395,26 +395,26 @@ https://darrengwon.tistory.com/1517
 
 ```js
 // docs의 예시로 들어가 있는 페이지네이션 코드.
-const queryClient = useQueryClient()
-const [page, setPage] = React.useState(0) // 페이지네이션 시작은 0
+const queryClient = useQueryClient();
+const [page, setPage] = React.useState(0); // 페이지네이션 시작은 0
 
 // 이후 페이지네이션의 쿼리
 const { status, data, error, isFetching, isPreviousData } = useQuery({
-  queryKey: ["projects", page], // 쿼리키
+  queryKey: ['projects', page], // 쿼리키
   queryFn: () => fetchProjects(page), // fetch  함수
   keepPreviousData: true, // 쿼리 키가 변경되어서 새로운 데이터를 요청하는 동안에도 마지막 data 값을 유지한다.
   staleTime: 5000, // 유지 시간
-})
+});
 
 // Prefetch the next page!
 React.useEffect(() => {
   if (!isPreviousData && data?.hasMore) {
     queryClient.prefetchQuery({
-      queryKey: ["projects", page + 1],
+      queryKey: ['projects', page + 1],
       queryFn: () => fetchProjects(page + 1),
-    })
+    });
   }
-}, [data, isPreviousData, page, queryClient])
+}, [data, isPreviousData, page, queryClient]);
 ```
 
 15. infinite Queries. useInfiniteQuery 훅을 통해 사용. 무한 스크롤을 구현하는데 유용하다.
@@ -429,22 +429,22 @@ React.useEffect(() => {
 - 참고 사항. initialData 혹은 select 옵션을 쿼리에서 사용하는 경우, 확정해줘야한다. data를 restructure 할 때 여전히 data.pages와 data.pageParams가 잇는지 보장해야 한다. 나머지는 알아서 덮어써도 된다고 함.
 
 ```js
-fetch("/api/projects?cursor=0")
+fetch('/api/projects?cursor=0');
 // { data: [...], nextCursor: 3}
-fetch("/api/projects?cursor=3")
+fetch('/api/projects?cursor=3');
 // { data: [...], nextCursor: 6}
-fetch("/api/projects?cursor=6")
+fetch('/api/projects?cursor=6');
 // { data: [...], nextCursor: 9}
-fetch("/api/projects?cursor=9")
+fetch('/api/projects?cursor=9');
 // { data: [...] }
 
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 function Projects() {
   const fetchProjects = async ({ pageParam = 0 }) => {
-    const res = await fetch("/api/projects?cursor=" + pageParam)
-    return res.json()
-  }
+    const res = await fetch('/api/projects?cursor=' + pageParam);
+    return res.json();
+  };
 
   const {
     data,
@@ -455,14 +455,14 @@ function Projects() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["projects"],
+    queryKey: ['projects'],
     queryFn: fetchProjects,
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-  })
+  });
 
-  return status === "loading" ? (
+  return status === 'loading' ? (
     <p>Loading...</p>
-  ) : status === "error" ? (
+  ) : status === 'error' ? (
     <p>Error: {error.message}</p>
   ) : (
     <>
@@ -479,15 +479,15 @@ function Projects() {
           disabled={!hasNextPage || isFetchingNextPage}
         >
           {isFetchingNextPage
-            ? "Loading more..."
+            ? 'Loading more...'
             : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
+            ? 'Load More'
+            : 'Nothing more to load'}
         </button>
       </div>
-      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      <div>{isFetching && !isFetchingNextPage ? 'Fetching...' : null}</div>
     </>
-  )
+  );
 }
 ```
 
@@ -531,16 +531,16 @@ function Projects() {
 ```js
 // docs의 코드를 그대로 가져옴.
 export async function getStaticProps() {
-  const posts = await getPosts()
-  return { props: { posts } }
+  const posts = await getPosts();
+  return { props: { posts } };
 }
 
 function Posts(props) {
   const { data } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ['posts'],
     queryFn: getPosts,
     initialData: props.posts,
-  })
+  });
 
   // ...
 }
@@ -561,10 +561,10 @@ import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query"
+} from '@tanstack/react-query';
 
 export default function MyApp({ Component, pageProps }) {
-  const [queryClient] = React.useState(() => new QueryClient())
+  const [queryClient] = React.useState(() => new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -572,6 +572,6 @@ export default function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </Hydrate>
     </QueryClientProvider>
-  )
+  );
 }
 ```
