@@ -2,6 +2,8 @@
 
 - 학습 후기
   **리액트 쿼리 진짜 좋은 듯!!! 이전 프로젝트에서 servserState의 상태 관리를 redux로 했을 때, 꼬이는 경험을 했는데 React Query를 사용하게 되면 그럴 일이 없어질 것이다.**
+  **현재 docs를 정리하고 있다.**
+  **Docs 백날 천날 보긴 하겠지만, 직접 사용해보는 것이 아주 큰 이해를 제공한다. 백문이 불여일견과 일맥상통이다.**
 - 학습 진행 버전 : 3.39.3 => 4.28.0
 - 이후 업그레이드 예정 => 5버전
 
@@ -413,6 +415,80 @@ React.useEffect(() => {
     })
   }
 }, [data, isPreviousData, page, queryClient])
+```
+
+15. infinite Queries. useInfiniteQuery 훅을 통해 사용. 무한 스크롤을 구현하는데 유용하다.
+
+- 반환하는 data는 infinite query data를 가진다.
+- data.pages는 가져온 페이지를 포함하는 배열 형태이다.
+- data.pageParams는 페이지를 가져오는데 사용되는 변수를 포함하는 배열이다.
+- fetchNextPage, fetchPreviousPage 기능이 있음. 이전 다음 로딩인듯
+- 로드 할 데이터가 더 있는지 확인하고 데이터를 가져올 정보를 확인하기 위해 getNextPageParam 과 getPreviousPageParam 옵셔능ㄹ 사용 할 수 있다. fetchNextPage와 fetchPreviousPage를 오버라이딩 할 수 있따.
+- hasNextPage는 getNextPageParam가 undefined가 아닌 데이터일 때 true를 뱉는다....?
+- isFetchingNextPage와 isFetchingPreviousPage는 boolean 값으로, 해당 값을 통해 새로고침 상태와 추가 로드 상태를 구분 할 수 있다.
+- 참고 사항. initialData 혹은 select 옵션을 쿼리에서 사용하는 경우, 확정해줘야한다. data를 restructure 할 때 여전히 data.pages와 data.pageParams가 잇는지 보장해야 한다. 나머지는 알아서 덮어써도 된다고 함.
+
+```js
+fetch("/api/projects?cursor=0")
+// { data: [...], nextCursor: 3}
+fetch("/api/projects?cursor=3")
+// { data: [...], nextCursor: 6}
+fetch("/api/projects?cursor=6")
+// { data: [...], nextCursor: 9}
+fetch("/api/projects?cursor=9")
+// { data: [...] }
+
+import { useInfiniteQuery } from "@tanstack/react-query"
+
+function Projects() {
+  const fetchProjects = async ({ pageParam = 0 }) => {
+    const res = await fetch("/api/projects?cursor=" + pageParam)
+    return res.json()
+  }
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+  })
+
+  return status === "loading" ? (
+    <p>Loading...</p>
+  ) : status === "error" ? (
+    <p>Error: {error.message}</p>
+  ) : (
+    <>
+      {data.pages.map((group, i) => (
+        <React.Fragment key={i}>
+          {group.projects.map((project) => (
+            <p key={project.id}>{project.name}</p>
+          ))}
+        </React.Fragment>
+      ))}
+      <div>
+        <button
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          {isFetchingNextPage
+            ? "Loading more..."
+            : hasNextPage
+            ? "Load More"
+            : "Nothing more to load"}
+        </button>
+      </div>
+      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+    </>
+  )
+}
 ```
 
 ### 정리 해야 할 내용들
