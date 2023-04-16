@@ -1,0 +1,114 @@
+
+# 20230414
+
+어제 배운 것
+
+1. prettierrc 관련 기록
+2. Next.js의 getStaticProps 개념. 정적 pre-rendering 개념이었음.
+  - 함수이며, 비동기 처리 가능.
+  - 값의 변경이 적은 정적인 페이지를 만들 때 유용.
+  - 빌드 시에 실행되며 데이터를 받아 props로 넣어준다.
+  - 빌드 시에 실행되기에 서버 측에도 함수 관련 내용이 없고, 프론트 소스에서도 없다.
+3. 피그마 api를 어떻게 까야 좋을까....? 라는 생각이 들었음.
+
+---
+
+Next.js
+
+- getStaticProps 말고, getServerSideProps 함수를 사용한다.
+- getServerSideProps는 서버에서 실행해준다. async 역시 가능하다.
+- NextJS가 getStaticProps처럼 찾아서 잡아둔다.
+- getServerSideProps는 빌드 중에 실행이 안되고, 서버에서 실행된다.
+- 마찬가지로 객체를 반환한다. props 속성을 가진.
+- getServerSideProps에서 api를 fetch 하는 코드는 모두 서버에서 실행된다. useCredential한 것도 사용이 가능하다. 서버에서 사용이 되기 때문에 사용자에게 노출되지 않는다..
+- props 객체를 반환한다.
+- 반환 객체에서 revalidate 선언이 가능하다. 시간을 지정해서 revalidate할 필요가 있다.
+- getServerSideProps는 context를 인자로 받는다. getStaticProps 역시 context를 받아올 수 잇다.
+- request obj에 접속이 가능하고, res obj 역시 접속이 가능하다.
+- context에는 request 객체와 resoponse 객체에 접근이 가능하다.
+- 세션 쿠키를 확인하거나 그럴 때 유용.
+- 들어오는 요청에 접근하고 헤더, 바디 등에 접근이 가능하다.
+- 추가 데이터를 받ㅇ르 수 있따. 결국, 응답 객체에서는 응답을 리턴하지 않고, props key로 리턴한다.
+- 페이지 키가 페이지 컴포넌트의 function props를 가지고 있다.
+- 그 키가 페이지 컴포넌트의 props를 갖고 있다. 페이지를 위한 데이터를.
+- 페이지 요청이 들어올 때마다 regenerate된다.
+- 요청이 들어올 때까지, 즉 페이지가 만들어질 때까지 기다려야 한다.
+- 요청 객체에 접근 할 필요가 없다면 getStaticProps가 낫다. HTML파일을 CDN에 저장되고 요청이 들어올 때마다 만들기에 데이터를 다시 만들고 fetching 하는 것 보다 빠르다. 캐시를 사용하기 때문에.
+- 요청 객체에 접속해야 한다면 getServerSideProps를 사용한다.
+- 매초 여러번 바뀌는 데이터를 가지고 있다면 revalidate 역시 필요 없을 것이다. 그 때는 getServerSideProps가 좋은 선택일 것이다.
+- request obj에 접근을 해야하는가, 데이터가 자주 바뀌는가, 데이터에 얼마나 접근하는가 등에 따라 무엇을 사용할 지 결정하면 좋다.
+- 동적 페이지임을 이해해야 한다. fetch 했을 때 밋업을 확인 할 값이 필요하다.
+- getStaticProps, getServerSideProps에서 인자로 받는 context에는 context.params를 통해 url에 접근이 가능하다.
+- 이 때, getSTaticPaths 함수를 추가로 설정해주어야 한다.
+- getStaticProps는 페이지 컴포넌트에서 export 한다.
+- getSTaticPaths 역시 async가 가능하다.
+- getStaticProps는 모든 페이지가 사전 렌더링 되어야 한다. 빌드에서. 그렇기에 params에서 가져온 값으로 넣어주기 어렵다.
+- getstaticpaths를 그래서 선언해야 한다.
+- 객체를 반환하는데 paths를 array를 반환하며, 객체 리스트이다.
+- 객체에는 params가 객체로 받는다. params가 여러개라면 중첩된다.
+- path가 여러개라면, params를 가진 객체가 많아진다. 동적으로는 나중에 하겠다고 함.
+- 그렇게 되면 fallback 에러가 난다.
+- getstaticpaths에서 fallback 키 값을 넣어줘야 한다.
+- fallback키는 모든 지원되는 변수를 저장할 지 안할지 결정한다. false 값일 경우 모든 데이터를 저장한다.
+- 넥스트에게 모든 지원되는 매개변수를 저장할 지 일부만 할 지 알려주는 것이다. false는 모든 것을 저장해라 라는 것.
+- 유저가 지원되지 않는 값을 입력하면 404 에러가 뜬다.
+- fallback을 true로 하면 nextJS가 동적으로 만들어 줄 것이다.
+- 특정 id에 대해 사전 렌더링 해준다.
+- 요청이 들어왔을 때 없는 것을 동적으로 받아준다.
+- 특정 path의 페이지를 선언해주는 것이다. 캐싱해주는.
+- getstaticpaths는 중요하다. 어떤 페이직 ㅏpre-generate 되어야 하는지 설명한다.
+- getStaticProps 같은 곳에서 찍은 콘솔은 server side에서만 찍힌다.
+
+- 실제 DB에 저장 할 떄 중한 것이 있다.
+- NextJS가 BE API를 빌드되기 쉽게 했다. 같은 프로젝트에서. 하지만 React의 특징을 붙여야 한다.
+- NextJS는 APIRoute가 있다는 것이다. html 코드를 return 하지 안ㅎ고, http request를 받고 post 등을 처리한다. json이 붙어있기에 그걸 사용하면 된다. db에 저장하고 json 데이터를 반환한다던가 등, API End Point를 가지게 된다.
+- 그 뒤 Next.js의 서버에 담아 보내준다.
+
+- 폴더 이름을 api로 잡ㅔ고 만들면 된다. 파일을 잡고, 파일의 JSON을 가져와줄 것이다. JSON을 받ㅇ르 것이고 JSON을 반환 할 것이다.
+- API Route에는 React 관련된 모든 것이 안된다. 훅, 상태, 컴포넌트 등.
+- 서버 사이드 코드를 담은 파일이다. 디코드해도 클라에게 노출되지 않는다.
+- 따라서 API 라우터에서 credential 사용이 가능하다.
+- API 라우트에 요청이 들어올 때마다 트리거 된다.
+- 라우트 파일의 default export 함수가 불러와진다.
+- node.js와 express.js에서 실행이 될 것이다. requser와 response를 인자로 받는 함수이다.
+- req는 요청 객체, res는 response 객체를 보낼 때.
+- request에서 헤더나 body 등을 받을 수 있다.
+- req.method를 if check으로 받아서 실행한다.
+- 해당 라우트의 요청이 맞을 때만 코드를 트리거한다.
+- req.bodt로 data를 가져올 ㅅ ㅜ있다.
+- req.body의 데이터가 맞는 데이터인지 API 라우트에서 확인해줘야 한다.
+- data를 디스트럭쳐링해서 requset body에서 받아 db에 저장을 해야한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
