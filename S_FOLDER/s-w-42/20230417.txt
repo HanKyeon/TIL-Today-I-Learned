@@ -1,0 +1,170 @@
+
+# 20230417
+
+- 금토일 간 배운 것
+
+1. next.js의 getServerSideProps, getstaticpaths, getStaticProps 관련된 내용들.
+2. 코테는 범위를 확실히 정해두고 푸는 것이 좋다. 어쩔 수 없이 긴장을 하게 된다. 네이버 기준 딱 두개만 잡고 확실하게 풀어냈다면 좋았을 것으로 보인다.
+
+---
+
+Redux Toolkit + NextJS
+
+https://velog.io/@leejaehyuck9/Next.js-Redux-toolkit-Typscript
+https://curryyou.tistory.com/501
+https://www.devkkiri.com/post/56578a18-d1fc-4c67-a2c4-6d64e21cf70c
+
+1. NextJS 는 ServerSideRendering을 하기 때문에, redux를 사용하기 위해서는 해당 브라우저임을 확인 할 수가 있어야 한다. 해당 브라우저의, 해당 전역 상태만 수정해줘야 한다. 그래서 next-redux-wrapper 라이브러리를 쓴다.
+2. next-redux-wrapper는 리덕스ㅇ에 action이 dispatch되면 hydrate 액션을 발생시켜 디스패치한 액션을 처리하고 동기화 해준다.
+3. 서버단에서 Redux를 사용하는 경우에만 next-redux-wrapper를 쓴다.
+4. App 부분에서 wrapper.withRedux(App) 을 리턴해주면 HYDRATE와 Provider로 감싸주는 것들을 모두 해준다.
+5. wrapper는 `createWrapper`를 통해 실행된다. 아래의 코드를 통해 작성하면 된다.
+6. serverState에서 사용하기 위해 makeStore라는 함수를 통해 리턴하는 것 같다.
+```js
+import { HYDRATE, createWrapper } from 'next-redux-wrapper';
+import exSlice, { exState } from './ex-slice';
+import tokenSlice, { tokenActions, tokenState } from './token-slice';
+import { toastActions } from './toast-slice';
+
+// useSotre 에서 useStoreSelector와 useStoreDispatch를 일반적으로 사용하기 위한 타입
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+
+// 1. slice의 State를 StoreStates에 추가.
+interface StoreStates {
+  ex: exState;
+  token: tokenState;
+}
+
+// 2. combinedReducer에 slice 추가 끝.
+const rootReducer = function (
+  state: StoreStates,
+  action: AnyAction
+): CombinedState<StoreStates> {
+  switch (action.type) {
+    case HYDRATE:
+      return action.payload;
+    default: {
+      const combinedReducer = combineReducers({
+        ex: exSlice,
+        token: tokenSlice,
+      });
+      return combinedReducer(state, action);
+    }
+  }
+};
+
+const makeStore = function () {
+  const store = configureStore({
+    reducer: rootReducer as Reducer<StoreStates, AnyAction>,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+  });
+  return store;
+};
+
+const store = makeStore();
+export default store;
+
+export const wrapper = createWrapper(makeStore);
+```
+
+- getServerSideProps보다 getStaticProps가 1회만 호출되기에 성능 면에서 좋다.
+
+NextJS에서 RTK를 사용하기 위해서는 아래와 같은 코드 작성이 필요함. getServerSideProps와 getStaticProps
+```js
+export const getStaticProps = wrapper.getStaticProps(function (store) {
+  return async function (context) {
+    store.dispatch(exActions.setEx({ ex: `스태릭 줴눠뤠이숀 뤤더륑` }));
+    return {
+      props: {
+        asdf: `asdf`,
+      },
+    };
+  };
+});
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(function (store) {
+    store.dispatch(exActions.setEx({ ex: `설벌 사이두 뤤둬륑` }));
+    return async function (context) {
+      return {
+        props: {
+          asdf: `asd`,
+        },
+      };
+    };
+  });
+```
+이 때 각각 props의 type은 `InferGetServerSidePropsType<typeof getServerSideProps>` 혹은 `InferGetStaticPropsType<typeof getStaticProps>`
+
+
+# 경고 관련
+
+https://nextjs.org/docs/messages/no-document-viewport-meta
+
+뷰포트를 document에서 선언하지 말라고 함.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+- 도메인 지식 : 업무에 대한 충분한 이해를 갖춘 개발.
+- 시장을 이해하는 개발자. 아무리 잘 만들어도 쓰이지 않거나 시장의 선택을 받지 못한다면 어떤 가치도 만들어내지 못함.
+- 적정 기술을 선택하고 서비스에 알맞게 아키텍처를 만들어서 사용하는 능력.
+- 서비스에 가치를 더하는데 기여하는 것.
+
+- MSA와 마이크로 프론트엔드.
+- 기업의 디지털 전환, IT기업과 일반 기업간의 경계가 흐려지는 빅블러 현상.
+
+- 하루 일과 : 오늘의 계획. 중요도와 우선순위에 따라 기록. 기록은 잊기 위해서 쓰는 것이다.
+- 오전에는 주로 학습과 리팩토링에 집중. 개발자라는 직업은 늘 배워야 한다. 배우는 것에 그치지 않고, 내가 하는 일에 적용함으로써 선순환을 만들기 위해 노력한다. 미진하고 아쉬웠던 부분은 리팩토링한다.
+- 오후에는 소통과 제품 개발에 집중.
+- 틈새 시간에는 뉴스레터를 보며 트렌드를 탐색하고 학습할 거리를 찾는다.
+- 업무를 하면서 새롭게 알게 된 정보나 지식은 TIL을 작성하여 동료와 공유한다.
+- 개발을 할 때는 우선 테크스펙을 먼저 작성. 작성 후 리뷰. 디테일 설계.
+- 기술관련 뉴스레터, 각종 알림, 장애 리포트 등 확인, 어제 한 일과 오늘 할 일을 팀 내 공유하며 업무 시작.
+- 기능 개발, 코드 리뷰, 미팅 등 진행.
+- 퇴근 후 잠깐 쉬었다 개발하며 부족한 부분에 대해 스터디를 하거나 하고 싶던 토이 플젝을 하며 실력 보충.
+- 동료들이 겪어야 할 무의미한 시간을 줄이고자 ㅎ아는 걸 글이라는 매체를 통해 공유한다. 스스로 공부하는 방식이기도 하다. 직접 글로 정리하면 머릿 속에 각인된다. 타인이 보더라도 무리 없는 방식으로 정리하면 좋은 공부법이다.
+- 유지보수성과 가독성을 고려하여 코딩하는 것. 유지보수성이나 성능을 고려하지 않고 작성한 코드는 비싼 값을 치르게 된다.
+- 스펙을 개발 가능한 수준까지 정리하는 것. 이렇게 할 경우 개발하면서 문서가 자동으로 만들어진다.
+- 고객이 원하는 것을 해결해주는 것. 고객 만족이 중요하다.
+- 혼자가 아닌 모두의 성장. 현재의 아이디어에 대해 수시로 공유 할 수 있고, 서로의 어려움에 대해 같이 고민 할 수 있는 동료의 존재.
+- 투명하게 논의 할 수 있는 환경, 나부터 실천 할 것, 서로의 다름을 인정하는 것.
+- 기술적 고민을 최대한 공유하며 서로의 성장을 위해 다양한 활동을 꾸준하게 하는 것.
+- 모든 코드를 리뷰하는 것, 문서 기반 소통.
+- 의사소통, 오너십, 집요한 문제해결 능력과 집념. 배우려는 자세와 호기심. 개발에서 재미를 찾으려는 마음가짐.
+- 서비스를 책임지는 마음. 모르는 것에 대해 스스로 탐색.
+- SW 설계는 지속적으로 접해야 익숙해진다.
+- readIT zine 이라는 글을 교보문고에서 전자책으로 읽을 수 있다. 읽어보자.
+
+
+---
+
+
+
+
+
+
+
+
+
