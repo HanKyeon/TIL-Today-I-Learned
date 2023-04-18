@@ -1,0 +1,65 @@
+
+# 20230418
+
+- 어제 배운 것
+
+1. redux와 NextJS를 함께 쓰려면 redux-next-wrapper가 필요하다. 각 브라우저가 어느 브라우저인지를 알아야 서버에서 렌더링을 할 수 있다.
+2. 또한, redux toolkit의 경우, configureStore를 함수 형태로 만들어서 리턴을 받아야 서버 사이드에서 실행이 가능한 것으로 보임.
+3. 그렇기에 withRedux로 감싸주거나, wrapper에 선언되어 있는 useWrapperStore를 이용해 props와 store를 디스트럭쳐링으로 받아서 사용해야 한다.
+4. withRedux는 옛날 방식이기에 useWrapperStore를 사용하는 것을 권장한다고 함.
+5. 물론 그전에 store에서 wrapper를 반환해줘야 한다.
+6. HYDRATE에 대한 이해가 필요한 듯 하다. 이름대로인듯 하긴 한데... 유효하지 않다가 신선하게 만드는 staleTime이 boolean 느낌인 듯 한데...
+7. 이제 ReactQuery와 NextJS를 연결시키는 작업을 해보자.
+8. SEO를 React에서 해주는 React-helmet 라이브러리가 있다고 한다. 해당 부분을 공부해봐도 좋을 것 같음.
+
+---
+
+- 피그마 이미지 가져올 때, enabled option으로 lazy fetching을 통해 fetching 해오게 하면 될 것 같다.
+
+- NextJS의 API Route는 일종의 백엔드이다.
+- BE 입장과 현재 과정에서는 API Route를 별로 안쓰는듯.
+- EndPoint가 하나인게 좋아 보여서 api에서 다 관리를 하는게 맞지 않나 싶은데...
+- 일단 queries를 확인해보고 QueryKeys를 설정해두고 관리하는게 맞는 것 같음.
+- api route를 BFF 개념으로 써도 되지 않을까?
+- EndPoint를 /api 로 통일하자.
+  
+- git remote add 브랜치 url
+
+
+
+- getStaticPaths
+- serverSide rendering이 되기에, getStaticProps가 동적 라우팅을 하고 있다면, getStaticPaths를 통해 NextJS가 여기 쓰고 있어요를 알 수 있게 해줘야 한다.
+- 사전 렌더링 되지 않은 StaticPage가 아닌 다른 곳에 들어감녀 404에러를 보게 된다.
+- 그렇기에 getStaticPaths가 추가된다.
+- 동적 페잊 ㅣ버전 하나 당 객체가 하나여야 한다.
+- 이후 paths는 배열.
+- params 객체를 가져야 한다.
+- 거기서 다이나믹 라우팅 값을 넣어저ㅜ야 한다.
+- DB에서 지원되는 ID를 fetch 하거나 api에서 fetch하고 배치한다.
+- 그럴 경우 fallback 에러가 나기 때문에 return obj에 넣어줘야 한다.
+- fallback이 true라면 Next.js가 페이지를 새로 만들려 시도한다.
+- false라면 404 띄운다.
+- 특정 페이지에 대해 사전 렌더링을 해두기에 좋은 도구이다. 자주 방문되는 페이지에서 요청이 들어왔을 때 페이지를 동적으로 제너레이트 한다.
+- fallback은 특정 paths에 대해 사전 렌더링을 진행한다는 특징을 가지기에, 자주 렌더링 될 페이지를 해두면 좋다.
+```js
+const async function getStaticPaths () {
+  return {
+    fallback: false,
+    paths: [
+        {params: {
+            key: value
+        }}
+    ]
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+

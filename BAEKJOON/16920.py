@@ -78,46 +78,46 @@ while True:
 ans.pop(0)
 print(*ans)
 
-import sys
+'''
+# 빠른 코드
+
 from collections import deque
+import sys
+
 input = sys.stdin.readline
+N, M, P = map(int, input().split())
+S = [0] + list(map(int, input().split()))
+visited = [[0] * M for _ in range(N)]
+result = [0] * (P + 1)
+Q = [deque([]) for _ in range(10)]
 
-n,m,p = map(int,input().split())
-castle = [deque() for _ in range(p+1)]
-power = [0]+list(map(int,input().split()))
-graph = [list(input().rstrip()) for _ in range(n)]
-cnt = [0]*(p+1)
+for n in range(N):
+    temp = list(input())
+    for m in range(M):
+        if temp[m] == '#':
+            visited[n][m] = 1
+        elif temp[m] != '.':
+            visited[n][m] = 1
+            result[int(temp[m])] += 1
+            Q[int(temp[m])].append((n, m))
 
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-for i in range(n):
-    for j in range(m):
-        if graph[i][j] != '.' and graph[i][j] != '#':
-            cnt[int(graph[i][j])] += 1
-            castle[int(graph[i][j])].append((i,j))
-
-
-
-moves = [(0,1),(1,0),(0,-1),(-1,0)]
-def bfs():
-    is_moved = True
-    while is_moved:
-        is_moved = False
-        for i in range(1,p+1):
-            if not castle[i]: # 비어있다면 continue
-                continue
-            q = castle[i]
-            for _ in range(power[i]):
-                if not q: # power 연산 중에 비어졌다면 break
-                    break
-                for _ in range(len(q)):
-                    x,y = q.popleft()
-                    for movex,movey in moves:
-                        nx = x + movex
-                        ny = y + movey
-                        if 0 <= nx < n and 0 <= ny < m and graph[nx][ny] == '.':
-                            graph[nx][ny] = str(i)
-                            q.append((nx,ny))
-                            cnt[i] += 1
-                            is_moved = True
-bfs()
-print(*cnt[1:])
+while 1:
+    flag = 1
+    for p in range(1, P + 1):
+        for _ in range(min(S[p], max(N, M))):
+            for _ in range(len(Q[p])):
+                x, y = Q[p].popleft()
+                for i in range(4):
+                    nx, ny = x + dx[i], y + dy[i]
+                    if 0 <= nx < N and 0 <= ny < M and not visited[nx][ny]:
+                        visited[nx][ny] = 1
+                        result[p] += 1
+                        Q[p].append((nx, ny))
+                        flag = 0
+    if flag:
+        break
+print(' '.join(map(str, result[1:])))
+'''
