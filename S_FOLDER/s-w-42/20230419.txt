@@ -1,0 +1,19 @@
+
+# 20230419
+
+- 어제 배운 것
+
+1. Next.js의 fallback 옵션. 해당 옵션이 true일 때 어떤 식으로 작동하는지는 아직 미확인. 확인 예정.
+2. ssg를 할 때, path가 dynamic하다면 getStaticPaths를 통해 해당 라우트는 ssg에요를 알려줘야 한다.
+3. Next.JS 자체가 하나의 서버이다. SSR을 하니까. 따라서 배포 방식이 약간 다르다고 함.
+4. NextJS + React를 server의 포팅을 통해 함께 사용이 가능할 것 같다.
+5. NextJS의 api route를 EndPoint를 잡는게 좋아 보이는데, 현업에서는 직접 BE와 소통을 한다고 하기에 고민이다.
+
+---
+
+
+
+
+
+
+
