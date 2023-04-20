@@ -515,6 +515,9 @@ function Projects() {
 1. DOCS : https://tanstack.com/query/latest/docs/react/guides/ssr
 2. 블로그 : https://velog.io/@arthur/React-Query-with-Next.js-%EC%84%9C%EB%B2%84-%EC%82%AC%EC%9D%B4%EB%93%9C-%EB%A0%8C%EB%8D%94%EB%A7%81
 3. 블로그 : https://kir93.tistory.com/entry/NextJS%EC%97%90%EC%84%9C-react-query-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+4. getServerSideProps에서 useQuery 관련 세팅
+   - https://stackoverflow.com/questions/64202834/invalid-hook-call-in-getserversideprops-nextjs
+   - https://github.com/vercel/next.js/discussions/17613
 
 - 주로 initialData를 통해 교통정리를 해서 시작하는 것 같다.
 
@@ -527,6 +530,10 @@ function Projects() {
 - Neext.js는 `getStaticProps` 혹은 `getServerSideProps` 속성을 가지고 있다.
 - useQuery의 initialData 옵션을 통해 내려줄 수 있다.
 - ReactQuery의 입장에서는 같은 방식으로 통합이 가능하다. 아래는 getStaticProps를 통한 방식.
+- 아래 코드는 예시이고, 전체적으로 접근이 필요 할 때는 약간 다를 수 있다.
+- 깊은 컴포넌트에서 선언하면 initialData를 내려줘야 한다.
+- 다른 위치에서 동일한 useQuery를 선언한다면 모두 initialData를 선언해야 한다.
+- 서버에서 쿼리를 가져온 시간, 즉 fetching된 정확한 시간을 알 수 있는 방법이 없으므로 dataUpdatedAt 및 refetching 여부 등의 시간 관련된 값은 페이지가 로드된 시간을 기반으로 한다.
 
 ```js
 // docs의 코드를 그대로 가져옴.
@@ -547,6 +554,9 @@ function Posts(props) {
 ```
 
 2. Using Hydration -- 이부분 docs 보면서 정리 중
+
+- React Query는 Next.js 서버에서 여러 쿼리를 미리 가져온 뒤, 해당 쿼리들을 dehydration 하는 방식으로 사용이 가능하다.
+- 즉, 페이지 로드 및 JS를 사용 할 수 있는 즉시 JSX를 미리 렌더링 할 수 있음을 의미한다. 이후 업그레이드나 hydrate가 되며, refetching이 필요한 경우 역시 가능.
 
 - 리액트 쿼리는 동시에 여러 쿼리를 prefetching 할 수 있는 기능을 제공하고 있다. Next.js에서도 가능.
 - 가져온 이후, 해당 쿼리들을 QueryClient에서 dehydrating한다.
@@ -573,5 +583,138 @@ export default function MyApp({ Component, pageProps }) {
       </Hydrate>
     </QueryClientProvider>
   );
+}
+```
+
+- queryClient 인스턴스를 app 내부에서 생성하고, react state 등으로 참조하게 한다.
+- 이것은 NextJS 입장에서 queryClient 인스턴스가 다른 유저와 인스턴스가 다른 요청을 구분 할 수 있도록 하며, 컴포넌트 라이프사이클에서 한 번만 생성되게 한다.
+- 앱 컴포넌트를 QueryClientProvider로 감싸고, client를 queryClient 인스턴스로 담아준다.
+- 이후 `<Hydrate></Hydrate>` 태그를 이용한다. Hydrate의 state에 `pageProps.dehydratedState`를 attr로 넣어준다.
+- 이후 Hydrate 내부로 `<Component></Component>`를 넣어주면 된다.
+
+```js
+// pages/posts.jsx
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
+
+export async function getStaticProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['posts'], getPosts);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
+
+function Posts() {
+  // This useQuery could just as well happen in some deeper child to
+  // the "Posts"-page, data will be available immediately either way
+  const { data } = useQuery({ queryKey: ['posts'], queryFn: getPosts });
+
+  // This query was not prefetched on the server and will not start
+  // fetching until on the client, both patterns are fine to mix
+  const { data: otherData } = useQuery({
+    queryKey: ['posts-2'],
+    queryFn: getPosts,
+  });
+
+  // ...
+}
+```
+
+- 위 코드와 같이, 일부 쿼리는 prefetch하고, 다른 쿼리는 queryClient에서 가져오도록 하는 것이 좋다.
+- 즉, 서버가 렌더링 하는 것을 queryClient.prefetchQuery(쿼리키, 쿼리Fn)를 추가하거나 제거하는 것을 통해 특정 쿼리를 컨트롤 할 수 있다.
+
+- 주의사항
+  - getStaticProps 혹은 Automatic Static Optimization을 NextJS의 rewrites 기능과 사용 할 경우, hydrate가 두 번 발생하는 경우가 생긴다. (Automatic Static Optimization : getServerSideProps 혹은 getInitialProps가 없는 경우, NextJS가 자동적으로 페이지가 static하다고 판단하는 것. https://nextjs.org/docs/advanced-features/automatic-static-optimization)
+  - NextJS 클라가 rewrites를 분석하고, hydrate 한 이후 모든 params를 모아서 router.query에 제공해야 하기 때문에 두 번 hydrate 되는 경우가 있다.
+  - 즉, hydrate된 데이터의참조성 등이 누락될 수 있다.
+  - 예를 들자면 useEffect, useMemo 등의 의존성 배열에 data가 들어가거나, components의 props에 사용할 때 발생한다.
+
+3. Using Remix => Remix 프레임워크.
+
+- **Remix Framework의 react query 기능은 SSR에서만 지원됨**
+
+- Using `initialData`
+- `loader` 기능을 사용하면 useQuery의 initialDAta 옵션에 데이터를 넣어줄 수 있다.
+
+```js
+export async function loader() {
+  const posts = await getPosts();
+  return json({ posts });
+}
+
+function Posts() {
+  const { posts } = useLoaderData();
+
+  const { data } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getPosts,
+    initialData: posts,
+  });
+
+  // ...
+}
+```
+
+- 위 코드 예제는 고려해야 할 몇가지 장단점이 있다.
+- 여러 위치에서 같은 쿼리키로 useQuery를 호출 하는 경우, 모든 위치에 initialData를 전달해야 한다.
+
+- Remix Hydration
+
+- 대부분 비슷하다.
+
+```js
+// root.tsx
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+
+import { useDehydratedState } from 'use-dehydrated-state';
+
+export default function MyApp() {
+  const [queryClient] = React.useState(() => new QueryClient());
+
+  const dehydratedState = useDehydratedState();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={dehydratedState}>
+        <Outlet />
+      </Hydrate>
+    </QueryClientProvider>
+  );
+}
+```
+
+```js
+// pages/posts.tsx
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
+
+export async function loader() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['posts'], getPosts);
+
+  return json({ dehydratedState: dehydrate(queryClient) });
+}
+
+function Posts() {
+  // This useQuery could just as well happen in some deeper child to
+  // the "Posts"-page, data will be available immediately either way
+  const { data } = useQuery({ queryKey: ['posts'], queryFn: getPosts });
+
+  // This query was not prefetched on the server and will not start
+  // fetching until on the client, both patterns are fine to mix
+  const { data: otherData } = useQuery({
+    queryKey: ['posts-2'],
+    queryFn: getPosts,
+  });
+
+  // ...
 }
 ```

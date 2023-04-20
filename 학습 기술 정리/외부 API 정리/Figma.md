@@ -297,3 +297,35 @@
 ## Comment 관련 API, user, version history, 컴포넌트 & styles, 웹훅, 액티비티로그 등
 
 - 추후 작성 예정
+
+---
+
+# Figma API + React Query 고민
+
+![Figma API 관련 이해](../assets/pjt/FigmaAPI.png)
+
+- url을 보내고, redirectURL에서 code를 받아서 던져줘야 함.
+- 이 부분을 팀장의 코드로만 가능하게? 팀장 권한만 가지고 여러번 받아도 되나?
+
+- 필요한 api
+
+  1. code 저장 페이지
+     - code 저장에 space ID
+     - code 저장 post API
+     - code 저장 완료 시
+  2. BE측이 code를 통해
+
+- 현재 고민되는 점
+
+  1. get images가 오래 걸리기에 fetch 시작이 최대한 빨라야 함.
+  2. 팀 생성 과정에서 figma access / figma refresh를 받는 경우
+     - code, figma access, figma refresh를 FE측이 들고 있어야 함.
+  3. 팀 생성을 최종 버튼을 눌렀을 때 하는 경우
+     - code를 보내고 BE측이 figma access, figma refresh를 받아서 저장, 이후 token을 받아오는 요청이 있어야 함.
+
+  - **즉, 팀 생성의 기준이 명확해야 할 것 같음.**
+
+  => 해결법
+
+  1. Figma Token Table을 하나 생성, 유저에게 귀속.
+  2. space의 팀장의 figma token을 가져와서 return 해주는 등 하면 될 듯.

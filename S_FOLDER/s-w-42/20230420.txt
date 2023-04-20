@@ -1,0 +1,33 @@
+
+# 20230420
+
+- 어제 배운 것
+
+1. Figma API의 흐름. 관련된 내용 ppt에 정리.
+2. NextJS를 좀 배우고 나니 tanstack query의 SSR SSG 관련 docs가 이해가 더 잘 되는 것 같다.
+3. NextJS의 경우 TailwindCSS 의 폴더/**/*.{ts, js, tsx, jsx} 이런 세팅을 잘 해둬야 빌드 시간이 빠르다.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
