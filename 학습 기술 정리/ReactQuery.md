@@ -491,6 +491,47 @@ function Projects() {
 }
 ```
 
+16. InitialData
+
+- 쿼리에 이미 첫 데이터가 필요한 경우가 있다. 직접적으로 쿼리 캐시에 주입해야 하는 경우.
+- 이 때, option config에 initialData를 세팅해서 활용 할 수 있다.
+- initialData는 캐시로 유지된다. 그렇기에 placeholder를 제공하는건 추천되지 않는다.
+- 따라서 완전한 데이터를 주입하는 경우가 아니라면, placeholderData를 활용하는 것이 좋다.
+
+17. staleTime and initialDataUpdatedAt
+
+```js
+// Will show initialTodos immediately, but also immediately refetch todos after mount
+const result = useQuery({
+  queryKey: ['todos'],
+  queryFn: () => fetch('/todos'),
+  initialData: initialTodos,
+  staleTime: 1000 || 0,
+});
+```
+
+- 기본적으로 initialData는 쭉 방금 가져온 후레쉬 데이터로 취급된다.
+- 그렇기에 staleTime 옵션에 의해 유효성이 초기화 될 수 있다는 뜻이다.
+- 만약, 너가 query observer를 통해 initialData를 바라보고, staleTime이 0이라면, 쿼리는 즉시 refetch해서 데이터를 받아온다.
+- 만약 initialData를 query observer가 보고 있고, staleTime이 1000이라면, 데이터는 마운트 이후 1000ms만큼 stale하게 유지된다.
+- 만약 initialData가 후레쉬하지 않다면 initialDataUpdatedAt 옵션을 통해 관리 할 수 있다.
+- `initialDataUpdatedAt` 옵션은 마지막으로 업데이트 된 시간의 밀리초 단위 숫자로 Date.now() 기준 timeStamp를 받을 수 있다. 유닉스라면 \*1000 하면 됨..
+
+```js
+// Show initialTodos immediately, but won't refetch until another interaction event is encountered after 1000 ms
+const result = useQuery({
+  queryKey: ['todos'],
+  queryFn: () => fetch('/todos'),
+  initialData: initialTodos,
+  staleTime: 60 * 1000, // 1 minute
+  // This could be 10 seconds ago or 10 minutes ago
+  initialDataUpdatedAt: initialTodosUpdatedTimestamp, // eg. 1608412420052
+});
+```
+
+- initialDateUpdatedAt 옵션을 통해 staleTime을 원래 용도대로 사용이 가능해진다.
+- 초기 데이터가 staleTime보다 오래된 경우, 마운트 시 refetch 해오도록 할 수 있다. initialTodoUpdatedTimestamp를 이용하면 staleTime에 따라 어람나 최신인지 결정한다.
+
 ### 정리 해야 할 내용들
 
 1. useQuery의 options에 대한 정리.
