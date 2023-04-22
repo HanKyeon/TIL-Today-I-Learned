@@ -24,6 +24,7 @@
 - `pages/blog/[slug].js` => `/blog/:slug`
 - `pages/post/[...all].js` => `/post/*`
 - 이 때 해당 라우팅의 쿼리 파라미터나 다이나믹 라우팅을 받아오고 싶은 경우에는 `useRouter()` 훅을 이용한다.
+- `useRouter()` 훅의 리턴을 router에 할당하고 `router.push()`를 이용해 이동이 가능하다.
 
 ```js
 import Link from 'next/link';
@@ -62,6 +63,35 @@ function Home() {
 
 export default Home;
 ```
+
+2. SEO (Search Engine Optimization) 검색 엔진 최적화
+
+- SSG 혹은 SSR을 통해 SEO가 가능하다.
+
+  1. SSG
+     - SSG에서는 getStaticProps 함수를 선언해서 props를 받아올 수 있다.
+  2. SSR
+     - SSR에서는 getServerSidePRops를 선언해서 props를 받아올 수 있다.
+
+  - 양쪽 다 getStaticPaths가 가능한 것으로 암.
+
+3. NextJS + Redux
+
+- 추후 정리 예정
+
+- NextJS는 빌드 과정에서 처리하거나 서버측에서 만들어서 보내줘야 하기에, 어떤 브라우저가 어떤 store를 참조하고 있는지 모르기 때문에 redux-next-wrapper 라이브러리를 통해 redux를 사용 할 수 있도록 해준다.
+- wrapper 객체가 필요함. wrapper를 export해서 app에서 component를 감싸주어서 한다.
+- 옛날 버전에서는 withRedux를 썼는데 props에서 특정 훅을 통해 store와 props를 받아서 할당하고 provider에 주입한다.
+- 그렇게 되면 getServerSideProps 혹은 getStaticProps에서 store의 사용이 된다.
+
+4. NextJS + React Query
+
+- 추후 정리 예정
+
+- SSG에서는 initialData를 활용한다.
+- 세팅은 app에서 해주며, 이전 버전과 다른 특이점은 getServerSideProps 혹은 getStaticProps의 경우에서는 QueryClient를 선언해서 사용한다.
+- app의 메인에서는 useState를 이용해 state에 QueryClient 객체를 담아 provider의 client에 주입해주고 dehydrate state를 주입해준다.
+- 해당 부분에서 실제로 사용해봐야 알 것들이 많은 것 같다.
 
 ## WHAT IF?
 
