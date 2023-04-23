@@ -1,11 +1,16 @@
 
-n, m = map(int, input().split())
-nl = list(range(n+1))
-for _ in range(m):
-    a, b = map(int, input().split())
-    nl[a], nl[b] = nl[b], nl[a]
-nl.pop(0)
-print(*nl)
+if int(input()):
+    print("Leading the Way to the Future")
+else:
+    print("YONSEI")
+
+# n, m = map(int, input().split())
+# nl = list(range(n+1))
+# for _ in range(m):
+#     a, b = map(int, input().split())
+#     nl[a], nl[b] = nl[b], nl[a]
+# nl.pop(0)
+# print(*nl)
 # import sys
 # input = sys.stdin.readline
 # n = int(input())
