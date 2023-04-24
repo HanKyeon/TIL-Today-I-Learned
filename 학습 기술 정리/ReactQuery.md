@@ -759,3 +759,8 @@ function Posts() {
   // ...
 }
 ```
+
+### 꼭 읽어보고 정리하자!
+
+https://seogeurim.tistory.com/19
+https://velog.io/@eomttt/React-Query-%EC%99%80-SSR
