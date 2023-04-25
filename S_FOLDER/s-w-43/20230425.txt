@@ -1,0 +1,21 @@
+
+# 20230425
+
+어제 배운 것
+
+1. React Hook Form 관련해서 간단하게 하면 배열 형태라 에러가 나는 듯 하다.
+2. NextJS에서 getStaticProps나 getServerSideProps에서 파라미터를 받는 것은 context.query, 해당 타입을 as로 어설션해준다.
+3. NextJS 컴포넌트 단에서 파라미터를 받는 것은 router = useRouter() 이후 router.params 호출해서 객체 형태로 받는다. 배열 형태일 수도 있음
+
+---
+
+만난 에러
+
+1. NextJS에서 외부 api CORS 에러 => API Route로 돌림
+2. NextJS에서 외부 origin 이미지 src => next.js config에 proxy 추가.
+3. axios의 response가 data로 나뉘는 것이 아닌 완전히 다를 때 해결책. `res["키값" as keyof AxiosResponse]`
+4. Figma API 가공
+
+
+
+

@@ -98,3 +98,35 @@ export default Home;
 - 참조한 강의에서 찝은 세가지 장점은 첫째, File-based Routing, SSR을 통한 Search Engine Optimization, 쉽고 강력한 Fullstack app build
 - 개인적으로는 File-based Routing을 통해 boilerPlate를 줄일 수 있다는 점이 강점이라 생각함.
 - 또한, SSR을 통한 SEO 개선 역시 강한 이점. 노출이 필요한 부분은 SSR을 이용하고, 필요 없는 경우에는 SPA를 이용하면 좋을 것으로 보인다.
+
+## 만난 문제
+
+1. 페이지 이동 시 store가 초기화됨 : https://hoons-up.tistory.com/68
+
+   - 일반적으로 redux-persist를 사용해 유지시킴.
+   - extrareducers를 통해 유지한다.
+   - redux toolkit + nextjs + redux-persist : https://velog.io/@baemki/Next.js-redux-toolkit-redux-wrapper-redux-persist-%EC%84%B8%ED%8C%85
+
+2. next/image 의 Image 태그 width height alt src는 required이고, 외부 API의 경우 proxy를 통해 변환해야 한다.
+
+   ```js
+   /** @type {import('next').NextConfig} */
+   const nextConfig = {
+     reactStrictMode: true,
+     images: {
+       remotePatterns: [
+         {
+           protocol: `https`,
+           hostname: `figma-alpha-api.s3.us-west-2.amazonaws.com`,
+           port: ``,
+           pathname: `/images/**`,
+         },
+       ],
+     },
+   };
+   ```
+
+   - 위처럼 작성하면 해당 호스트네임의 path가 /images/모든 것을 받아준다...
+
+3. 외부 API를 가져올 때, CORS 에러가 난다. axios의 proxy는 포트를 반드시 받아야 하기 때문에, rewrites를 재작성하여 관리하거나, API Routes로 우회해서 받아줄 수 있다.
+   - 따라서, api routes에서 req에서 내용이 어떻게 나오는지 좀 알아야 할 것 같다.

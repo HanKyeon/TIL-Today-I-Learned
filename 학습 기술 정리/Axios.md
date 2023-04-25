@@ -243,6 +243,15 @@ apiRequest.interceptors.response.use(
 export default apiRequest;
 ```
 
+## 에러 등장
+
+```js
+const figmaAccess = res['figma_access' as keyof AxiosResponse];
+```
+
+- 타입스크립트에서 response의 형태가 다를 때 정상적으로 부르는 방법.
+- figma api의 response가 res.data 형태가 아니다보니 이런 식으로 호출해야 에러가 안뜸.
+
 ## 참고
 
 https://axios-http.com/docs/intro

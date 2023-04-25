@@ -80,13 +80,11 @@
 {
   method: `post`,
   baseURL: `https://www.figma.com`,
-  url: `/api/oauth/token`,
+  url: `/api/oauth/refresh`,
   params: {
     client_id: `myApps 클라 아이디`,
     client_secret: `myApps 생성 시 받는 secret`,
-    redirect_uri: `myApps의 callback에 있는 uri`,
-    code: `db에 저장된, 권한 허가 할 때 쓰인 코드.`,
-    grant_type: `authorization_code` // 고정
+    refresh_token: `리프레시 토큰`
   }
 }
 
