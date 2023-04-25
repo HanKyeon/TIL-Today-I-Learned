@@ -56,6 +56,7 @@ Jest와 함께 쓰려면 cacheTime을 Infinity로 설정한다.
 - 상태를 server state와 client state로 구분하고, server state의 관리를 도와주는 라이브러리
 - unique key를 통해 QueryClientProvider 내부에서 같은 unique key를 가진다면 굳이 모아서 선언하지 않아도 알아서 캐싱해주고 데이터를 fetching 해줌.
 - 추가로, 동시에 같은 요청이 많이 간다면 그것도 필터링 해준다.
+- 참고로 캐싱된 데이터는 메모리 상에 존재하게 된다. staleTime과 cacheTime은 메모리에 얼마나 오래 올라가있을 것인지 정하는 것.
 
 ---
 
@@ -764,3 +765,4 @@ function Posts() {
 
 https://seogeurim.tistory.com/19
 https://velog.io/@eomttt/React-Query-%EC%99%80-SSR
+https://voyage-dev.tistory.com/138
