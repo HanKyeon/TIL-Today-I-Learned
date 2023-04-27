@@ -1,0 +1,64 @@
+
+# 20230427
+
+- 어제 배운 것
+
+1. ReactQuery가 버전이 같아도 사용법이 다르게 뜨는 경우가 있음.
+2. TypeScript 관련 수빈/모르는 아재 피드백 해주면서 좀 배웠음. canvas 관련 type이나 if 처리 등... as 등
+3. React Query에 대해 설명하며 캐시가 직접 도메인 치고 들어가면 유지가 안되고, router.push로 하니 유지가 된다는 것을 깨달았음.
+4. Yjs 관련해서 깨달았음. presence의 경우 user 데이터만을 관리해주며, useUsers(), useOthers() 등을 통해 남을 확인 가능하다.
+5. SyncedStore 관련해서 중요점이 있었음. 모두가 함께 쓰는 저장소이고, 딱히 어딘가에 저장되는 것이 아니기에 사용 전략을 잘 짜야 했다.
+```
+1. useQuery들을 전부 가져온다 lazy query? useQueries?를 통해.
+2. 이후 serverState를 spaceId로 정보를 모두 가져온 뒤, store로 정리해서 serversideProps로 주입한다. (spread operator로 복사하는 형태로... 혹은 깊은 복사 관련해서 찾아보거나.)
+3. 그렇다면 serverState와 syncedStore를 어떻게 관리할까?
+    1. useQuery의 경우 staleTime과 cacheTime을 무제한으로 한다.
+    2. invalidate Key syncedStore에 정의해서 해당 부분의 함수를 실행해서 얻어지는 queryKeys를 통해 queryClient를 invalidate 해준다.
+    3. serverState에 post / put / delete 할 때, 200의 경우에, then chaining으로 syncedStore를 변경해준다. => 
+
+---
+
+필요한 것?
+
+1. syncedStore의 invalidateKey 값을 바라보며, queryClient를 해당 키값으로 invalidate 해주는 hooks (최상단에서 하나 선언 될 수 있으므로 해당 값으로 해도 좋을듯)
+2. key가 invalid 되었을 때, 변경 시켜
+
+serverstate를 불러와서 첫 syncedStore 설정 및 SSR로 내려주기.
+이후 syncedStore update
+=> syncedStore에서 invalidKey를 설정
+=> 이 때 syncedStore updated flag를 하나 만들어서 syncedStore의 updated flag가 진행중인 경우 post action을 잠시 막는다.
+=> invalidKey 값이 syncedStore의 invalidKey를 바라보는데, 해당 값이 truthy한 값으로 변경되면 
+=> useEffect에서 함수를 queryKey에서 key를 가져와서 key를 할당
+=> key의 길이 혹은 length가 truthy한 값이면 invalidate
+=> 이후 해당 값을 기반으로 remove Query Data
+=> 무언가 query가 refetching이 되어야 한다는 flag 설정
+=> refetch해온 값으로 syncedStore를 갱신
+=> flag 값 종료
+```
+이런 식으로 작성해두긴 했는데... 좀 달라질 것 같음.
+```
+프로젝트 전체 데이터
+페칭중
+인밸리드해야 할 키 값
+Ssr은 한 번만 되는거 맞지...? => 맞다면 syncedStore는 한 번만 불러온 뒤, 페칭한 곳에서만 실행해야 한다. 아니라면 모든 곳에서 실행이 될 것.
+따라서 쿼리키 캐싱은 외부에서는 갱신하는 것이 좋다
+페이지를 벗어날 때, 유저 관련 전체 인밸리드.
+Isfetching 까지는 있어도 좋은듯
+```
+
+말해보자면 useEffect로 syncedStore의 isfetching 같은 값을 쳐다보면서 syncedStore를 갱신한다면, 같은 곳을 사용하는 모든 브라우저에서 syncedStore를 갱신한다는 것과 다를게 없다. 그렇게 되면 시그널링 서버에서 쓰는 syncedStore에서 시간이 오래 걸릴 것 같기에, django에서 쓴 것처럼 response에 데이터가 담아져서 오면 좋겠지만 안되기에 성공하면 보낸 데이터 기반으로 syncedStore를 갱신하면 된다는 것이다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

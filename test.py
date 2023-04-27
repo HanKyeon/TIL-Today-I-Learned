@@ -1,8 +1,12 @@
 
-if int(input()):
-    print("Leading the Way to the Future")
-else:
-    print("YONSEI")
+n,m=map(int,input().split())
+nl=list(map(lambda x:int(x)-n*m,input().split()))
+print(*nl)
+
+# if int(input()):
+#     print("Leading the Way to the Future")
+# else:
+#     print("YONSEI")
 
 # n, m = map(int, input().split())
 # nl = list(range(n+1))
