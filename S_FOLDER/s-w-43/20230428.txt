@@ -1,0 +1,18 @@
+
+# 20230428
+
+- 어제 배운 것
+
+1. syncedStore에 저장되는 형태는 Proxy(Object) 형태임. 이는 Array처럼 보이지만 Array는 아니고, pop 같은 특정 메서드가 없기에, 그냥 syncedStore에 데이터를 넣어주면 될 듯하다... 아니, 직접 넣어봐야 할 것 같음....
+2. Yjs를 사용하며 네트워크 관련 공부가 필요하다 느꼈다. 네트워크 먼저 봐야 할 듯. CS를 한다면.
+3. 암튼 syncedStore의 형태로 인해 Yjs를 쓸 때, store를 모두 props로 내려줘야 하거나 ContextAPI에 모아야 할 것 같음. ContextAPI로 하는게 좋아보임. 근데 컨텍스트에 넣어서 써도 되는거겠지....? reducer가 너무 많아질거 같은데? 그냥 props drilling으로 처리해두자 안정적이고 확실하게. 대신, 리팩토링 할 때 context에 넣어보고 잘 되는지 확인해보자.
+
+---
+
+### Tailwind 관련 모듈 에러
+- CSS가 쓰여지는 위치는 tailwind를 import한 css 파일 기준으로 부르면 되는 것 같음.
+- 하지만 tailwind.config 자체는 해당 위치에 있으므로 css 작성만 호출한 css 파일 위치에서 작성을 해서 올리는 것 같음.
+- 따라서, 이미지 같은 경우 url로 테일윈드에 상대 위치를 잡아야 하는 경우, tailwind.config.js의 위치가 아닌, @tailwind로 import 된 css 파일 기준으로 위치를 잡으면 된다.
+
+
+

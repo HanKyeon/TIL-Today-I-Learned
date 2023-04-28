@@ -1,7 +1,10 @@
 
-n,m=map(int,input().split())
-nl=list(map(lambda x:int(x)-n*m,input().split()))
-print(*nl)
+n=sum([int(input()) for _ in range(4)])
+print(f"{n//60}\n{n%60}")
+
+# n,m=map(int,input().split())
+# nl=list(map(lambda x:int(x)-n*m,input().split()))
+# print(*nl)
 
 # if int(input()):
 #     print("Leading the Way to the Future")
