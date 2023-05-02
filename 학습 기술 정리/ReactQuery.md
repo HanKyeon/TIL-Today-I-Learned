@@ -393,6 +393,28 @@ https://darrengwon.tistory.com/1517
 12. retryDelay 옵션은 30초 이내의 숫자로 사용이 가능하다. 단위는 ms.
 13. paginated Queries & Lagged Queries => 각각의 쿼리는 완전히 새로운 쿼리로 취급되며, success와 loading의 status를 왔다갔다 한다.
 14. paginatedQueries는 아무래도 ssr에서 사용하는 것 같은데...
+15. invalidateQueries를 쓸 때, 옵션 객체로 넘겨줄 수 있으며, queryKey를 지정하고, exact를 통해 단일 쿼리키를 취소 할 수 있다.
+16. invalidateQueries를 쓸 때, 파이썬에서 그거 뭐냐 리스트 빨리 만드는것 마냥 옵셔널하게 invalidate를 해줄 수 있음.
+17. useMutation의 mutationFn의 경우, 인자를 하나만 받을 수 있는 것 같다.
+
+```js
+// 17번 코드
+// MutationFunction의 타입이 variables를 하나만 받는다!
+export declare type MutationFunction<TData = unknown, TVariables = unknown> = (variables: TVariables) => Promise<TData>;
+```
+
+```js
+// 16번
+queryClient.invalidateQueries({
+  queryKey: ['todos'],
+  exact: true,
+});
+
+queryClient.invalidateQueries({
+  predicate: (query) =>
+    query.queryKey[0] === 'todos' && query.queryKey[1]?.version >= 10,
+});
+```
 
 ```js
 // docs의 예시로 들어가 있는 페이지네이션 코드.
