@@ -1,0 +1,46 @@
+
+# 20230503
+
+- 어제 배운 것
+
+1. 쿼리키 invalidate 할 때, 옵션으로 주는 방법인 predicate. predicate에 query를 인자로 받는 콜백을 할당하면 되고, query.queryKey를 통해 쿼리키로 invalidate나 remove를 해줄 수 있다.
+2. (쿼리) => 쿼리.queryKey.length === 5 && 쿼리.queryKey[4] === `figma-token` 이런 식으로 콜백을 넣어서 활용했음.
+3. mutation에 대해서, predicate를 사용해서 하나씩 invalidate를 하는 것이 좋을지, 쿼리키로 한방에 지우는게 나을지 모르겠음. 각각의 장단이 있는 것 같은데...
+4. 하나씩 invalidate를 하는 것은 추후 확장이 진행된다 쳤을 때 좋을 것 같고, 보일러 플레이트가 굉장히 길어질 것 같다. mutaion마다 쿼리키 invalid를 따로 해줘야 하기 때문에.
+5. 상위 쿼리 키로 invalidate 하는 것은 추후 확장에서 쿼리키를 트리 형태로 짰을 때 쿼리키 구조 자체가 바뀔 것 같지만 편하다.
+
+6. react hook form 기초 정도. 링크는 아래.
+
+- 기본 독스 : https://react-hook-form.com/
+- 기본 독스 api 확인 : https://react-hook-form.com/api/
+- 기본 사용법 한글 좋은 블로그 : https://velog.io/@leitmotif/Hook-Form%EC%9C%BC%EB%A1%9C-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0
+- 최신 유튜브 강의 같음 : https://m.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s
+
+---
+
+- 타입스크립트 유틸리티 타입 관련
+https://inpa.tistory.com/entry/TS-%F0%9F%93%98-%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%9C%A0%ED%8B%B8%EB%A6%AC%ED%8B%B0-%ED%83%80%EC%9E%85-%F0%9F%92%AF-%EC%B4%9D%EC%A0%95%EB%A6%AC
+
+- 큰 박치기
+
+1. Ssr은 프라이빗한 내용을 담기엔 어렵다.
+2. Ssr에서 토큰을 직접 발급 받아서 쓰면 되긴 함
+3. Ssr은 프라이빗한 내용은 공개하기 어렵다.
+4. 블로그 같은 것들은 쿼리 파라미터나 path variable 같은 걸로 하는거다.
+5. 피그마와 네이버 블로그를 생각해보면 된다. 개인 공간 중 프라이빗한 내용은 안띄워주고, 퍼블릭한 공간은 띄워준다. 피그마의 프로젝트를 검색한다고 헤더나 그런게 뜨지 않는다. 네이버 블로그 글은 검색하면 볼 수 있고.
+6. NextJS의 getServerSideProps에서 redux에 접근하기 어렵다. next-redux-wrapper는 redirect되면 사라진다.
+7. 쿠키를 통해 refresh만 가진 채로 fetching이 가능하다면, 해당 부분이 가능하긴 하지만 spring의 경우는 스프링 시큐리티와 함께 사용하면 access와 refresh 둘 다 필요하기 때문에 뭔가 하나를 포기해야 함.
+8. redux-persist와 next-redux-wrapper는 공존이 힘들다.
+9. 왜냐면, ssr에서 로컬 스토리지를 찾아 들어가려면 해당 로컬 스토리지가 어디의 로컬 스토리지인지를 알아야 하는데, 그게 안됨.
+10. redux store에 한해 가능하게 하는 것이 next-redux-wrapper이지만 그게 어렵다.
+11. 따라서, 프리페치가 필요한 부분 => 서버의 정보는 reactQuery로 진행하면 된다.
+12. SSG라는 개념을 약하게 생각했는데, SSG 부분이 가장 검색엔진에 강한 부분인 것 같다.
+13. 앞으로는 SSR을 쓸 때, 어느 부분에서 SSR을 할 지, 데이터가 퍼블릭한지 등을 확인해야 한다.
+
+
+
+
+
+
+
+
