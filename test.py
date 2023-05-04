@@ -1,3 +1,9 @@
+print(len("https://s3-alpha.figma.com/thumbnails/8fe7e2a7-43e5-43cf-ac48-2bf23daceafa?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQ4GOSFWCRNAWVJNA%2F20230504%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230504T000000Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=6fcbb7441a540cbb7794282328d599199d42c0469a0166b8368f437b08c1dce7"))
+# for i in range(int(input())):print("yes" if 6<=len(input())<10 else "no") 
+
+
+
+
 # print("                                                           :8DDDDDDDDDDDDDD$.                                           ")
 # print("                                                      DDDNNN8~~~~~~~~~~=~7DNNDNDDDNNI                                   ")
 # print("                                                  ?NNDD=~=~~~~~~~~~~~~~~~~~=~~==~=INNDNN7                               ")

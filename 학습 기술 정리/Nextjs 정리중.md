@@ -2,6 +2,13 @@
 
 학습 후기 : **학습중... 0410 시작**
 
+## issue
+
+1. SSR 부분에서 redux persist / next redux wrapper / redux toolkit 세가지를 함께 쓰는 것에 어려움을 느꼈음.
+   - 이유는 주로 ssr에서 토큰을 사용 할 때가 문제였음.
+   - 그렇기에 token이 필요한 request의 경우, private한 api로 정하고, 해당 api를 ssr에 올려두지 않는 것이 좋다고 생각함.
+   - ssr을 할 부분과 하지 않을 부분을 명확하게 나누는 것이 중요하다고 생각함.
+
 ## WHY?
 
 - File-based Routung & Page Pre-rendering. 파일 기반 라우팅, 페이지 사전 렌더링.
