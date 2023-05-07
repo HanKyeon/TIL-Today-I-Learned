@@ -1,8 +1,11 @@
-n=int(input())
-print(n//5+1 if n//5 else n//5)
+n,m,k = map(int, input().split())
+print(k//m, k%m)
 
-n,m=map(int,input().split())
-print(1 if n*(100-m)/100 < 100 else 0)
+# n=int(input())
+# print(n//5+1 if n%5 else n//5)
+
+# n,m=map(int,input().split())
+# print(1 if n*(100-m)/100 < 100 else 0)
 # for i in range(int(input())):print("yes" if 6<=len(input())<10 else "no") 
 
 
