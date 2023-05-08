@@ -97,3 +97,7 @@
 
 - 버전 관리와 변경 기록 추적이 용이해진다.
 - 원본을 보존한 채로 작업을 할 수 있으며, 원본에서 갈라져 나온 브랜치이기에 협업에서 좋다.
+
+## 참고하여 추가 정리 할 링크
+
+https://www.atlassian.com/ko/git/tutorials/rewriting-history

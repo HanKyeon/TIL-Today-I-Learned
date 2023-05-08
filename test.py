@@ -1,5 +1,8 @@
-n,m,k = map(int, input().split())
-print(k//m, k%m)
+n=int(input())
+print(int(n*0.78), int(n*0.956))
+
+# n,m,k = map(int, input().split())
+# print(k//m, k%m)
 
 # n=int(input())
 # print(n//5+1 if n%5 else n//5)
