@@ -8,7 +8,8 @@
 
 ---
 
-
+1. yjs rtc 자증이 난다..
+2. yjs store를 type 맞춰서 저장했는데 왜 occurred가 나ㅡㄴ걸까
 
 
 
