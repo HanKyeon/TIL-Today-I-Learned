@@ -1,0 +1,24 @@
+
+# 20230509
+
+어제 배운 것
+
+1. redux에 새로운 값을 저장하고 꺼내 쓰는 것은 난해하다. 특히 syncedStore의 경우에.
+   - local storage에 저장되는 형태는 json 형태이다. 그래서 syncedStore 형태라는 것을 모른다.
+   - 따라서, context API와 window.location.href로 이동시켜 context를 초기화하며 contextApi에 syncedStore를 저장하는 것이 좋아보인다.
+   - 근데 초기값은 어떻게 세팅해야 할까...
+2. RHF 정리를 어떤식으로 해야할지 알 것 같다. useForm과, name이 쿼리키처럼 작동한다고 느꼈다는 점, Controller와 input에 name을 주는 것. 등 느꼈음.
+   - 일단 RHF의 강점은 확실히 느꼈음. data를 편하게 입력받을 수 있으며, 입력이 잦은 경우 리렌더링이 굉장히 잦게 일어나 렉이 심한데, 해당 부분을 손쉽게 해결 할 수 있음.
+   - 또한, 복잡한 조건부 데이터 입력 등에 대해 편하게 관리 할 수 있다고 느꼈음. 특히, index를 통해 queryKey 형태로 name을 찾아 들어가는 것 등 부분이 강력하다 느꼈음.
+
+---
+
+1. signaling server 관련 깨달음.
+2. 그지같은 y-webrtc? nextjs? 둘 중 하나가 문제다.
+
+
+
+
+
+
+
