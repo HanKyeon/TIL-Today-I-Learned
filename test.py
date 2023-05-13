@@ -1,5 +1,11 @@
-n=int(input())
-print(int(n*0.78), int(n*0.956))
+while True:
+    a = input().rstrip()
+    if a == "END": break
+    print(a[::-1])
+
+
+# n=int(input())
+# print(int(n*0.78), int(n*0.956))
 
 # n,m,k = map(int, input().split())
 # print(k//m, k%m)
