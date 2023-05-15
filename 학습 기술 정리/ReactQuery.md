@@ -220,6 +220,8 @@ queryClient.invalidateQueries({
 });
 ```
 
+- 이후 `getQueryData`를 통해 값을 가져오면 된다.
+
 - 쿼리 키 관련
 
 1. 쿼리 키는 어차피 내부적으로 배열로 관리되기에, `["user", "list", {filter: "me"}]` 이런 형태로 키를 작성하는 것이 좋다.

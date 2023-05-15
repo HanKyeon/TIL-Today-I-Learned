@@ -44,10 +44,14 @@ render : field에 의존하는 children Node
 - 폼의 가장 바깥에 있는 속성 이름을 name, description 등처럼 지정하여 연결하고, array 형태라면 useFieldArray를 통해 해당 필드 어레이에 이름과 컨트롤을 붙여서 사용해준다.
 - 그렇게 어떤 useForm을 control 할 지 알려주면, 해당 이름을 자동으로 찾아들어간다.
 - 이름 네이밍 규칙은 `속성이름.속성이름` 이런 형태로 간다.
-- 만약 배열이라면 중간에 index 요소가 낀다.
+- 만약 배열이라면 중간에 index 요소가 낀다. `속성이름.배열이름.인덱스.속성이름` 이런 형태.
 - 컨트롤러를 현재 굉장히 복잡하게 구현하고 있는데, 해당 컨트롤러 하나에서 여러 값을 잡아낼 수 있지 않을까? 싶다.
 - 컨트롤러 내부의 input에 이름을 붙여서 관리하는데, onChange 때문에 각각 Controller를 넣어줬었다. 해당 부분을 개선 할 수 있을 것이라 생각함.
 - 독스를 좀 더 봐야겠다.
+- Controller 컴포넌트 외에도, useController 라는 훅이 있다. 해당 훅을 사용하면 Controller를 줄여 피라미드를 줄일 수 있을 것이다.
+
+- 수정을 하는 hookform에 대해 request와 response 자료형이 다르다면, SSR을 이용한 BFF를 통해 맞춰주는 형태도 좋을 것 같다.
+- 혹은 ReactQuery를 두개 짜던가 하는 형태면 좋을 것 같다. 일반 data와 수정용 hookFormData를 두개 만들어서 뿌려서 사용하면 좋을 것 같음.
 
 - 이 중에서, FieldArray가 append되고 붙을 때 초기화 되지않는 것은 watch를 사용하라는 말이 있다.
 - 조건부 입력 활성화 역시 watch를 사용하라는 말이 있다.
