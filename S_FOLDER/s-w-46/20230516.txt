@@ -1,0 +1,16 @@
+
+# 20230516
+
+어제 배운 것
+
+1. 넥스트 즐겁다.
+2. dto 관련해서 빡세다.
+
+---
+
+오늘 배운 것.
+
+https://kyounghwan01.github.io/blog/JS/JSbasic/for-await-of/#loop%E1%84%8B%E1%85%A6%E1%84%89%E1%85%A5-%E1%84%87%E1%85%B5%E1%84%83%E1%85%A9%E1%86%BC%E1%84%80%E1%85%B5-%E1%84%92%E1%85%A1%E1%84%82%E1%85%B3%E1%86%AB-%E1%84%87%E1%85%A5%E1%86%B8
+
+for문으로 await 하기 : `for await (const a of as) {}`
+
