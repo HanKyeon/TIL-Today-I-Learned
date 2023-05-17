@@ -2,13 +2,6 @@
 
 학습 후기 : **학습중... 0410 시작**
 
-## issue
-
-1. SSR 부분에서 redux persist / next redux wrapper / redux toolkit 세가지를 함께 쓰는 것에 어려움을 느꼈음.
-   - 이유는 주로 ssr에서 토큰을 사용 할 때가 문제였음.
-   - 그렇기에 token이 필요한 request의 경우, private한 api로 정하고, 해당 api를 ssr에 올려두지 않는 것이 좋다고 생각함.
-   - ssr을 할 부분과 하지 않을 부분을 명확하게 나누는 것이 중요하다고 생각함.
-
 ## WHY?
 
 - File-based Routung & Page Pre-rendering. 파일 기반 라우팅, 페이지 사전 렌더링.
@@ -134,6 +127,19 @@ export default Home;
    ```
 
    - 위처럼 작성하면 해당 호스트네임의 path가 /images/모든 것을 받아준다...
+   - 확장해서 모든 HTTPS를 받아줄 수 있다.
 
 3. 외부 API를 가져올 때, CORS 에러가 난다. axios의 proxy는 포트를 반드시 받아야 하기 때문에, rewrites를 재작성하여 관리하거나, API Routes로 우회해서 받아줄 수 있다.
+
    - 따라서, api routes에서 req에서 내용이 어떻게 나오는지 좀 알아야 할 것 같다.
+
+4. SSR 부분에서 redux persist / next redux wrapper / redux toolkit 세가지를 함께 쓰는 것에 어려움을 느꼈음.
+
+   - 이유는 주로 ssr에서 토큰을 사용 할 때가 문제였음.
+   - 그렇기에 token이 필요한 request의 경우, private한 api로 정하고, 해당 api를 ssr에 올려두지 않는 것이 좋다고 생각함.
+   - ssr을 할 부분과 하지 않을 부분을 명확하게 나누는 것이 중요하다고 생각함.
+
+5. 토큰 관리법
+
+   - 다양한 관리법이 존재.
+   - 쿠키 + storage 방식이 일반적인듯. ssr 단에서 localstorage보다 cookie 접근이 더 쉬워서 그런 것으로 보인다.

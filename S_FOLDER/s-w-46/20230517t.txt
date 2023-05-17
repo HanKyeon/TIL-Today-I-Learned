@@ -1,0 +1,28 @@
+
+# 20230517
+
+어제 배운 것
+
+1. 현재 호스트 네임과 기타 redirect url을 나눠서 사용하고 잇는데, redirecturi의 경우, server로 넘기는 것이 좋은 것 같음.
+2. 왜냐면 서버에 redirect uri를 함께 보내면 좀 더 프론트나 백 dev에서의 사용성이 편해질 것 같다.
+3. 직접 내부에서 async 함수를 호출하지 않을 때 어떻게 hook form을 초기화 하는가?
+   - 우선 ReactQuery를 useEffect 등으로 바라보게 한다.
+   - 해당 값이 변동 되었는데 값이 존재 할 때, hook form의 reset을 가져와서 쓴다. 내부에 value와 options를 인자로 받는데, value에 데이터를 넣어주면 된다.
+   - options에 대한 정리는 추후에 하는 것이 좋아보인다.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

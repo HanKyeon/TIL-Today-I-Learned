@@ -398,6 +398,7 @@ https://darrengwon.tistory.com/1517
 15. invalidateQueries를 쓸 때, 옵션 객체로 넘겨줄 수 있으며, queryKey를 지정하고, exact를 통해 단일 쿼리키를 취소 할 수 있다.
 16. invalidateQueries를 쓸 때, 파이썬에서 그거 뭐냐 리스트 빨리 만드는것 마냥 옵셔널하게 invalidate를 해줄 수 있음.
 17. useMutation의 mutationFn의 경우, 인자를 하나만 받을 수 있는 것 같다.
+18. invalidateQueries의 predicate 옵션을 기억하자. 일반적으로 `(mutation) => mutation.options.variables?.id===1` 이런 식으로 호출을 한다. 하지만 나는 `(mutation) => mutation.queryKey.length === 5 && mutation.queryKey[4] === '특정 값'` 이런 형태로 걸러서도 사용했다. 조건부로 선택해서 queryKey를 invalidate를 해줄 수 있다!
 
 ```js
 // 17번 코드

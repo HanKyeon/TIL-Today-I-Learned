@@ -27,7 +27,7 @@
 
 ## WHAT?
 
--
+- input의 rerendering issue를 해결하고, form의 형태를 구조화하여 쉽게 사용 할 수 있도록 제공하는 라이브러리.
 
 ## HOW?
 
@@ -44,7 +44,7 @@ render : field에 의존하는 children Node
 - 폼의 가장 바깥에 있는 속성 이름을 name, description 등처럼 지정하여 연결하고, array 형태라면 useFieldArray를 통해 해당 필드 어레이에 이름과 컨트롤을 붙여서 사용해준다.
 - 그렇게 어떤 useForm을 control 할 지 알려주면, 해당 이름을 자동으로 찾아들어간다.
 - 이름 네이밍 규칙은 `속성이름.속성이름` 이런 형태로 간다.
-- 만약 배열이라면 중간에 index 요소가 낀다. `속성이름.배열이름.인덱스.속성이름` 이런 형태.
+- 만약 배열이라면 중간에 index 요소가 낀다. `속성이름.배열이름[인덱스].속성이름` 이런 형태. JS의 배열은 객체이기에 `속성이름.배열이름.인덱스.속성이름` 역시 가능하다.
 - 컨트롤러를 현재 굉장히 복잡하게 구현하고 있는데, 해당 컨트롤러 하나에서 여러 값을 잡아낼 수 있지 않을까? 싶다.
 - 컨트롤러 내부의 input에 이름을 붙여서 관리하는데, onChange 때문에 각각 Controller를 넣어줬었다. 해당 부분을 개선 할 수 있을 것이라 생각함.
 - 독스를 좀 더 봐야겠다.
@@ -59,3 +59,11 @@ render : field에 의존하는 children Node
 - 아무래도 watch로 하는 것이 조금 더 가독성이 좋고, 뛰어난 코드일 것으로 보이지만, 해당 input이 select 파트로 결정되는 input이기에, 변화가 그렇게 많지 않을 것이라 생각하였다.
 
 - 근데 select option이 바뀌었을 때, 그냥 reset을 해주면 되겠지..?
+
+- React Query 데이터로 defaultValues를 넣을 때는, 쿼리 데이터를 바라보는 useEffect를 만들어서 `reset(data)` 형태로 만들어주면 된다.
+- 데이터가 변경 될 때, data로 reset 해준다는 의미.
+- reset의 option에 대한 내용들 역시 정리해보자.
+
+- controller의 rules 속성을 통해 rule을 지정 할 수 있고, validate를 통해 매번 validate가 가능하다. 그래서 fieldState에 따라서 관리를 하면 될 것 같은데, submit 될 때만 확인해서 토스트를 띄워주고 싶은 입장에서 해당 부분은 상당히 불편하다.
+- 해결책으로는 해당 field의 value가 변할 때 state 하나가 그 값을 참조하게 onChange를 적용하고, 해당 값을 validate 하는 것이 있을 것이다.
+- 혹은, 그냥 validate를 다 제거하고, 데이터가 모이는 부분에서 모아서 validate 하면 될 것이다.
