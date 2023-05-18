@@ -1,0 +1,33 @@
+
+# 20230518
+
+어제 배운 것
+
+1. hook form을 꽤 마스터 했을지도
+2. useController 사용해봄. Controller에서 특정 속성만 가져와서 사용하는 것으로, 아주 유용한 것 같다.
+   - 훅폼을 쓰면 쓸수록 굉장히 유용한 것 같다.
+   - 내가 직접 뛰어보는게 더 좋다 확실하게.
+
+---
+
+formData 사용법
+
+https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-FormData-%EC%A0%95%EB%A6%AC-fetch-api#urlsearchparams
+
+URLSearchParams
+
+https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+
+
+
+
+
+
+
+
+
+
+
+
+
+

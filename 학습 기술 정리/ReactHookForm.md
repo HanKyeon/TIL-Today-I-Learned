@@ -67,3 +67,8 @@ render : field에 의존하는 children Node
 - controller의 rules 속성을 통해 rule을 지정 할 수 있고, validate를 통해 매번 validate가 가능하다. 그래서 fieldState에 따라서 관리를 하면 될 것 같은데, submit 될 때만 확인해서 토스트를 띄워주고 싶은 입장에서 해당 부분은 상당히 불편하다.
 - 해결책으로는 해당 field의 value가 변할 때 state 하나가 그 값을 참조하게 onChange를 적용하고, 해당 값을 validate 하는 것이 있을 것이다.
 - 혹은, 그냥 validate를 다 제거하고, 데이터가 모이는 부분에서 모아서 validate 하면 될 것이다.
+
+- `useController` 이거 진짜 물건이다! controller를 줄일 수 있음. Form의 형태가 일정하다면 field를 `useController`로 받아서 `field.value` 이후 변수를 호출해 변수에 따른 평가를 실행 할 수 있다.
+- 쓰면 쓸수록 훅폼 굉장히 좋은 것 같다.
+
+- 현재 `formName`으로 form에서의 이름을 받아서 `fieldArray`로 연결하는 컴포넌트, 즉시 값을 입력하는 컴포넌트 등을 만들었는데, `formName`을 받고, `field.value`를 통해 뭔가 더 하기 위해 `field.value`에 이어줄 속성명을 받아서 호출해서 사용하는 컴포넌트도 될 것 같긴 한데..

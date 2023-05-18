@@ -1,7 +1,9 @@
-while True:
-    a = input().rstrip()
-    if a == "END": break
-    print(a[::-1])
+print(input()[int(input())-1])
+
+# while True:
+#     a = input().rstrip()
+#     if a == "END": break
+#     print(a[::-1])
 
 
 # n=int(input())
