@@ -1,0 +1,31 @@
+
+# 20230519
+
+어제 배운 것
+
+폼 데이터
+https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-FormData-%EC%A0%95%EB%A6%AC-fetch-api#urlsearchparams
+
+서치 파람스
+https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+
+사실 multipart/form-data가 중요한것 같다.
+
+근데 아직 막 잘 다뤄보지는 못했다.
+
+---
+
+오늘 배운 것
+
+1. 밤새면 피곤함.
+2. 직접 하는게 즐겁다 역시!
+
+3. 훅폼에서, 객체가 key를 number로 가지고 있다면, 해당 default를 넣어주지 않으면 자동으로 배열로 확인한다.
+   - 따라서, defaultValues를 넣어주고 그래야 한다.
+
+
+
+
+
+
+
