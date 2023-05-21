@@ -1,4 +1,7 @@
-print(input()[int(input())-1])
+for i in range(1, 8):
+    print(bin(1<<i))
+
+# print(input()[int(input())-1])
 
 # while True:
 #     a = input().rstrip()

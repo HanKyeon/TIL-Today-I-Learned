@@ -25,9 +25,13 @@
 - 일반적으로 input의 리렌더링을 막기 위해 colocation과 ref를 사용한다. 하지만 훅폼은 간단히 된다.
 - 리덕스, local state, context api, ref 네가지를 모두 조정했어야 하지만 formContext만 조정하면 다 되게 된다.
 
+- HTMLInputElement의 값이 변경 될 때마다 일어나는 리렌더링 이슈를 해결한다.
+- 유연한 input을 받을 수 있다.
+
 ## WHAT?
 
-- input의 rerendering issue를 해결하고, form의 형태를 구조화하여 쉽게 사용 할 수 있도록 제공하는 라이브러리.
+- DOCS에서는 이렇게 말한다. Performant, flexible and extensible forms with easy-to-use validation.
+- input의 rerendering issue를 해결하고, form의 형태를 구조화하여 쉽게 사용 할 수 있으며, 유효성 검사 역시 쉽게 할 수 있도록 제공하는 라이브러리.
 
 ## HOW?
 
