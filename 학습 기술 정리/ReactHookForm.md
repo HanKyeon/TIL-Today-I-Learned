@@ -27,6 +27,8 @@
 
 - HTMLInputElement의 값이 변경 될 때마다 일어나는 리렌더링 이슈를 해결한다.
 - 유연한 input을 받을 수 있다.
+- form의 value에 언제든 접근이 가능함.
+- name으로 구조화한다.
 
 ## WHAT?
 
@@ -76,3 +78,38 @@ render : field에 의존하는 children Node
 - 쓰면 쓸수록 훅폼 굉장히 좋은 것 같다.
 
 - 현재 `formName`으로 form에서의 이름을 받아서 `fieldArray`로 연결하는 컴포넌트, 즉시 값을 입력하는 컴포넌트 등을 만들었는데, `formName`을 받고, `field.value`를 통해 뭔가 더 하기 위해 `field.value`에 이어줄 속성명을 받아서 호출해서 사용하는 컴포넌트도 될 것 같긴 한데..
+
+## 간단히 정리해본 내용
+
+1. why?
+
+- input 의 경우, 리렌더링이 자주 일어나며 formData가 흐트러져 있다면 데이터를 한 눈에 알아보기 힘들다.
+- 리렌더링을 막고, form의 value에 언제 어디서든 접근이 쉽고 간편하다.
+
+2. What?
+
+- 유연하고, 성능이 좋으며, 확장 가능한 쉬운 validation이 가능한 폼. 독스에서는 이렇게 말한다.
+- form의 형태를 구조화하여 쉽게 사용 할 수 있으며, 유효성 검사 역시 쉽게 할 수 있도록 제공하는 라이브러리.
+
+3. how?
+
+- FormContext 라는 컴포넌트가 있다. 일종의 context api 개념으로 보면 좋은데, 감싼 부분에서 formContext에 접근하여 input 을 바로 사용할 수 있다.
+- FormContext에 useForm에서 나오는 control로 이 FormContext에서의 control 형태를 알려준다.
+- 그렇게 되면 useFormContext 훅으로 바로 상위의 formContext에 접근이 가능하다.
+- input 에 매칭하는 것은 name으로 매칭하게 된다.
+- 객체 형태라면 name이 해당 속성 명으로 연결이 되며, 배열 형태라면 숫자로 연계가 된다.
+- name의 형태는 `속성.속성[index]` 이런 형태로 된다.
+- 일반적으로 field.value를 통해 접근이 가능하다.
+- input에 매칭하는 것은 Controller를 통해 가능하다. input에 네임만 붙인다고 끝나는 것이 아닌, input에 field.value와 field.onChange 등 속성을 연결시켜야 한다.
+- Controller를 컴포넌트 형태가 아닌 선언형으로 쓰고 싶다면 useController를 사용하면 된다. name과 control을 명시하고, defaultValues 등이 명시가 가능하며, 반환은 field와 fieldState를 반환한다.
+- 실질적인 값은 field이며, field에 대한 평가가 들어있는 것이 fieldState이다. isDirty 등 다양한 값이 있으나, 해당 값을 제대로 사용해보지는 못했다. 그래서 추후 정리를 해야함.
+- 이후 onSubmit에 handleSubmit 함수를 연결시켜주고, handleSubmit의 인자로는 콜백함수를 받는다. 콜백함수는 form의 데이터가 최종적으로 정제된 값이다.
+- useForm은 선언 할 때 useForm<T>()을 통해 타입 선언이 가능하다.
+
+4. what if?
+
+- 우선, 가장 간단히 폼을 쉽게 쓸 수 있다.
+- 리렌더링 이슈를 최소화 할 수 있다.
+- 개인적으로는, useFieldArray를 통해 배열 형태의 입력 역시 쉽게 가능하다.
+- form을 구조화하여 응답 데이터만 잘 가공해서 defaultValues에 집어 넣는 로직만 짜면 자동으로 form 사용이 편해진다.
+- 또한, handleSubmit의 콜백 함수에서 form 데이터 역시 가공이 가능하기 때문에 data를 최상위에 모으는 것도 쉽다.
