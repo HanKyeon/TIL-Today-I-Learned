@@ -1,0 +1,15 @@
+
+# 20230523
+
+어제 배운 것
+
+1. 기초 cs들 좀 봤음.
+2. 다른 시각으로 봐줄 수 있는 사람이 있다는 것은 좋ㅇ느 것.
+3. React Hook Form의 6가지 api는 useWatch, useForm, useFormContexet, useController, useFieldArray, useFormState
+
+
+
+
+
+
+
