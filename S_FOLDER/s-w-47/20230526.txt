@@ -1,0 +1,27 @@
+
+어제 배운 것
+
+1. ReactHookForm을 정리하며 배운 점이 많다.
+2. useWatch나 useFormState 등 다뤄보지 않은 것들이 많음.
+3. useWatch든 useFormState든간에 결국 ReactHookForm은 name으로 굴러간다.
+4. name으로 정의하고, 구조화한다. 기억하자.
+
+---
+
+1. 바닐라 자바스크립트로 웹 컴포넌트 만들기
+
+참고 예정 : https://junilhwang.github.io/TIL/Javascript/Design/Vanilla-JS-Component/
+
+2. 비트 공부하자 : https://vitejs.dev/guide/
+
+3. 일렉트론 공부하자 : https://tinydew4.github.io/electron-ko/docs/
+
+---
+
+움직이는 아이콘이 있다!
+
+
+
+
+
+
