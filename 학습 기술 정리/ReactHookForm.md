@@ -18,6 +18,23 @@
      - https://github.com/orgs/react-hook-form/discussions/9875
      - https://github.com/react-hook-form/react-hook-form/issues/4086
 
+**- 데브 툴 사용법**
+
+```jsx
+const ExComponent = function () {
+  const methods = useForm({
+    defaultValues: { formaName: { value: ``, nextFormName: [] } },
+  });
+  const { control } = methods;
+  return (
+    <>
+      <DevTool control={control} />
+      <FormProvider {...methods}>{children}</FormProvider>
+    </>
+  );
+};
+```
+
 ## WHY?
 
 #### 1. 정량적인 이유
@@ -359,6 +376,8 @@ const ExComponent = function () {
 
 - 위와 같이 `register`로 해도 되고 name value onChange에 직접 매칭해도 됨. `register`가 더 좋은 것 같음.
 - formName을 정할 때, `attr[${index}]` 형태가 아닌, `attr.${index}` 형태로 작성해도 됨. JS는 배열도 객체이므로.
+- `useFieldArray`를 통해 register 작업을 할 때, formName을 `as const`로 제공해야 한다고 한다.
+- append, prepend, insert, update 할 때 모든 필드는 default value를 제공해야한다. 라는 글이 있음.
 
 **간단한 내용**
 Controller는 name, control, render로 구성.
@@ -367,6 +386,21 @@ control: useForm의 control
 render : field에 의존하는 children Node
 
 ## WHAT IF?
+
+**사용하며 느낀 강점**
+
+- 우선, 가장 간단히 폼을 쉽게 쓸 수 있다.
+- 리렌더링 이슈를 최소화 할 수 있다.
+- 개인적으로는, useFieldArray를 통해 배열 형태의 입력 역시 쉽게 가능하다는 점이 가장 큰 이점이라 생각했음.
+- form을 구조화하여 응답 데이터만 잘 가공해서 defaultValues에 집어 넣는 로직만 짜면 자동으로 form 사용이 편해진다.
+- 또한, handleSubmit의 콜백 함수에서 form 데이터 역시 가공이 가능하기 때문에 data를 최상위에 모으는 것도 쉽다.
+
+**대부분의 개발자들이 느낀 강점**
+
+- 렌더링 및 동기화 이슈 해결. 일반적으로 ref 혹은 colocation을 사용하지만 해당 방법에 다른 문제 역시도 생긴다. 해당 문제의 상당 부분을 hookform을 통해 해결이 가능하며, 즉시 적용이 가능하다는 장점이 있다.
+- 세부적으로, 동기화 부분에 있어서는 같은 `FormProvider` 안에서 form state의 접근이 간편하기에 props drilling이 없으며, form과 관련된 상태들이 `useFormState`를 통해 에러, 유효성 검사 등을 판별하기 때문에 상태관리가 단순화된다.
+- `errors`를 `useFormState`를 통해 접근이 가능하기 때문에, 에러에 대해 인터랙션 하기가 편하다. 그렇기에, 코드가 짧아진다.
+- class 형태의 validate이 가능하다고 한다.
 
 ## 겪으며 중점적으로 추가로 개선하고 정리해야 할 내용들
 
@@ -402,6 +436,8 @@ render : field에 의존하는 children Node
 - 쓰면 쓸수록 훅폼 굉장히 좋은 것 같다.
 
 - 현재 `formName`으로 form에서의 이름을 받아서 `fieldArray`로 연결하는 컴포넌트, 즉시 값을 입력하는 컴포넌트 등을 만들었는데, `formName`을 받고, `field.value`를 통해 뭔가 더 하기 위해 `field.value`에 이어줄 속성명을 받아서 호출해서 사용하는 컴포넌트도 될 것 같긴 한데..
+
+**- File Input Control 관련 내용도 정리해야한다.**
 
 ## 간단히 정리해본 내용
 
