@@ -27,5 +27,14 @@ for i in range(n-1):
 print(max(dp))
 
 
+'''
+# 빠른 코드
 
+input()
+dp = [0] * 1001
+for i in map(int, input().split()):
+    dp[i] = max(dp[:i]) + i
+
+print(max(dp))
+'''
 
