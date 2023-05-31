@@ -78,6 +78,82 @@
 - 바벨은 컴파일러다. 가상 DOM의 엘리먼트들을 실제 JavaScript로 해석해주는 것이다.
 - 바벨 빌드 컴파일러는 React를 만드는데 적합하다.
 
+### Virtual DOM
+
+- 실제 DOM을 직접 조작하는 것이 아니라, 변경 요청이 발생 할 때 가상 DOM의 before/after 구조를 비교해 변경된 부분만 실제 DOM에 업데이트한다. 실제 DOM을 조작하지 않아 UI의 반응 속도를 높일 수 있다는 장점이 있다.
+- 잦은 DOM 조작은 비용이 많이 들고 속도가 느려진다.
+- React는 VirtualDOM을 사용해 성능을 향상시키는 방식을 채택했다.
+- 가상 DOM의 컴포넌트를 지속적으로 관찰하여 상태 변경을 감지하여 시도한다.
+- 가상 DOM의 이전/이후 diff 비교는 재조정 알고리즘을 사용하여 효율적으로 처리한다.
+- 비교 결과 차이가 발생하면 실제 DOM에 반영해 UI를 업데이트한다.
+- h.js => createElement.js => diff.js => patch.js 순으로 이뤄진다. 모델이 있고, 변동사항이 생긴다면 이전에 생성한 virtualDOM을 저장하고, 새롭게 생성한 virtualDOM을 비교하여 변동사항을 적용한 DOM을 렌더링한다.
+
+**- Virtual DOM 구현**
+
+- 가상 DOM은 실제 DOM 트리를 추상화하여 표현한 것이다.
+- 가상 DOM 트리에서 변동사항이 생기면 새로운 가상 DOM 트리가 생성된다.
+- 재조정 알고맂므은 새로운 가상 DOM 트리와 이전 가상 DOM 트리를 비교해 실제 DOM에 최소한의 변경만을 적용한다.
+- 개인) git의 개념과 비슷한 것 같다. 변동사항만 확인하고 커밋으로 저장하는 것이 git이므로.
+
+- 가상 돔은 실제 돔의 구조를 추상화한 표현이다. 예시를 들자면 아래와 같다.
+
+```html
+<ul class="what-is-virtual-dom">
+  <li>가상 DOM은 실제 DOM을 추상화 하여 표현한 것을 말합니다.</li>
+  <li>가상 DOM 트리에서 무언가 변경되면 새로운 가상 DOM 트리가 생성됩니다.</li>
+</ul>
+```
+
+- 위의 html을 JS로는 아래와 같이 추상화 한다.
+
+```js
+{
+	type: 'ul',
+	props: { className: 'what-is-virtual-dom' },
+	children: [
+		{
+			type: 'li',
+			props: null,
+			children: '가상 DOM은 실제 DOM을 추상화 하여 표현한 것을 말합니다.'
+		},
+		{
+			type: 'li',
+			props: null,
+			children: '가상 DOM 트리에서 무언가 변경되면 새로운 가상 DOM 트리가 생성됩니다.'
+		},
+	]
+}
+```
+
+- 이렇게 가상화된 element를 노드라 부르는 것 같다.
+
+- 이 때, 가상 DOM 구조가 복잡해지면 가상 DOM 구조를 손쉽게 생성 할 수 있도록 hyperscript 모듈을 작성한다. `h.js` 모듈을 사용.
+- 함수형 컴포넌트를 선언 했을 때, `h(태그, 속성attr, children)` 이런 형태로 선언되도록 `h()` 함수를 통해 생성한다.
+
+- 이 때, 가상 DOM의 구조를 이해하기 편하도록 React는 JSX를 사용한다.
+- JSX는 Babel과 같은 컴파일러를 통해 가상 DOM을 생성하는 `React.createElement` 함수 코드로 변환된다.
+- `@babel/plugin-transform-react-jsx` 플러그인을 사용하여 JSX 문법을 특정 함수로 처리하여 컴파일이 가능하다.
+- 가상 DOM을 생성하는 `h()` 함수를 JSX 문법을 해석하는 함수로 설정하는 등의 세팅이 가능하다. 이러한 행위를 **프라그마** 라고 표현한다.
+  = JSX 코드는 바벨에 의해 `h()` 함수로 변경되고 컴파일된다.
+
+- `React.createElement`를 통해 선언적으로 컴포넌트 생성이 가능하다.
+- `document.createTextNode` 역시 마찬가지로 사용이 된다.
+- `rootNode`는 하나만 가능하며, 하위 `children`에서 `map()` 혹은 `forEach()`를 사용하여 처리하기 때문에 `bind()`메서드를 활용해 처리하기도 한다.
+
+- 가상 DOM이 업데이트 되었을 때 어떻게 처리가 되는가? => 가상 DOM에서의 변경 사항만을 실제 DOM에 반영한다.
+- 만약 새로운 노드가 추가된다면 `appendChild` 등을 통해 추가가 될 것이다. 그렇다면 변경된 점을 가상 DOM에 반영한다. `removeChild`이나 `replaceChild` 등으로 변경이 되어도 마찬가지이다.
+- 이 때, `parentNode`, `newVNode`, `oldVNode` 3개의 매개 변수를 통해 `updateElement` 모듈을 작성한다.
+- `updateElement` 모듈을 작성 할 때, `diff` 모듈이 사용된다! 변경사항을 파악하기 위해서!
+- 이후 재귀적인 호출을 통해 `children`의 노드들을 업데이트하게 된다.
+
+- 그렇다면, 가상 DOM에서 `props`는 어떤 방식으로 내려줄까?
+- JSX를 이용한다면 간단하게 prop을 내려줄 수 있다. 그렇지만 **babel을 통해 변경**된 것들이 궁금하다!
+- 일반적으로 props의 경우 html attribute처럼 물려주며, key와 value 쌍으로 구성이 된다.
+- key와 value를 이용하여 `setProp()`, `setProps()` 등의 함수를 통해 개별 필드의 prop을 설정해준다. key만 있는 경우(selected 등)는 `setBooleanProp()`을 사용하고, 사용자 정의 속성은 `isCustomProp()`을 통해 다뤄진다.
+- 이 때 `createElement()` 하는 부분의 코드에 `setProp()`, `setProps()` 부분이 추가가 된다.
+- `node.removeAttribute()` 메서드를 통해 props를 제거할 수도 있다.
+- `updateProps()` 유틸리티를 `props` 변경
+
 ### 리액트 실 사용법
 
 1. 컴포넌트와 Props
