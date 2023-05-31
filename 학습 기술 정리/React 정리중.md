@@ -1,6 +1,8 @@
 # React 정리
 
 학습 후기 : **왜 리액트 쓰는지 알겠다. VueJS보다 레퍼런스가 많다는 것도 장점이고, 영어가 대부분이라는 것도 장점. CRA를 이용해서 시작을 했는데, 실제로 빌더부터 만드는 것을 학습해야겠다.**
+
+**주의 : 원래 2022 docs를 기반으로 작성중이었으나, 2023 docs가 정식 docs로 변경된 만큼 2023 docs로 정리 할 예정.**
 학습 버전 v18
 
 ## WHY?
@@ -120,30 +122,194 @@
 #### react 기본 hook
 
 - `useState`
+
   - 인자는 초기값이고, 반환 값은 [상태값, 상태 업데이트 함수]
   - 상태 값이 변환될 경우 폭포수처럼 사용하는 것이 변경된다. 아마도 옵저버 패턴이 적용된 것이 아닐지.
   - `setState(() => value)`의 경우, 초기화가 지연되기에 최신 값임을 보장 할 수 있으며, 계산될 동안 기존 값을 유지하기에 나는 웬만해서 해당 형태를 사용한다.
+  - `const [v, setV] = useState(() => value)`로 변수를 선언하면 리렌더링마다 실행되는 것이 아닌, 한 번만 실행이 된다! => 이것을 이요아면 useInput에 input 컴포넌트와 value만을 담아서 반환이 가능하지 않을까 싶음. 이전에 트라이 하던 훅에서 컴포넌트와 값을 반환하는.
+
 - `useEffect`
+
   - 파라미터로 콜백함수, dependency array를 받는다. 반환 값은 3종류의 RefObject.
   - 마운트 되거나 dependency 값이 변경 될 때 실행되는 hook. return에 들어가는 cleanup 함수는 중요한 개념이다. 언마운트 될 때 실행되는 함수이다.
   - cleanup 함수의 경우, unmount 될 때 실행되기에 비동기 요청을 취소하는데 주로 사용된다.
   - dependency array를 비울 경우, 변화 있을 때마다 실행된다. 빈 배열을 넣는다면 해당 컴포넌트가 마운트 될 때와 언마운트 될 때만 실행.
   - cleanup 함수는 메모리 누수를 방지하기 위해 UI 컴포넌트를 제거하기 직전 수행된다. 다음 이펙트 함수가 실행 될 때마다 실행되기에 componentWillUnmount와 다르다.
+
 - `useRef`
 
   - 타입스크립트에서 3가지 형태로 Ref가 정해지기에 따로 정하겠지만, JSX element의 attribute에 연결시켜 해당 element를 찝어내는 것이다.
   - 주로 DOM 노드를 참조하기 위해 사용된다. reference.
-  - 특정 값을 지속적으로 ㅊ마조 할 때 사용한다. current가 변경되어도 컴포넌트가 재렌더링되지 않아 성능 최적화에 좋다.
+  - 특정 값을 지속적으로 참조 할 때 사용한다. current가 변경되어도 컴포넌트가 재렌더링되지 않아 성능 최적화에 좋다.
 
 - `useCallback`
+
+  - 함수에 한해 함수를 캐싱하고 사용하는 기능. 메모이제이션이라 한다.
+  - 주로 Props로 전달되는 함수가 문제가 되서 리렌더링이 일어나는 경우가 많아서 사용한다. 함수 내부의 함수는 컴포넌트가 업데이트 될 때마다 리렌더링 되기 때문에.
+  - 하지만, 상위 컴포넌트가 리렌더링되면 하위 컴포넌트 역시 리렌더링 되기 때문에, `React.memo` 등을 통해 하위 컴포넌트 역시 메모이제이션을 해주어야 불필요한 렌더링을 줄여줄 수 있다. => 이 부분에서 Container Component와 Presentational Component를 구분하는 것이 중요하다 생각.
+  - useEffect처럼 의존성 배열을 갖고 있으며, 해당 의존성 배열의 값이 변경될 때 함수를 다시 만든다.
+
 - `useMemo`
+
+  - `useCallback`의 변수 버전이다. 반환되는 값을 캐싱해둔다.
+  - 마찬가지로 의존성 배열을 갖고 있으며, 해당 의존성 배열의 값이 변경 될 때 값을 다시 캐싱한다.
+  - 컴포넌트 역시 useMemo로 캐싱 할 수 있다. ref 역시 lagged를 걸어줄 수 있음.
+  - 자세한 예시는 https://ko.legacy.reactjs.org/docs/hooks-faq.html#how-to-memoize-calculations 참고하면 된다!
+
+- `useCallback` && `useMemo`의 memoization 관련된 내용
+
+  - 2022 docs에서는 해당 값들을 캐싱하는 주된 이유가 컴포넌트 리렌더링 때문으로 정의하며, 특히 Props로 내릴 때의 경우를 걱정한다.
+  - 그렇지만 해당 api들로 해결하기 위해서는 `React.memo` 등을 통해 하위 컴포넌트도 메모이제이션을 해야한다.
+  - 그렇기에 2022docs에서는 ContextAPI를 통해 내려주는 것을 추천하고 있다.
+  - Props가 깊을 때는 Context Provider에서 메모이제이션 한 함수나 값을 내려주는 것을 추천하고 있다.
+  - **하지만 애초에 Props로 함수를 깊게 전달하는 것을 추천하지 않는다.**
+
 - `useContext`
+
+  - ContextAPI로 제공되는 값을 가져올 때 사용된다.
+  - `createContext` 메서드를 통해 생성된 Context의 `Provider`로 제공되는 가상 돔 컴포넌트로 value를 쏴주는데, 해당 `Provider`의 Context value에 접근하는 훅이다.
+
 - `useReducer`
+
+  - state로 관리하기 까다로운 state들을 관리한다.
+  - 주로 Redux를 관리하는 단방향 데이터 흐름 패턴인 Flux Pattern을 따른다. 마찬가지로, reducer 함수를 만들어서 임자로 reducer함수, initialState, initialization을 만들어주면 된다.
+  - flux 패턴을 띄고 있기에 사용법이 redux와 유사하다. 리듀서를 모아둔 reducer 함수 (type과 paykoad를 전달하여 type으로 실행시키고 리턴하는 함수)를 받고, 초기값을 받으며, initialization을 통해 상태 초기화를 지연처리한다. 초기 계산 값을 추출하거나, 어떤 동작으로 상태를 초기화 하는 등.
+
 - `useLayoutEffect`
+
+  - `useEffect`와 사용법은 동일하다.
+  - 하지만 실행되는 시기, 평가 시점이 달라진다. 페이지 로드 차단을 방지하기 위해 DOM이 렌더링 된 이후 `useEffect()` 훅에 설정된 콜백 함수가 실행되면 위치 및 스타일 적용에 문제가 발생 할 수 있다. 이러한 문제를 해결해야 하는 경우, `useLayoutEffect`를 사용하여 해결 할 수 있따.
+  - `useLayoutEffect`는 DOM이 렌더링 되고 페인팅 되기 직전에 실행되고, `useEffect`는 DOM 페인팅이 완료된 이후 실행된다.
+
 - `useImperativeHandle(e)`
+
+  - 명령형 핸들 훅이다.
+  - 상위 컴포넌트에서 ref에 의해 참조된 instance 값을 사용자화 할 때는 `useImperativeHandle()` 훅을 사용한다.
+  - 일부 명령형 메서드를 상위 컴포넌트에서 사용 할 수 있도록 만들어야 할 때 해당 훅을 사용한다.
+  - 파라미터로는 `ref`, `createHandle`, `[deps]`를 받는다. 그렇기에 `forwardRef()` 고차 컴포넌트를 사용해야 한다.
+  - 해당 훅은 예시로 보는 것이 이해가 빠를 것 같음. 아래 예제 첨부.
+  -
+
+```jsx
+import { useState, useRef } from 'react';
+function App() {
+  const messageDisplayRef = useRef();
+  const [messages, setMessages] = useState(allMessages.slice(0, 8));
+
+  const addMessage = () => {
+    messages.length < allMessages.length
+      ? setMessages(allMessages.slice(0, messages.length + 1))
+      : null;
+  };
+
+  const removeMessage = () => {
+    messages.length > 0
+      ? setMessages(allMessages.slice(0, messages.length - 1))
+      : null;
+  };
+
+  const scrollTop = () => messageDisplayRef.current.scrollTop();
+  const scrollBottom = () => messageDisplayRef.current.scrollBottom();
+
+  return (
+    <div className="messaging-app">
+      <div
+        css={`
+          display: flex;
+          justifycontent: space-between;
+        `}
+      >
+        <button
+          type="button"
+          onClick={addMessage}
+        >
+          메시지 추가
+        </button>
+        <button
+          type="button"
+          onClick={removeMessage}
+        >
+          메시지 제거
+        </button>
+      </div>
+      <div
+        css={`
+          margin-top: 20px;
+        `}
+      >
+        <button
+          type="button"
+          onClick={scrollTop}
+        >
+          스크롤 상단 이동
+        </button>
+        <MessageDisplay
+          ref={messageDisplayRef}
+          messages={messages}
+        />
+        <button
+          type="button"
+          onClick={scrollBottom}
+        >
+          스크롤 하단 이동
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// MessageDisplay Componoent
+// forwardRef로 감싼 고차함수.
+import {
+	useRef,
+	useLayoutEffect,
+	useCallback,
+	useImperativeHandle,
+	forwardRef
+} from 'react';
+
+
+const MessageDisplay = forwardRef(function MessageDisplay({messages}, ref) {
+	const containerRef = useRef();
+	useLayoutEffect(() => scrollBottom(), []);
+	const scrollTop = useCallback(() => {
+		containerRef.current.scrollTop = 0;
+	}, []);
+	const scrollBottom = useCallback(() => {
+		containerRef.current.scrollTop = containerRef.current.scrollHeight;
+	}, []);
+	useImperativeHandle(ref, () => ({
+		scrollTop,
+		scrollBottom,
+	}), [scrollTop, scrollBottom]);
+	return (
+		<div ref={containerRef} role="log">
+			{messages.map(message, index) => (
+				<div key={message.id}>
+					<strong>{message.author}</strong>: <span>{message.content}</span>
+					{array.length - 1 === index ? null : <hr />}
+				</div>
+			)}
+		</div>
+	)
+});
+```
+
 - `useId()`
+
+  - server - client의 Hydration 작업에 필요하는 고유한 id 값을 생성하는 훅이다.
+  - client 개발에서는 label 요소와 input 요소를 명시적으로 연결 할 때 사용하면 편리하다!
+
 - `useTransition`
+
+  - transition 보류 상태 값과 transition을 시작하는 함수를 반환하는 훅이다. 즉, 비동기 처리의 로딩을 처리한다.
+  - 트랜지션을 시작하는 함수의 업데이트를 트랜지션으로 표시 할 수 있음.
+
 - `useDeferredValue()`
+
+  - 긴급하지 않은 업데이트의 경우에 사용하며, 긴급한 업데이트(사용자 입력 등)에서 이전 상황을 기억하여 해당 값을 반환한 뒤, 긴급한 렌더링이 완료된 뒤 새로 렌더링 하는 개념이다.
+  - Debouncing 혹은 Throttling을 사용해 업데이트를 지연하는 것과 유사하다.
+  - 해당 훅을 사용하면 다른 작업이 긑나는 즉시 React가 업데이트를 수행함
 
 ## WHAT IF?
 
