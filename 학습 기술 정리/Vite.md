@@ -4,6 +4,8 @@
 
 독스 : https://vitejs.dev/guide/
 
+참고 링크 : https://vitejs-kr.github.io/
+
 `npm create vite@latest`
 
 ## WHY?
@@ -27,3 +29,5 @@
 ## 참고
 
 https://vitejs.dev/guide/
+
+## Vite + React 구성하기
