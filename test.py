@@ -1,5 +1,7 @@
-a,b,c,d=input().split()
-print(int(a+b)+int(c+d))
+print(int(input())%20000303)
+
+# a,b,c,d=input().split()
+# print(int(a+b)+int(c+d))
 
 # a, b, c = int(input()), int(input()), int(input())
 # if a+b+c != 180:
