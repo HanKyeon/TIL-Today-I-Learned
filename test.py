@@ -1,4 +1,7 @@
-print(int(input())%20000303)
+n,m = map(int, input().split())
+print("Yes" if n*100 >= m else "No")
+
+# print(int(input())%20000303)
 
 # a,b,c,d=input().split()
 # print(int(a+b)+int(c+d))
