@@ -17,3 +17,10 @@
    - 그런데 리액트 독스에서는 일반적으로 `Fragment` 그러니까 <></> 이걸로 감싸서 컴포넌트로 싸주는 것을 권장하는 것 같다.
 
 ---
+
+React Query를 좋아한다. 근데 Client Side에서 캐싱 기능이 위험하다는 글을 봤음.
+
+https://velog.io/@oimne/Client-side%EC%97%90%EC%84%9C-%EC%BA%90%EC%8B%B1-%EA%B8%B0%EB%8A%A5%EC%9D%B4-%EC%9C%84%ED%97%98%ED%95%9C-%EC%9D%B4%EC%9C%A0
+
+- 해당 글에서는 서버 상태를 캐싱한 뒤 서버 상태에 mutation이 생긴다면 캐싱이 문제가 된다. 라는 뜻.
+- React Query에서는 해당 문제를 invalidate 혹은 remove를 통해 처리해주기에, mutation hooks만 명확히 해주면 될 것 같다!
