@@ -1,0 +1,19 @@
+
+# 20230608
+
+어제 배운 것
+
+1. ssr 렌더링 될 때 런 타임.
+   - 참고 : https://onlyfor-me-blog.tistory.com/387
+   - SSR은 서버에서 페이지를 구성해서 보내주는 방식이다. 페이지 구성은 ㄴ느리지만 완료 시점 자체는 빨라지고, SEO에 좋다.
+   - SSR의 런타임 데이터는 NextJS에서는 getServerSideProps 함수로 인해 페이지로 이동 할 때 불러와진다.
+   - CSR은 부분부분이 빠르다!
+2. 마크업 / 시맨틱 태그 관련 학습
+   - 참고 : https://velog.io/@oimne/%EB%A6%AC%EC%95%A1%ED%8A%B8%EC%97%90%EC%84%9C-HTML5-%EC%8B%9C%EB%A9%98%ED%8B%B1-%ED%83%9C%EA%B7%B8-%EC%A0%81%EC%9A%A9
+   - 참고 2 : https://coding-factory.tistory.com/883
+   - 알았던 개념이지만 제대로 사용하지 못했음
+   - header, main, section, article, aside, footer, hgroup, nav, address, details, figure, figcaption, figure, mark, time, summary
+   - 전부 div로 작동한다. 근데 파일 읽기 편하도록 시맨틱 태그를 사용한다.
+   - 그런데 리액트 독스에서는 일반적으로 `Fragment` 그러니까 <></> 이걸로 감싸서 컴포넌트로 싸주는 것을 권장하는 것 같다.
+
+---
