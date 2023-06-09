@@ -8,6 +8,16 @@
 
 ## HOW?
 
+참고 : https://gahyun-web-diary.tistory.com/80
+
+- perspective 속성
+
+  - 해당 속성은 원근법을 먹이는 속성임. 숫자가 커질수록 멀리서 보는 느낌이 난다.
+  - perspective-origin을 통해 기준을 잡아줘야 한다. center, top, left, right를 기준으로 원근법을 먹인다.
+
+- backface-visibility 속성
+  - rotate 등으로 돌렸을 때, 뒷면이 보일지 안보일지 결정하는 속성. visible or hidden 등
+
 ## WHAT IF?
 
 ## 겪은 Side Effect
