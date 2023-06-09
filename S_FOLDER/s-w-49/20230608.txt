@@ -24,3 +24,5 @@ https://velog.io/@oimne/Client-side%EC%97%90%EC%84%9C-%EC%BA%90%EC%8B%B1-%EA%B8%
 
 - 해당 글에서는 서버 상태를 캐싱한 뒤 서버 상태에 mutation이 생긴다면 캐싱이 문제가 된다. 라는 뜻.
 - React Query에서는 해당 문제를 invalidate 혹은 remove를 통해 처리해주기에, mutation hooks만 명확히 해주면 될 것 같다!
+
+- 또한 해당 글에서 최신 데이터를 바라봐야 할 상황에 대해 몇가지 추려줬는데, 그냥 내 생각엔 항상이라고 보고, 어떤 데이터가 최신인지 명확하게 정의하는 것이 서비스에서 중요하다고 생각한다.
