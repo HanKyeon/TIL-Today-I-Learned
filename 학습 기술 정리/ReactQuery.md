@@ -288,6 +288,7 @@ queryClient.prefetchQueries(todoKeys.detail(id), () => fetchTodo(id));
 9. 쿼리 캔슬도 가능함.
 10. filter, testing, suspence, scroll, ssr 등 다양한 기능이 많다! Docs를 보자!
 11. mutate나 mutateAsync나 옵션값이 실행된다. mutateAsync로 데이털르 건드리지 말고, 이후 옵션적으로 실행 될 onSuccess 옵션이나 그런걸 적어주는 형태로도 사용이 가능하다.
+12. mutate를 해서 queryKey를 초기화 할 때 명확히 설정하고 훅으로 만들어둬야 변경사항이 생길 때 편하다. 아무리 fetching이 특정 경우에만 발생하더라도 명확히 지정하는 것이 좋을 거라 생각함.
 
 ---
 
