@@ -1,5 +1,72 @@
-n,m = map(int, input().split())
-print("Yes" if n*100 >= m else "No")
+import sys
+from collections import deque
+input = sys.stdin.readline
+n, m = map(int, input().rstrip().split())
+nl = list(map(int, input().rstrip().split()))
+dupQ = deque()
+q = deque()
+v = [0]*(n+1)
+ans = ["Y" for _ in range(n)]
+ansIdx = 0
+# 개숫만큼 넣기
+while len(q) < n:
+    num = nl.pop(0)
+    v[num] += 1
+    if v[num] > 1:
+        if ans[0] == "Y":
+            ans[0] = "N"
+        dupQ.append(num)
+    q.append(num)
+# 우선 중복처리
+while dupQ and nl:
+    ansIdx = 0 if ansIdx+1 == n else ansIdx+1
+    oldNum = q.popleft()
+    v[oldNum] -= 1
+    if oldNum == dupQ[0]:
+        dupQ.popleft()
+    newNum = nl.pop(0)
+    v[newNum] += 1
+    q.append(newNum)
+    if v[newNum] > 1:
+        dupQ.append(newNum)
+    if dupQ:
+        ans[ansIdx] = "N"
+    print(ans, dupQ, q)
+# 남은거 처리
+while nl:
+    ansIdx = 0 if ansIdx == n-1 else ansIdx+1
+    oldNum = q.popleft()
+    v[oldNum] -= 1
+    newNum = nl.pop(0)
+    q.append(newNum)
+    v[newNum] += 1
+    if v[newNum] > 1:
+        dupQ.append(newNum)
+        ans[ansIdx] = "N"
+    while dupQ and nl:
+        ansIdx = 0 if ansIdx+1 == n else ansIdx+1
+        oldNum = q.popleft()
+        v[oldNum] -= 1
+        if oldNum == dupQ[0]:
+            dupQ.popleft()
+        newNum = nl.pop(0)
+        v[newNum] += 1
+        q.append(newNum)
+        if v[newNum] > 1:
+            dupQ.append(newNum)
+        if dupQ:
+            ans[ansIdx] = "N"
+        print(ans, dupQ, q)
+# print(ans)
+a = ans.pop(0)
+ans += [a]
+print("".join(ans))
+'''
+6 12
+1 2 3 4 5 6 6 5 4 3 2 1
+'''
+# n,m = map(int, input().split())
+# print("Yes" if n*100 >= m else "No")
 
 # print(int(input())%20000303)
 
