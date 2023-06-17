@@ -22,6 +22,74 @@
 
 ## HOW?
 
+### enum 관련 정리
+
+- 타입스크립트 참고할만한 글 : https://kschoi.github.io/typescript/typescript/
+
+TS에서의 튜플 타입 : 그냥 간단히 말해서 배열인데 내부에 타입이 상세하게 선언된 것.
+TS에서의 enum 타입 : 조금 신기하게 생겼는데 어떻게 써야하나 잘 모르겠음. 아래와 같이 사용함.
+
+```js
+enum Team {
+  Manager,
+  Planner,
+  Developer,
+  Designer
+}
+// 위와 같이 선언하면 자동으로 배열처럼 0,1,2,3이 할당된다.
+enum Team {
+  Manager = 123,
+  Planner = 321,
+  Developer = 404,
+  Designer // 405 자동 할당
+}
+// 위와 같이 지정해서 선언하면 값이 할당된다.
+```
+
+enum 값은 Team.Manager로 123을 호출 할 수 있으며, Team[123]으로 "Manager"를 호출 할 수 있다.
+또한, 숫자가 아닌 문자도 할당이 가능한 것으로 보인다.
+
+### union type
+
+유니온 타입의 경우 그냥 string | number 이런 식으로 union 해주는 것.
+
+함수 리턴 타입 : 함수에서 그냥 선언해도 되고, type으로 만들어서 선언해도 되고, interface로 선언해서 사용해도 된다.
+
+인터페이스는 인터페이스 상속 가능.
+type으로 선언하는 타입 얼라이어스(앨리어스 alias)는 원시값, 유니온 타입, 튜플 등도 타입으로 지정이 가능하다. 직접 값을 지정 할 수 있다는 것은 좋은거야~
+
+```js
+// 문자열 리터럴로 타입 지정
+type Str = 'Lee';
+
+// 유니온 타입으로 타입 지정
+type Union = string | null;
+
+// 문자열 유니온 타입으로 타입 지정
+type Name = 'Lee' | 'Kim';
+
+// 숫자 리터럴 유니온 타입으로 타입 지정
+type Num = 1 | 2 | 3 | 4 | 5;
+
+// 객체 리터럴 유니온 타입으로 타입 지정
+type Obj = { a: 1 } | { b: 2 };
+
+// 함수 유니온 타입으로 타입 지정
+type Func = (() => string) | (() => void);
+
+// 인터페이스 유니온 타입으로 타입 지정
+type Shape = Square | Rectangle | Circle;
+
+// 튜플로 타입 지정
+type Tuple = [string, boolean];
+const t: Tuple = ['', '']; // Error
+```
+
+## 제네릭
+
+- 주로 한 가지 타입보다 여러가지 타입에서 동작하는 컴포넌트를 생성하는데 사용된다.
+- `<T>` 로 받아서 사용
+
 ## WHAT IF?
 
 ## 고쳐야 할 점
