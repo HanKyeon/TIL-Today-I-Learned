@@ -584,3 +584,115 @@ export default commonConfig;
 ```
 
 ## 7. 타입스크립트 로더 구성
+
+- `TypeScript`를 사용할 계획이라면 `ts-loader`를 포함한 패키지가 필요함.
+  `npm install -D ts-loader typescript @types/node @types/react @types/react-dom`
+
+### TypeScript 구성 파일 생성
+
+- `npx tsc --init`을 통해 TypeScript 컨피그를 만들어준다.
+
+```json
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "NodeNext",
+    "moduleResolution": "node",
+
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+
+    "baseUrl": "src",
+    "typeRoots": ["node_modules/@types", "src/@types"],
+
+    "allowJs": true,
+    "resolveJsonModule": true,
+
+    "noEmit": true,
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    "forceConsistentCasingInFileNames": true,
+
+    "strict": true,
+
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
+```
+
+### TypeScript 로더 설정
+
+- TypeScript 파일을 Webpack이 읽고 해석할 수 있도록 webpack의 `webpack/common.js` 파일에 ts-loader와 `resolve.extensions`를 설정한다.
+
+```js
+import { resolve } from 'node:path';
+
+const commonConfig = {
+  // ...
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.wasm'],
+  },
+  module: {
+    rules: [
+      // ...
+      {
+        test: /\.tsx?$/i,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+    ],
+  },
+};
+
+export default commonConfig;
+```
+
+- 이 때, `tsconfig.json` 파일과 Babel 구성 파일 사이에 문제가 발생할 수 있다.
+- 해당 부분은 `tsconfig.json` 파일에서 noEmit 설정을 true로 돌리면 해결이 가능하다.
+
+  ```json
+  {
+    "compilerOptions": {
+      // ...
+      "noEmit": true
+    }
+  }
+  ```
+
+- 이후 webpack 개발 서버를 구동하더라도 모듈 빌드에 실패하는 오류 메시지를 확인할 수 있는데, 해당 부분은 모듈을 emit 하지 않아서 그렇다.
+- `tsconfig.json` 파일에서의 오류를 해결하기 위해 추가한 `noEmit` 설정이 문제가 된다.
+- 이 문제는 Webpack 공통 구성 파일에 설정한 `ts-loader` 옵션을 통해 해결할 수 있다. 오더 구성에 `options` 항목을 설정하면 모듈이 emit 되므로 Webapck이 정상 작동한다.
+- `webpack/common.js`
+
+  ```js
+  import { resolve } from 'node:path';
+
+  const commonConfig = {
+    // ...
+    module: {
+      rules: [
+        // ...
+        {
+          test: /\.tsx?$/i,
+          exclude: /node_modules/,
+          use: {
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                noEmit: false,
+              },
+            },
+          },
+        },
+      ],
+    },
+  };
+
+  export default commonConfig;
+  ```
+
+- 자세한 구동법 참조 : https://github.com/TypeStrong/ts-loader#getting-started

@@ -29,6 +29,8 @@ while dupQ and nl:
     q.append(newNum)
     if v[newNum] > 1:
         dupQ.append(newNum)
+        while dupQ and v[dupQ[0]] == 1:
+            dupQ.popleft()
     if dupQ:
         ans[ansIdx] = "N"
     print(ans, dupQ, q)
@@ -54,10 +56,10 @@ while nl:
         q.append(newNum)
         if v[newNum] > 1:
             dupQ.append(newNum)
+            while dupQ and v[dupQ[0]] == 1:
+                dupQ.popleft()
         if dupQ:
             ans[ansIdx] = "N"
-        print(ans, dupQ, q)
-# print(ans)
 a = ans.pop(0)
 ans += [a]
 print("".join(ans))
