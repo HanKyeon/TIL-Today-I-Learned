@@ -1,0 +1,16 @@
+
+# 20230620
+
+어제 배운 것
+
+- React Query의 API가 생각보다 다양하다는 점
+- useQuery, useQueries, useMutation, ueInfiniteQuery, QueryClient, useQueryClient 외에도
+- QueryCache, MutationCache, QueryObserver, QueryErrorResetBoundary, focusManager, onlineManager 등 다양한 api가 잇다! 모두 다 써보자!
+- 빨리 몽고디비로 서버 학습을 하는게 좋을거 같다...
+
+
+
+
+
+
+
