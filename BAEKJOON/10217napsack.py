@@ -13,6 +13,7 @@ k개줄에 걸쳐 출발 공항u 도착공항v 1이상 n이하, 비용c 1이상m
 import sys
 from heapq import heappop, heappush
 input = sys.stdin.readline
+# sys.stdin = open("./BAEKJOON/input.txt")
 
 
 for _ in range(int(input())):
