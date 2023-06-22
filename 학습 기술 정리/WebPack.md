@@ -696,3 +696,39 @@ export default commonConfig;
   ```
 
 - 자세한 구동법 참조 : https://github.com/TypeStrong/ts-loader#getting-started
+
+## React Refresh 구성
+
+- `npm install -D react-refresh @pmmmwh/react-refresh-webpack-plugin`
+
+- React Component를 런타임 중 수정하더라도 Hot Reload하는 기능을 활성화하는 플러그인 설치.
+- `webpack/config.server.js` 파일에서 조작.
+
+```js
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+const serverConfig = merge(devConfig, {
+  devServer: {
+    hot: true,
+  },
+  module: {
+    rules: devConfig.module.rules.map((rule) => {
+      const { test: regExp } = rule;
+      if (regExp.test('.js')) {
+        rule.use = [
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [require.resolve('react-refresh/babel')],
+            },
+          },
+        ];
+      }
+      return rule;
+    }),
+  },
+  plugins: devConfig.plugins.push(new ReactRefreshWebpackPlugin()),
+});
+
+module.exports = serverConfig;
+```
