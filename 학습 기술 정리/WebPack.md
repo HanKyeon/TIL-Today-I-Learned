@@ -2,6 +2,19 @@
 
 학습 후기 : **웹팩으로 빌드된 프로젝트를 다룰 경우가 많을 것이라 판단하여 vite 학습을 하며 함께 학습할 예정.**
 
+- 툴체인 요구사항
+
+1. 패키지 매니저
+2. 번들러
+3. 컴파일러
+4. 포매터
+5. 린터
+6. 테스트 러너
+7. 미니마이저
+8. 서버
+
+- 앱 개발을 위한 도구들을 모아둔 것이다. 그저 모듈 번들로러써만 일하는 것이 아니다.
+
 독스 링크 : https://webpack.js.org/
 
 ## WHY?
@@ -731,4 +744,140 @@ const serverConfig = merge(devConfig, {
 });
 
 module.exports = serverConfig;
+```
+
+## Prettier 구성
+
+- `npm install -D prettier`
+- `.prettierrc.cjs` 파일에 구성한다.
+
+```js
+module.exports = {
+  // 화살표 함수 식 매개변수 () 생략 여부 (ex: (a) => a)
+  arrowParens: 'always',
+  // 닫는 괄호(>) 위치 설정
+  // ex: <div
+  //       id="unique-id"
+  //       class="contaienr"
+  //     >
+  htmlWhitespaceSensitivity: 'css',
+  bracketSameLine: false,
+  // 객체 표기 괄호 사이 공백 추가 여부 (ex: { foo: bar })
+  bracketSpacing: true,
+  // 행폭 설정 (줄 길이가 설정 값보다 길어지면 자동 개행)
+  printWidth: 80,
+  // 산문 래핑 설정
+  proseWrap: 'preserve',
+  // 객체 속성 key 값에 인용 부호 사용 여부 (ex: { 'key': 'xkieo-xxxx' })
+  quoteProps: 'as-needed',
+  // 세미콜론(;) 사용 여부
+  semi: true,
+  // 싱글 인용 부호(') 사용 여부
+  singleQuote: true,
+  // 탭 너비 설정
+  tabWidth: 2,
+  // 객체 마지막 속성 선언 뒷 부분에 콤마 추가 여부
+  trailingComma: 'es5',
+  // 탭 사용 여부
+  useTabs: false,
+};
+```
+
+- Prettier의 포멧팅에 제외하고 싶다면, 특히 빌드에 사용되는 파일들에 대해 `.prettierignore`에 무시할 폴더 및 파일들을 프로젝트 루트에 작성해준다.
+
+```
+dist
+build
+coverage
+package-lock.json
+```
+
+## ESLint 구성 린팅!
+
+- 공식 문서 : https://eslint.org/
+- `npm init @eslint/config`로 설치하고, 설치할 때 JavaScript로 세팅하게 되는데 그럴 경우 tsx 파일들이 린팅에 잡히게 된다. 이 때, ESLint 확장이 설치되어야 하고, eslint 패키지가 글로벌 설치되어야 VS code에 표시가 된다.
+- 이 린팅 오류는 `extends`, `settings`, `rules` 설정을 변경하면 해결이 가능하다.
+- `eslintrc.cjs` 파일
+
+```js
+module.exports = {
+  // ...
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:@typescript-eslint/recommended',
+  ],
+  settings: {
+    react: { version: require('react/package.json').version },
+  },
+  rules: {
+    '@typescript-eslint/no-var-requires': 'off',
+
+    'no-console': 'warn',
+    'react/prop-types': 'off',
+    'react/self-closing-comp': 'warn',
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: '*', next: 'return' },
+      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+      {
+        blankLine: 'any',
+        prev: ['const', 'let', 'var'],
+        next: ['const', 'let', 'var'],
+      },
+    ],
+
+    'import/order': [
+      'warn',
+      {
+        pathGroups: [
+          {
+            pattern: '~/**',
+            group: 'external',
+            position: 'after',
+          },
+        ],
+        'newlines-between': 'always-and-inside-groups',
+      },
+    ],
+    'react/jsx-sort-props': [
+      'warn',
+      {
+        callbacksLast: true,
+        shorthandFirst: true,
+        noSortAlphabetically: false,
+        reservedFirst: true,
+      },
+    ],
+  },
+};
+```
+
+- ESLint 플러그인을 확장하기 위해서는 추가 패키지가 필요하다.
+- `npm install -D eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-config-prettier`
+- 설치 이후 ESLint 구성 파일 `.exlint.cjs`에 플러그인을 설정하고 추가 규칙을 지정한다.
+
+```js
+module.exports = {
+  // ...
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
+  plugins: ['react', '@typescript-eslint', 'jsx-a11y'],
+};
+```
+
+- 린팅을 제외하고 싶다면, 특히 빌드 파일의 경우에는 무시해야하기에 프로젝트 루트에 `eslintignore`를 작성해준다.
+
+```
+dist
+build
+coverage
 ```
