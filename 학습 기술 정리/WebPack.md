@@ -881,3 +881,48 @@ dist
 build
 coverage
 ```
+
+## Style, CSS Loader 구성
+
+- 웹팩 환경에서는 스크립트 엔트리 파일에서 스타일을 불러와 적용해야 함.
+- `public/styles` 디렉토리가 `src` 디렉토리 내부에 포함되도록 변경한 뒤, 스크립트 엔트리 파일에서 호출하는 구문을 작성해야 함.
+- `src/main.jsx` or `src/main.tsx` 파일에서 `import './styles/main.css`로 추가하여 관리해야 함.
+- 이 때, CSS Style code는 webpack 불러와 해석할 수 없기에 로더 패키지를 설치해줘야 한다.
+- `npm install -D style-loader css-loader`
+- 이후 `webpack/common.js`에 module을 추가하여 관리해야 한다.
+
+```js
+module: {
+  rules: [
+    // ...
+    {
+      test: /\.css$/i,
+      use: ['style-loader', 'css-loader'],
+    },
+  ],
+},
+```
+
+- 이런 식으로 use의 list 항목 설정만으로는 style module을 html 문서에 삽입한 것으로 끝나기에 server 운영에 적합하지 않다.
+- 그렇기에 각 모듈의 소스맵이 생성되지 않아 모듈이 복잡해질 경우, 소스를 찾아 수정하기가 어렵다.
+- 그렇기에 `use` 리스트 항복에 세부 옵션으로 style source map을 `webpack/common.js`에 설정해야 한다.
+
+```js
+module: {
+  rules: [
+    // ...
+    {
+		  test: /\.css$/i,
+		  use: [
+		    'style-loader',
+		    {
+		      loader: 'css-loader',
+		      options: {
+		        sourceMap: true,
+		      },
+		    },
+		  ],
+		},
+  ],
+},
+```
