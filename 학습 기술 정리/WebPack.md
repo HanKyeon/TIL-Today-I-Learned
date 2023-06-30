@@ -926,3 +926,146 @@ module: {
   ],
 },
 ```
+
+## PostCSS Loader 구성
+
+- `npm install -D postcss postcss-loader postcss-preset-env`
+- 이후 `postcss.config.js` 생성 및 관리.
+
+```js
+module.exports = {
+  plugins: [
+    [
+      'postcss-preset-env',
+      {
+        stage: 2,
+        autoprefixer: { grid: true },
+        features: {
+          'nesting-rules': true,
+          'custom-selectors': true,
+        },
+      },
+    ],
+  ],
+};
+```
+
+- 이후 Webpack에도 postcss를 사용함을 알려줘야 하므로, `webpack/common.js`에 `postcss-loader`를 세팅한다.
+
+```js
+module: {
+  rules: [
+    // ...
+    {
+		  test: /\.css$/i,
+		  use: [
+		    'style-loader',
+		    {
+		      loader: 'css-loader',
+		      options: {
+		        sourceMap: true,
+						importLoaders: 1,
+		      },
+		    },
+		    'postcss-loader',
+		  ],
+		},
+  ],
+},
+```
+
+## CSS Module 구성
+
+- CSS 모듈은 글로벌 CSS와 달리 고유한 키를 넣어주기에 CSS 모듈 파일을 불러오는 컴포넌트에만 적용이 된다.
+- 그렇기에 `.module.css` 파일이 작동하도록 `webpack/common.js`에서 관리해줘야 한다.
+
+```js
+module: {
+  rules: [
+    // ...
+    {
+		  test: /\.css$/i,
+		  use: [
+		    'style-loader',
+		    {
+		      loader: 'css-loader',
+		      options: {
+		        sourceMap: true,
+						importLoaders: 1,
+		      },
+		    },
+				'postcss-loader',
+		  ],
+			exclude: /\.module\.css$/i,
+		},
+		{
+		  test: /\.module\.css$/i,
+		  use: [
+		    'style-loader',
+		    {
+		      loader: 'css-loader',
+		      options: {
+		        sourceMap: true,
+						importLoaders: 1,
+						modules: {
+							localIdentName: '[folder]_[local]__[hash:base64:5]',
+						},
+		      },
+		    },
+				'postcss-loader',
+		  ],
+			include: /\.module\.css$/i,
+		},
+  ],
+},
+```
+
+- 이후 사용은 평소 쓰던대로 쓰면 된다.
+
+```js
+import styles from './App.module.css';
+
+const App = () => (
+  <figure className={styles.container}>
+    <a
+      className={styles.link}
+      href="https://reactjs.org"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        className={styles.logo}
+        src="assets/react.svg"
+        alt="React"
+      />
+    </a>
+    <figcaption className={styles.description}>
+      React 툴체인 매뉴얼 구성
+    </figcaption>
+  </figure>
+);
+
+export default App;
+```
+
+- 이 때, TypeScript를 사용하는 컴포넌트에서는 CSS 모듈의 파일 타입을 찾을 수 없다는 에러가 뜬다.
+- 이것은 TypeScript가 CSS 모듈 파일을 모르기 때문이다. 따라서 `types/style.d.ts` 파일에서 CSS 모듈의 타입을 정의해줘야 한다.
+
+```js
+declare module '*.module.css' {
+  const styles: { [key: string]: string };
+  export default styles;
+}
+```
+
+- 이후, TypeScript가 해당 파일을 알 수 있도록 `tsconfig.json`에서 루트에 추가해준다.
+
+```js
+{
+  "compilerOptions": {
+    // ...
+    "typeRoots": ["node_modules/@types", "./src/types"],
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+  }
+}
+```
