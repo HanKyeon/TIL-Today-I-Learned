@@ -1069,3 +1069,61 @@ declare module '*.module.css' {
   }
 }
 ```
+
+## SASS Loader 구성
+
+- `npm install -D sass sass-loader`
+- 이후 `webpack/common.js`에 sass 모듈을 사용한다고 알려줘야 함.
+
+```js
+module: {
+  rules: [
+    // ...
+    {
+		  test: /\.(css|s[ac]ss)$/i,
+		  use: [
+		    'style-loader',
+		    {
+		      loader: 'css-loader',
+		      options: {
+		        sourceMap: true,
+						importLoaders: 1,
+		      },
+		    },
+				'postcss-loader',
+				'sass-loader',
+		  ],
+			exclude: /\.module\.(css|s[ac]ss)$/i,
+		},
+		{
+		  test: /\.module\.(css|s[ac]ss)$/i,
+		  use: [
+		    'style-loader',
+		    {
+		      loader: 'css-loader',
+		      options: {
+		        sourceMap: true,
+						importLoaders: 1,
+						modules: {
+							localIdentName: '[folder]_[local]__[hash:base64:5]',
+						},
+		      },
+		    },
+				'postcss-loader',
+				'sass-loader',
+		  ],
+			include: /\.module\.(css|s[ac]ss)$/i,
+		},
+  ],
+},
+```
+
+- 이 때, css 모듈과 마찬가지로 sass 모듈 파일을 사용할 수 없는 경우가 있다. 동일한 방식으로 해결한다.
+- 즉, `types/style.d.ts`에서 아래 설정을 추가해준다.
+
+```js
+declare module '*.module.scss' {
+  const styles = { [key:string]: string };
+	export default styles;
+}
+```
