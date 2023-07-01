@@ -1127,3 +1127,69 @@ declare module '*.module.scss' {
 	export default styles;
 }
 ```
+
+## Assets 로더 구성
+
+- 이미지, 폰트 등의 에셋을 JavaScript 파일에서 모듈로 호출하기 위한 설정을 `webpack/common.js`에 세팅해준다.
+
+```js
+{
+	//...
+	output: {
+    path: resolve('public'),
+    filename: '[name].bundle.js',
+		// 에셋 일괄 설정
+    // assetModuleFilename: 'assets/[name].[contenthash][ext][query]',
+  },
+	module: {
+		rules: [
+			// ...
+			{
+			  test: /\.(jpe?g|png|gif|webp|bmp)$/i,
+			  type: 'asset/resource',
+				// 로더 별, 개별 설정
+			  generator: {
+			    filename: 'static/[name].[contenthash][ext][query]',
+			  },
+				parser: {
+			    dataUrlCondition: 8 * 1024, // 8kb
+			  },
+			},
+		],
+	},
+}
+```
+
+- 이 때, 다른 로더와 마찬가지로 TypeScript의 경우 호출할 때 에러가 난다. 그렇기에 `types/assets.d.ts` 파일에 타입을 선언해줘야 한다.
+
+```js
+declare module '*.jpg' {
+  const url: string;
+  export default url;
+}
+
+declare module '*.jpeg' {
+  const url: string;
+  export default url;
+}
+
+declare module '*.png' {
+  const url: string;
+  export default url;
+}
+
+declare module '*.gif' {
+  const url: string;
+  export default url;
+}
+
+declare module '*.webp' {
+  const url: string;
+  export default url;
+}
+
+declare module '*.svg' {
+  const url: string;
+  export default url;
+}
+```
