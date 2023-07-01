@@ -307,3 +307,54 @@ for tc in range(int(input())):
     print(board[int(input())])
 '''
 
+'''
+import sys
+
+input = sys.stdin.readline
+c = int(input())
+q = []
+for _ in range(c):
+    q.append(int(input()))
+
+S = [[1], [2, 3, 4, 5, 2, 3], []]
+r = [0] * 10000
+r[0:7] = [1, 2, 3, 4, 5, 2, 3]
+
+C = [[0, 0], [1, 1], [2, 2], [2, 3], [1, 4], [1, 5]]
+
+i, j = 7, 0
+a, b = 0, -1
+l = 2
+prev = 3
+
+while i < max(q):
+    adj = [False] * 6
+    adj[prev] = True
+    if (j + 1) % l == 0:
+        adj[S[-2][b]] = True
+        if j + 1 == l * 6:
+            adj[S[-1][0]] = True
+    else:
+        adj[S[-2][a]] = True
+        adj[S[-2][b]] = True
+        a, b = a + 1, b + 1
+
+    for cnt, num in sorted(C[1:]):
+        if not adj[num]:
+            S[-1].append(num)
+            r[i] = num
+            C[num][0] += 1
+            prev = num
+            break
+
+    i, j = i + 1, j + 1
+
+    if j == l * 6:
+        S.append([])
+        l, j = l + 1, 0
+        a, b = 0, -1
+
+for x in q:
+    print(r[x-1])
+
+'''
