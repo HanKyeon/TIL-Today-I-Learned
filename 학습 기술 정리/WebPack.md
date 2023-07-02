@@ -1267,3 +1267,34 @@ declare module '*.svg' {
   export default src;
 }
 ```
+
+## 절대 경로 설정
+
+- Webpack의 `resolve.alias` 구성을 사용해 `import`나 `require`로 호출하는 특정 모듈의 별칭을 만들 수 있다.
+- 절대 경로라고 이름을 붙여줄 수 있다. `webpack/common.js`에서 관리를 하게 된다.
+
+```js
+import { resolve } from 'node:path';
+
+const commonConfig = {
+  // ...
+  resolve: {
+    // ...
+    alias: {
+      '@': resolve('src'),
+    },
+  },
+  // ...
+};
+```
+
+- vs code에서는 path intelisense 익스텐션을 통해 파일 경로 탐색이 편해질 수 있다. `.vscode/settings.json`에서 관리한다.
+
+```js
+{
+	"path-intellisense.extensionOnImport": true,
+	"path-intellisense.mappings": {
+	  "@": "${workspaceRoot}/src",
+	},
+}
+```
