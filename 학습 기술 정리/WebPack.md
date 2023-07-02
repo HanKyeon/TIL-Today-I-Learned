@@ -1193,3 +1193,77 @@ declare module '*.svg' {
   export default url;
 }
 ```
+
+## SVGR 로더 구성
+
+- `npm install -D @svgr/webpack new-url-loader`
+- 이후 `new-url-loader`를 통해 `webpack/dev.js`에 구성 코드를 추가한다.
+- 참고 : https://github.com/marella/new-url-loader
+
+```js
+const devConfig = {
+  // ...
+  module: {
+    rules: [
+      // ...
+      {
+        test: /\.svg$/i,
+        oneOf: [
+          {
+            dependency: { not: ['url'] },
+            use: [
+              {
+                loader: '@svgr/webpack',
+                options: {
+                  titleProp: true,
+                  svgo: true,
+                },
+              },
+              'new-url-loader',
+            ],
+          },
+          {
+            type: 'asset/resource',
+            generator: {
+              filename: 'static/[name].[contenthash][ext][query]',
+            },
+            parser: {
+              dataUrlCondition: 4 * 1024,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+- SVG 사용은 아래와 같이 쓴다.
+
+```js
+import paperPlane from '../assets/paper-plane.svg'; // 파일로 import
+import { ReactComponent as PaperPlane } from '../assets/paper-plane.svg'; // 컴포넌트로 import
+```
+
+```css
+/* CSS에서 이미지를 불러와 사용할 경우 */
+.asset-svg {
+  background: url('../assets/paper-plane.svg');
+}
+```
+
+- 이 또한 마찬가지로 TypeScript를 사용할 경우 문제가 생긴다.
+- 마찬가지로 `types/asses.d.js` 파일에서 svg 모듈 코드를 통해 관리한다.
+
+```js
+declare module '*.svg' {
+  import * as React from 'react';
+
+  export const ReactComponent: React.FC<
+    React.SVGProps<SVGSVGElement> & { title?: string }
+  >;
+
+  const src: string;
+  export default src;
+}
+```
