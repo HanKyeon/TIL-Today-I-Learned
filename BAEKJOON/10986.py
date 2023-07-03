@@ -15,11 +15,6 @@ import sys
 from math import factorial
 input = sys.stdin.readline
 
-def nCr(n, r):
-    if n<0 or r<0 or r>n:
-        return 0
-    return factorial(n) // (factorial(r) * factorial(n-r))
-
 n, m = map(int, input().rstrip().split())
 nl = list(map(int, input().rstrip().split()))
 nmz = [0]*m
@@ -30,7 +25,7 @@ for i in nl:
     nmz[hap] += 1
 ans = nmz[0]
 for i in nmz:
-    ans += nCr(i, 2)
+    ans += i*(i-1)//2
 print(ans)
 
 
