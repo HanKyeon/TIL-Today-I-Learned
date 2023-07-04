@@ -1,9 +1,31 @@
 import sys
 input = sys.stdin.readline
-n, m = map(int, input().rstrip().split())
-k = int(input())
-a = n*60+m+k
-print(a//60 if a<24 else (a//60)%24, a%60)
+
+for _ in range(int(input())):
+    nl = list(map(int, input().rstrip().split()))
+    n = nl.pop(0)
+    a = sum(nl[1:])/n
+    ans = len([i for i in nl if i > a])
+    print(f'{ans/n*100:.3f}%')
+
+import sys
+input = sys.stdin.readline
+
+for _ in range(int(input())):
+    nl = list(map(int, input().rstrip().split()))
+    a = sum(nl[1:])/nl[0]
+    ans = 0
+    for score in nl[1:]:
+        if score > a:
+            ans+=1
+    print(f'{ans/nl[0]*100:.3f}%')
+
+# import sys
+# input = sys.stdin.readline
+# n, m = map(int, input().rstrip().split())
+# k = int(input())
+# a = n*60+m+k
+# print(a//60 if a<24 else (a//60)%24, a%60)
 
 # import sys
 # from collections import deque
