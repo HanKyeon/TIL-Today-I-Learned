@@ -24,6 +24,8 @@ npm : `npm install --save mobx`
 
 - 이 때, 검증을 위해 `index.js` 등에 `if (!new class { x }().hasOwnProperty('x')) throw new Error('Transpiler is not configured correctly');` 이러한 코드로 관리를 해줘야 한다.
 
+- 참고 : https://techblog.woowahan.com/2599/
+
 ## WHY?
 
 **- Docs 기준**
