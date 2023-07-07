@@ -1,0 +1,42 @@
+
+# 20230707
+
+- 어제 배운 것 ESM과 CJS
+
+- 참고 : https://toss.tech/article/commonjs-esm-exports-field
+
+- CommonJS (CJS)
+```
+// add.js
+module.exports.add = (x, y) => x + y;
+
+// main.js
+const { add } = require('./add');
+
+add(1, 2);
+```
+
+- ECMAScript Modules (ESM)
+```
+// add.js
+export function add(x, y) {
+  return x + y
+}
+
+// main.js
+import { add } from './add.js';
+
+add(1, 2);
+```
+
+- CJS는 require / module.exports를 사용하고, ESM은 import / export를 사용한다.
+- CJS module loader는 동기적으로 작동하고, ESM module loader는 비동기적으로 작동한다.
+  - ESM은 Top-level Await를 지원하기에 비동기적으로 동작.
+- 따라서 ESM에서 CJS를 import 할 수는 있지만, CJS에서 ESM을 require 할 수는 없다. 왜냐면 CJS는 Top-level Await를 지원하지 않기 때문.
+- 이 외에도 두 종류의 module system은 기본적으로 동작이 다르며 호환이 어렵다.
+
+- 두가지의 호환을 챙겨야 되는 이유? SSR 차원에서 Node.JS에서 주로 쓰이는 문법인 CJS를 지원해야 한다. NextJS에서 쓰이기에.
+- Module의 경우 브라우저 환경의 성능에도 관련이 있다. 렌더링을 중단시키는 리소스들 중 하나이므로.
+- 따라서 번들 사이즈를 줄여서 렌더링 중단 시간을 최소화해야 한다. 이를 위해 Tree-shaking이 필요하다. 필요하지 않는 코드와 사용되지 않는 코드를 삭제하여 JavaScript 번들의 크기를 가볍게 만드는 것을 말한다.
+- 이 때, CJS는 Tree Shaking이 어렵고, ESM은 쉽다.
+
