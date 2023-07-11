@@ -1,24 +1,27 @@
-import sys
-input = sys.stdin.readline
+x, y, w, h = map(int, input().rstrip().split())
+print(min(abs(x-w), abs(y-h), x, y))
 
-for _ in range(int(input())):
-    nl = list(map(int, input().rstrip().split()))
-    n = nl.pop(0)
-    a = sum(nl[1:])/n
-    ans = len([i for i in nl if i > a])
-    print(f'{ans/n*100:.3f}%')
+# import sys
+# input = sys.stdin.readline
 
-import sys
-input = sys.stdin.readline
+# for _ in range(int(input())):
+#     nl = list(map(int, input().rstrip().split()))
+#     n = nl.pop(0)
+#     a = sum(nl[1:])/n
+#     ans = len([i for i in nl if i > a])
+#     print(f'{ans/n*100:.3f}%')
 
-for _ in range(int(input())):
-    nl = list(map(int, input().rstrip().split()))
-    a = sum(nl[1:])/nl[0]
-    ans = 0
-    for score in nl[1:]:
-        if score > a:
-            ans+=1
-    print(f'{ans/nl[0]*100:.3f}%')
+# import sys
+# input = sys.stdin.readline
+
+# for _ in range(int(input())):
+#     nl = list(map(int, input().rstrip().split()))
+#     a = sum(nl[1:])/nl[0]
+#     ans = 0
+#     for score in nl[1:]:
+#         if score > a:
+#             ans+=1
+#     print(f'{ans/nl[0]*100:.3f}%')
 
 # import sys
 # input = sys.stdin.readline
