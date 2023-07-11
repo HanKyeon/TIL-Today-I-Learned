@@ -1298,3 +1298,100 @@ const commonConfig = {
 	},
 }
 ```
+
+## 테스트 환경 구성
+
+- `npm i -D jest jest-environment-jsdom babel-jest @babel/preset-typescript eslint-plugin-jest @testing-library/jest-dom @testing-library/react @testing-library/user-event`
+- 설치 이후 `npx jest --init`으로 jest로 관리.
+- `jest.config.js` 세팅.
+
+```js
+export default {
+  clearMocks: true,
+
+  roots: ['<rootDir>/src'],
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+
+  transform: {
+    '\\.[jt]sx?$': 'babel-jest',
+  },
+  transformIgnorePatterns: ['<rootDir>/node_modules/', '\\.pnp\\.[^\\/]+$'],
+
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+};
+```
+
+- jest-dom을 확장하기 위해 `jest.setup.js`을 생성해준다.
+
+```js
+import '@testing-library/jest-dom/extend-expect';
+```
+
+- `Babel`과 `TypeScript` 프리셋 구성을 위해 `@babel/preset-typescript`를 사용한다. `babel.config.js`에서 관리한다.
+
+```js
+module.exports = {
+  presets: [
+    ['@babel/preset-env', { targets: { node: 'current' } }],
+    ['@babel/preset-typescript'],
+    ['@babel/preset-react', { runtime: 'automatic' }],
+  ],
+};
+```
+
+- 이후 `ESLint`와 `Jest` 플러그인을 구성한다.
+- `eslint-plugin-jest`를 설치하고 문서에 따라 ESLint 파일 `.eslintrc.cjs`을 작성한다.
+
+```js
+module.exports = {
+  env: {
+    // ...
+    'jest/globals': true,
+  },
+  extends: [
+    // ...
+    'plugin:jest/recommended',
+    'prettier',
+  ],
+  settings: {
+    // ...
+    jest: { version: require.resolve('jest/package.json').version },
+  },
+  // ...
+  plugins: ['react', '@typescript-eslint', 'jsx-a11y', 'jest'],
+  // ...
+};
+```
+
+- 스타일, 파일, SVG 모의 구성을 한다.
+- TDD 환경에서 Script File을 불러오는 **정적 Assets(이미지, css 등)은 정상처리되지 않는다.**
+- TDD 환경은 시각적으로 표시되지 않으므로 정적 Assets이 잘 활용되지 않는다.
+- 그렇기에 문제 없이 테스트가 수행될 수 있도록 **mock 구성**이 필요하다. CSS와 Sass 모듈의 경우 `className`의 조회가 필요하기에 `Proxy`를 구성해야 한다.
+- `npm install -D identity-obj-proxy`. ES6 프록시를 사용해 스타일 파일을 mocking하기 위한 패키지.
+- `src/__mocks__/styleMock.js`에 스타일 모킹을 해주고, `src/__mocks__/fileMock.js`에는 파일 등의 모킹을 해주며, `src/__mocks__/svgMock.js`에서는 `SVG` `SVGR` 컴포넌트 모킹을 해준다.
+
+```js
+// Style Mocking
+import idObj from 'identity-obj-proxy';
+export default idObj;
+// File Mocking
+export default 'test-file-stub';
+// SVG Mocking
+export default 'SvgrURL';
+export const ReactComponent = 'div';
+```
+
+- 이후 `jest.config.js`에 `moduleNameMapper` 항목에 모킹 파일을 연결해준다.
+
+```js
+export default {
+  // ...
+  moduleNameMapper: {
+    '\\.(css|s[ac]ss)$': '<rootDir>/src/__mocks__/styleMock.js',
+    '\\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      '<rootDir>/src/__mocks__/fileMock.js',
+    '\\.svg$': '<rootDir>/src/__mocks__/svg.js',
+  },
+};
+```
