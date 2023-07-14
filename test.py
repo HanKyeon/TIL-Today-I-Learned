@@ -1,5 +1,15 @@
-x, y, w, h = map(int, input().rstrip().split())
-print(min(abs(x-w), abs(y-h), x, y))
+import sys
+input = sys.stdin.readline
+
+while True:
+    a, b, c = sorted(map(int, input().rstrip().split()))
+    if not a and not b and not c:
+        break
+    print("right" if c**2 == a**2+b**2 else "wrong")
+
+
+# x, y, w, h = map(int, input().rstrip().split())
+# print(min(abs(x-w), abs(y-h), x, y))
 
 # import sys
 # input = sys.stdin.readline
