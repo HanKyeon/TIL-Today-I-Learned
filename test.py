@@ -1,11 +1,17 @@
-import sys
-input = sys.stdin.readline
+# import sys
+# input = sys.stdin.readline
 
 while True:
-    a, b, c = sorted(map(int, input().rstrip().split()))
-    if not a and not b and not c:
+    try:
+        print(f"{input()}")
+    except:
         break
-    print("right" if c**2 == a**2+b**2 else "wrong")
+
+# while True:
+#     a, b, c = sorted(map(int, input().rstrip().split()))
+#     if not a and not b and not c:
+#         break
+#     print("right" if c**2 == a**2+b**2 else "wrong")
 
 
 # x, y, w, h = map(int, input().rstrip().split())
