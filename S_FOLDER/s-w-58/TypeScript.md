@@ -36,6 +36,9 @@ type ABType = Atype & BType;
 
 ### class 형태의 private 변수 관련
 
+- https://lakelouise.tistory.com/184
+- https://velog.io/@wjd489898/Typescript-%ED%81%B4%EB%9E%98%EC%8A%A4Class-private-protected-public
+
 - `class`의 `implements`.
 
   1. `implements`는 `class`의 구조를 잡아주는 것이 아니다.
@@ -48,7 +51,6 @@ type ABType = Atype & BType;
   2. `setter`는 `return type`이 없다. 즉, `interface`로 `setter`를 검증하고 싶다면 `set setDate(newDate: string)` 이런 형태로 선언하면 된다.
   3. `setter`를 선언 할 때 주의점으로는 `args` 즉 인자를 하나만 받을 수 있다는 것이다.
   4. `getter`는 그냥 변수 쓰듯 쓰면 된다. `SomeClass.test` 이런 형태로.
-  5. get은 일종의 변수도 set은 할당 연산자로 실행된다.
 
   - 참고해보면 좋을 글 : https://lovethefeel.tistory.com/173
 
@@ -66,7 +68,7 @@ type ABType = Atype & BType;
 - 참고5 : https://stackoverflow.com/questions/62233382/how-do-i-define-and-call-a-generic-function-parameter-in-typescript
 
 - 아래는 객체 나름 재밌는 제네릭인듯? 자동 제네릭 같음
-- 일반적으로 제네릭을 받아서 반환값 등에 쓰면 좋을 것 같음.
+- 근데 사실 잘 모르겠음. 이러면 object와 다를게 없지 않나 라는 생각은 듬.
 
 ```js
 type MappedType<T> = {
@@ -79,3 +81,17 @@ interface DefaultData<DataType, StoreType, SourceType> {
   source: MappedType<SourceType>;
 }
 ```
+
+## 독스 관련 정리
+
+- 원시 타입 선언, 변수 타입 어썰션 스킵
+- 객체, 배열 타입 선언, 유니온 타입, 옵셔널 프로퍼티 스킵.
+- 배열 관련 확인 할 때, `Array.isArray` 같은 함수를 통해 타입 검증 이후 사용하면 타입 에러 감지 안함
+- 타입 선언 패스 (타입에 네이밍 하는 것)
+
+- 타입과 인터페이스의 차이
+- type은 & 연산자를 통해 확장한다. interface는 extends를 통해 확장한다.
+- interface는 같은 이름을 허용하며, 같은 이름으로 선언 시 확장된다. type은 같은 이름으로 선언이 안된다.
+
+- 타입 어썰션
+- `!` 혹은 `as Type` 으로 가능
