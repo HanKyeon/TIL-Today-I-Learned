@@ -1,6 +1,15 @@
-a, b = map(int, input().split())
-c, d = map(int, input().split())
-print(min(a+d, b+c))
+def lego():
+    h1, m1, s1, h2, m2, s2 = map(int, input().split())
+    bf = h1*60*60 + m1*60 + s1
+    af = h2*60*60 + m2*60 + s2
+    t = af - bf
+    print(t//60//60 % 24, t//60 % 60, t%60)
+lego()
+lego()
+lego()
+# a, b = map(int, input().split())
+# c, d = map(int, input().split())
+# print(min(a+d, b+c))
 
 # import sys
 # input = sys.stdin.readline
