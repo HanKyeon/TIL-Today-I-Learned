@@ -1,3 +1,8 @@
+
+for i in range(int(input())):
+    h, w, n = map(int, input().split())
+    print(f'{(n%h if n%h else h) * 100+(n//h+1 if n%h else n//h)}')
+
 def lego():
     h1, m1, s1, h2, m2, s2 = map(int, input().split())
     bf = h1*60*60 + m1*60 + s1
