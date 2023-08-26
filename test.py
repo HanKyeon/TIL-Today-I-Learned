@@ -1,17 +1,22 @@
+for _ in range(int(input())):
+    n, s = input().split()
+    n, ans = int(n), ''
+    for i in s:ans+=i*n
+    print(ans)
 
-for i in range(int(input())):
-    h, w, n = map(int, input().split())
-    print(f'{(n%h if n%h else h) * 100+(n//h+1 if n%h else n//h)}')
+# for i in range(int(input())):
+#     h, w, n = map(int, input().split())
+#     print(f'{(n%h if n%h else h) * 100+(n//h+1 if n%h else n//h)}')
 
-def lego():
-    h1, m1, s1, h2, m2, s2 = map(int, input().split())
-    bf = h1*60*60 + m1*60 + s1
-    af = h2*60*60 + m2*60 + s2
-    t = af - bf
-    print(t//60//60 % 24, t//60 % 60, t%60)
-lego()
-lego()
-lego()
+# def lego():
+#     h1, m1, s1, h2, m2, s2 = map(int, input().split())
+#     bf = h1*60*60 + m1*60 + s1
+#     af = h2*60*60 + m2*60 + s2
+#     t = af - bf
+#     print(t//60//60 % 24, t//60 % 60, t%60)
+# lego()
+# lego()
+# lego()
 # a, b = map(int, input().split())
 # c, d = map(int, input().split())
 # print(min(a+d, b+c))
@@ -19,16 +24,16 @@ lego()
 # import sys
 # input = sys.stdin.readline
 
-di = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}
-while True:
-    s = input().rstrip()
-    if s == '#':
-        break
-    ans = 0
-    for i in s:
-        if i in di:
-            ans += 1
-    print(ans)
+# di = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}
+# while True:
+#     s = input().rstrip()
+#     if s == '#':
+#         break
+#     ans = 0
+#     for i in s:
+#         if i in di:
+#             ans += 1
+#     print(ans)
 
 # for _ in range(int(input())):
 #     k, n = int(input()), int(input())
