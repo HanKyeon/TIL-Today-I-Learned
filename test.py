@@ -1,8 +1,18 @@
-for _ in range(int(input())):
-    n, s = input().split()
-    n, ans = int(n), ''
-    for i in s:ans+=i*n
-    print(ans)
+
+g = [list(input()) for _ in range(5)]
+n = max(map(len, g))
+for i in range(5):
+    while len(g[i]) < n:
+        g[i].append('')
+s = list(map(list, zip(*g)))
+for i in s:
+    print(''.join(i), end='')
+
+# for _ in range(int(input())):
+#     n, s = input().split()
+#     n, ans = int(n), ''
+#     for i in s:ans+=i*n
+#     print(ans)
 
 # for i in range(int(input())):
 #     h, w, n = map(int, input().split())
