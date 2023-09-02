@@ -1,12 +1,16 @@
 
-g = [list(input()) for _ in range(5)]
-n = max(map(len, g))
-for i in range(5):
-    while len(g[i]) < n:
-        g[i].append('')
-s = list(map(list, zip(*g)))
-for i in s:
-    print(''.join(i), end='')
+s = input().rstrip()
+for i in s: print(i.upper() if ord(i) > 90 else i.lower(), end='')
+
+
+# g = [list(input()) for _ in range(5)]
+# n = max(map(len, g))
+# for i in range(5):
+#     while len(g[i]) < n:
+#         g[i].append('')
+# s = list(map(list, zip(*g)))
+# for i in s:
+#     print(''.join(i), end='')
 
 # for _ in range(int(input())):
 #     n, s = input().split()
