@@ -1,10 +1,10 @@
 import sys
 input = sys.stdin.readline
 
-def check(x : str): v[ord(x.upper())-65] += 1
-v = [0]*26
-s = list(map(check, list(input().rstrip())))
-print('?' if v.count(max(v)) > 1 else chr(v.index(max(v))+65))
+# def check(x : str): v[ord(x.upper())-65] += 1
+# v = [0]*26
+# s = list(map(check, list(input().rstrip())))
+# print('?' if v.count(max(v)) > 1 else chr(v.index(max(v))+65))
 # s = input().rstrip()
 # for i in s: print(i.upper() if ord(i) > 90 else i.lower(), end='')
 
@@ -89,7 +89,7 @@ print('?' if v.count(max(v)) > 1 else chr(v.index(max(v))+65))
 #     a = sum(nl[1:])/n
 #     ans = len([i for i in nl if i > a])
 #     print(f'{ans/n*100:.3f}%')
-
+print(f"{float(input().rstrip()):,.3f}")
 # import sys
 # input = sys.stdin.readline
 
