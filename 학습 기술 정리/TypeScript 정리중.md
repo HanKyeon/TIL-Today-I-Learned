@@ -27,6 +27,12 @@
 
 ## WHAT IF?
 
+## 추후 정리 예정
+
+1. unknown & any
+   - [unknown 관련 글](https://jbee.io/typescript/TS-9-unknown/)
+   - [안전한 any 만들기](https://overcurried.netlify.app/%EC%95%88%EC%A0%84%ED%95%9C%20any%20%ED%83%80%EC%9E%85%20%EB%A7%8C%EB%93%A4%EA%B8%B0/)
+
 ### enum 관련 정리
 
 - 타입스크립트 참고할만한 글 : https://kschoi.github.io/typescript/typescript/
@@ -307,5 +313,3 @@ interface DefaultData<DataType, StoreType, SourceType> {
   source: MappedType<SourceType>;
 }
 ```
-
-
