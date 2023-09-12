@@ -1,9 +1,11 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input())
-for i in range(1, n):print(' '*(n-i) + '*'*(2*i-1))
-for i in range(n, 0, -1):print(' '*(n-i) + '*'*(2*i-1))
+print(2**int(input()))
+
+# n = int(input())
+# for i in range(1, n):print(' '*(n-i) + '*'*(2*i-1))
+# for i in range(n, 0, -1):print(' '*(n-i) + '*'*(2*i-1))
 
 # def check(x : str): v[ord(x.upper())-65] += 1
 # v = [0]*26
