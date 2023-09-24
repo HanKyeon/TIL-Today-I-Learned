@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,django,vuejs,python,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,django,vuejs,python,macos,windows
+memo.py
 
 .vscode
 
