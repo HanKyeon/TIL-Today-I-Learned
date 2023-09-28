@@ -1,7 +1,11 @@
 import sys
 input = sys.stdin.readline
 
-print(2**int(input()))
+def rev(q): a, b, c = q//100, q%100//10, q%10; return c*100+b*10+a
+n, m = map(lambda x: rev(int(x)), input().split())
+print(n if n > m else m)
+
+# print(2**int(input()))
 
 # n = int(input())
 # for i in range(1, n):print(' '*(n-i) + '*'*(2*i-1))
