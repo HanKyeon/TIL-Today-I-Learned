@@ -1,9 +1,13 @@
 import sys
 input = sys.stdin.readline
 
-def rev(q): a, b, c = q//100, q%100//10, q%10; return c*100+b*10+a
-n, m = map(lambda x: rev(int(x)), input().split())
-print(n if n > m else m)
+n = int(input())
+for i in range(n, 0, -1): print(" " * (n-i) + "*" * (2*i-1))
+for i in range(2,n+1): print(" " * (n-i) + "*" * (2*i-1))
+
+# def rev(q): a, b, c = q//100, q%100//10, q%10; return c*100+b*10+a
+# n, m = map(lambda x: rev(int(x)), input().split())
+# print(n if n > m else m)
 
 # print(2**int(input()))
 
