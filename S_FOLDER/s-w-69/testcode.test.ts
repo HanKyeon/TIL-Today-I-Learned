@@ -2,8 +2,6 @@ import { it, expect, afterEach, beforeEach, test, describe } from 'vitest';
 import WS from 'vitest-websocket-mock';
 import { add, fetchDog } from './fortest';
 
-// wss://sag-gaia-prod.tmax-superapp.com/
-
 let server: WS;
 let client: WebSocket;
 
