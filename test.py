@@ -19,6 +19,10 @@ print('hasu' if not d or (k+a)<d else 'gosu')
 #     n, a, w = input().split()
 #     if not int(a)+int(w): break
 #     print(f"{n} {'Senior' if int(a)>17 or int(w) >=80 else 'Junior'}") 
+# while 1:
+#     n, a, w = input().split()
+#     if not int(a)+int(w): break
+#     print(f"{n} {'Senior' if int(a)>17 or int(w) >=80 else 'Junior'}") 
 
 # n = int(input())
 # for i in range(n, 0, -1): print(" " * (n-i) + "*" * (2*i-1))
