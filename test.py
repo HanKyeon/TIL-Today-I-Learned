@@ -1,8 +1,13 @@
 import sys
 input = sys.stdin.readline
 
-k,d,a=map(int, input().split('/'))
-print('hasu' if not d or (k+a)<d else 'gosu')
+n = int(input())
+for i in range(n): print('*'*(i+1))
+for i in range(n-1, 0, -1): print('*'*i)
+
+
+# k,d,a=map(int, input().split('/'))
+# print('hasu' if not d or (k+a)<d else 'gosu')
 
 # ans, h, w = -1, 0, 0
 # for i in range(9):
