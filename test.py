@@ -1,9 +1,18 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input())
-for i in range(n): print('*'*(i+1))
-for i in range(n-1, 0, -1): print('*'*i)
+n, m = map(int, input().split())
+nl = [0]*(n+1)
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    for i in range(a, b+1):
+        nl[i] = c 
+nl.pop(0)
+print(*nl)
+
+# n = int(input())
+# for i in range(n): print('*'*(i+1))
+# for i in range(n-1, 0, -1): print('*'*i)
 
 
 # k,d,a=map(int, input().split('/'))
@@ -131,7 +140,7 @@ for i in range(n-1, 0, -1): print('*'*i)
 #     a = sum(nl[1:])/n
 #     ans = len([i for i in nl if i > a])
 #     print(f'{ans/n*100:.3f}%')
-print(f"{float(input().rstrip()):,.3f}")
+# print(f"{float(input().rstrip()):,.3f}")
 # import sys
 # input = sys.stdin.readline
 
