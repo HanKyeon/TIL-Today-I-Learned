@@ -1,8 +1,15 @@
 import sys
 input = sys.stdin.readline
 
-n, m = int(input()), int(input())
-print(n*2+2*m*3.141592)
+arr=[]
+n, k = map(int, input().split())
+for i in range(1, n+1):
+    if not n%i: arr.append(i)
+print(0 if k > len(arr) else arr[k-1])
+
+
+# n, m = int(input()), int(input())
+# print(n*2+2*m*3.141592)
 
 # n, m = map(int, input().split())
 # nl = [0]*(n+1)
