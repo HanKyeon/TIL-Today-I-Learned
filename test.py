@@ -1,11 +1,19 @@
 import sys
 input = sys.stdin.readline
 
-arr=[]
-n, k = map(int, input().split())
+n = int(input())
+
 for i in range(1, n+1):
-    if not n%i: arr.append(i)
-print(0 if k > len(arr) else arr[k-1])
+    num = sum((map(int, str(i))))
+    num_sum = i + num
+    if num_sum == n:print(i);break
+    if i == n: print(0)
+
+# arr=[]
+# n, k = map(int, input().split())
+# for i in range(1, n+1):
+#     if not n%i: arr.append(i)
+# print(0 if k > len(arr) else arr[k-1])
 
 
 # n, m = int(input()), int(input())
