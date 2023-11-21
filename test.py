@@ -1,13 +1,22 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input())
+nl = list(map(int, input().split()))
 
-for i in range(1, n+1):
-    num = sum((map(int, str(i))))
-    num_sum = i + num
-    if num_sum == n:print(i);break
-    if i == n: print(0)
+if nl == [1,2,3,4,5,6,7,8]:
+    print('ascending')
+elif nl == [8,7,6,5,4,3,2,1]:
+    print('descending')
+else:
+    print('mixed')
+
+# n = int(input())
+
+# for i in range(1, n+1):
+#     num = sum((map(int, str(i))))
+#     num_sum = i + num
+#     if num_sum == n:print(i);break
+#     if i == n: print(0)
 
 # arr=[]
 # n, k = map(int, input().split())
