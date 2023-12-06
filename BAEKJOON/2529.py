@@ -17,7 +17,6 @@ def check():
     for i in range(10):
         if mans: return
         if not stk: v[i]=1; stk.append(i); check(); v[i]=0; stk.pop(); continue
-        if i == 1 and stk == [0, 1]: print(v, stk)
         if v[i]: continue
         if bdh[len(stk)-1] == '>' and stk[-1] > i: v[i]=1; stk.append(i); check(); v[i]=0; stk.pop()
         elif bdh[len(stk)-1] == '<' and stk[-1] < i: v[i]=1; stk.append(i); check(); v[i]=0; stk.pop()
