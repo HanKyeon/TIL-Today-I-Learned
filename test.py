@@ -1,14 +1,18 @@
 import sys
 input = sys.stdin.readline
 
-nl = list(map(int, input().split()))
+a, b = map(int, input().split())
+c = int(input())
+print(a+b-2*c if a+b >= 2*c else a+b)
 
-if nl == [1,2,3,4,5,6,7,8]:
-    print('ascending')
-elif nl == [8,7,6,5,4,3,2,1]:
-    print('descending')
-else:
-    print('mixed')
+# nl = list(map(int, input().split()))
+
+# if nl == [1,2,3,4,5,6,7,8]:
+#     print('ascending')
+# elif nl == [8,7,6,5,4,3,2,1]:
+#     print('descending')
+# else:
+#     print('mixed')
 
 # n = int(input())
 
